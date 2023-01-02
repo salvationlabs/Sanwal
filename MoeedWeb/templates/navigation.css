@@ -1,0 +1,451 @@
+::-webkit-scrollbar{
+    /* background: black; */
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb{
+    /* background: rgb(100, 16, 168); */
+    background: #fff;
+}
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+#body{
+    overflow-x: hidden;
+    background: #222327;
+    color: white;
+}
+header{
+    position: relative;
+}
+
+            /* Bottom bar Navigation */
+.navigation{
+    visibility: hidden;
+    opacity: 0;
+    position: fixed;
+    bottom: 25px;
+    /* left: 392px; */
+    left: 29%;
+    width: 600px;
+    height: 50px;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100px;
+    box-shadow: 0px 0px 4px #fff;
+    background-attachment: scroll;
+    transition: 0.3s;
+    z-index: 3;
+}
+
+.navigation ul{
+    padding: 0;
+    display: flex;
+    width: 560px;
+}
+
+.navigation ul li {
+    list-style: none;
+    position: relative;
+    width: 70px;
+    height: 60px;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.navigation ul li a {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.navigation ul li a .icon{
+    position: relative;
+    display: block;
+    width: 55px;
+    height: 55px;
+    text-align: center;
+    line-height: 65px;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 1.5em;
+    transition: 1s;
+}
+
+.navigation ul li a .text {
+    visibility: hidden;
+    opacity: 0;
+    color: #fff;
+    position: absolute;
+    font-size: 18px;
+    top: 30px;
+    transition: 0.5s;
+}
+
+.navigation ul li a:hover .icon, .navigation ul li.active a .icon{
+    background: black;
+    color: #fff;
+    transform: translateY(-20px);
+}
+
+.navigation ul li.active a .icon{
+    /* border: 1px solid #fff; */
+    box-shadow: 0px 0px 3px #fff;
+}
+
+.navigation ul li a:hover .icon{
+    transform: translateY(-30px);
+}
+
+.navigation ul li a:hover .text{
+    visibility: visible;
+    opacity: 1;
+    display: inline-block;
+}
+
+
+            /* Top bar Navigation */
+#navigation0{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    background-color: #222327;
+    height: 40px;
+    padding-top: 4px;
+    text-transform: uppercase;
+}
+
+#navigation0 ul{
+    list-style: none;
+    position: relative;
+    display: flex;
+    gap: 30px;
+}
+
+#navigation0 ul li a{
+    position: relative;
+    color: whitesmoke;
+    text-decoration: none;
+    font-size: larger;
+}
+
+#navigation0 ul li a::before
+{
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    width: 100%;
+    height: 2px;
+    background: #fff;
+    transform: scaleX(0);
+    transition: transform 0.3s ease-in-out;
+    transform-origin: right;
+}
+
+#navigation0 ul li a:hover::before
+{
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+#navigation0 .logo
+{
+    position: absolute;
+    left: 0;
+    margin: 2px 10px;
+    letter-spacing: 1.5em;
+}
+
+#navigation0 .cart
+{
+    position: absolute;
+    font-size: 22px;
+    right: 50px;
+    cursor: pointer;
+    /* z-index: 3; */
+}
+
+#navigation0 .searchBox
+{
+    position: absolute;
+    width: 70%;
+    height: 100%;
+    right: 0;
+    display: flex;
+    background: #222327;
+    align-items: center;
+    padding: 0 20px;
+    transition: 0.7s ease-in-out;
+    right: -100%;
+    visibility: hidden;
+    opacity: 0;
+}
+
+#navigation0 .searchBox input
+{
+    margin-bottom: 10px;
+    width: 100%;
+    border: none;
+    outline: none;
+    color: #fff;
+    background: #222327;
+    border-bottom: 1px solid #585858;
+}
+
+#navigation0 .searchBox.active
+{
+    display: flex;
+    right: 0;
+    visibility: visible;
+    opacity: 1;
+}
+
+#navigation0 .search
+{
+    position: absolute;
+    right: -10px;
+    font-size: 20px;
+    z-index: 2;
+    align-items: center;
+    transition: 0.6s;
+    cursor: pointer;
+}
+
+#navigation0 .search .closeBtn
+{
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.7s;
+}
+
+#navigation0 .search.active
+{
+    right: 28px;
+}
+
+#navigation0 .search.active .closeBtn
+{
+    visibility: visible;
+    opacity: 1;
+}
+
+#companyName{
+    font-size: 15vw;
+    color: whitesmoke;
+    position: absolute;
+    z-index: 2;
+    top: 30%;
+    left: 18%;
+}
+                    /* Navigation Menu */
+#navigation0 .menu{
+    position: absolute;
+    right: 0;
+    display: none;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 15px;
+    transition: 0.5s;
+}
+
+                    /* Navigation MenuToggle */
+#navigation0 .menu .menuToggle{
+    cursor: pointer;
+    width: 30px;
+    height: 20px;
+    position: absolute;
+    top: 8px;
+    right: 20px;
+    margin-left: 30px;
+    margin-top: 5px;
+    z-index: 4;
+    transition: 0.2s;
+}
+
+#navigation0 .menu .menuToggle::before{
+    content: '';
+    position: absolute;
+    width: 28px;
+    height: 2px;
+    background: #fff;
+    transform: translateY(-6px);
+    transition: 0.5s;
+}
+
+#navigation0 .menu .menuToggle::after{
+    content: '';
+    position: absolute;
+    width: 28px;
+    height: 2px;
+    background: #fff;
+    transform: translateY(6px);
+    transition: 0.5s;
+}
+
+#navigation0.active .menu .menuToggle{
+    width: 23px;
+    height: 18px;
+}
+
+#navigation0.active .menu .menuToggle::before{
+    width: 20px;
+    transform:  translateY(2px) rotate(-45deg);
+}
+
+#navigation0.active .menu .menuToggle::after{
+    width: 20px;
+    transform: translateY(2px) rotate(45deg);
+}
+
+                    /* Navigation Menu text */
+#navigation0 .menu .menuText{
+    /* display: none; */
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    /* right: 30px; */
+    /* transform: translateX(50px); */
+    /* font-size: 1px; */
+    opacity: 0;
+    color: #fff;
+    transition: 0.2s;
+    z-index: 5;
+}
+
+#navigation0.active .menu .menuText{
+    visibility: visible;
+    opacity: 1;
+    /* display: block; */
+    transform: translateX(20px);
+    font-size: 20px;
+}
+
+                        /* Navigation menu bar */
+#navigation0 .menu .menuBar
+{
+    width: 200px;
+    height: 400px;
+    background: black;
+    border-radius: 10px;
+    z-index: 3;
+    /* position: -webkit-sticky; */
+    /* display: none; */
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.4s;
+}
+
+#navigation0.active .menu .menuBar
+{
+    display: flex;
+    visibility: visible;
+    opacity: 1;
+}
+
+                /* Drop down menu */
+#navigation0 .dropdown
+{
+    position: relative;
+    width: 70px;
+}
+
+#navigation0 .dropdown ul
+{
+    z-index: 3;
+    margin-top: 10px;
+    border-radius: 10px;
+    background: black;
+    position: relative;
+    display: none;
+    gap: 10px;
+    width: 250px;
+}
+
+#navigation0 .dropdown:hover ul
+{
+    transition: 0.5s all ease-in-out;
+    display: grid;
+}
+
+                /* Responsive */
+@media screen and (max-width: 750px) {
+    html
+    {
+        overflow-x: hidden;
+    }
+
+    .navigation{
+        display: none;
+    }
+
+    #navigation0.active .menu
+    {
+        z-index: 4;
+        position: fixed;
+        background-attachment: scroll;
+    }
+
+    #navigation0 ul
+    {
+        top: -100px;
+        /* display: none; */
+        visibility: hidden;
+        opacity: 0;
+        transition: 0.1s;
+    }
+
+    #navigation0.active ul {
+        visibility: visible;
+        opacity: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+        top: 70px;
+        margin-left: 100px;
+        background-attachment: scroll;
+        /* background: white; */
+        z-index: 4;
+    }
+
+    #navigation0 .menu
+    {
+        display: flex;
+    }
+
+    #navigation0 .searchBox.active
+    {
+        /* z-index: 4; */
+        width: 90%;
+        left: 0;
+    }
+
+    #navigation0 .search.active
+    {
+        right: 65px;
+    }
+
+    #navigation0 .search.active .closeBtn
+    {
+        right: 20px;
+    }
+
+    #navigation0 .search
+    {
+        /* z-index: 4; */
+        right: 35px;
+    }
+
+    #navigation0 .cart
+    {
+        right: 90px;
+    }
+  }
