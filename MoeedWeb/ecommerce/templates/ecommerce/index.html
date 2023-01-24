@@ -12,13 +12,13 @@
 			</div>
 			<div class="carousel-inner">
 			  <div class="carousel-item active" data-bs-interval="4000">
-				<img src="./Images/forest.jpg" class="d-block w-100" alt="...">
+				<img src="{% static 'ecommerce/imgs/mainCrousal/forest.jpg' %}" class="d-block w-100" alt="...">
 			  </div>
 			  <div class="carousel-item" data-bs-interval="4000">
-				<img src="./Images/lap.jpg" class="d-block w-100" alt="...">
+				<img src="{% static 'ecommerce/imgs/mainCrousal/lap.jpg' %}" class="d-block w-100" alt="...">
 			  </div>
 			  <div class="carousel-item" data-bs-interval="4000">
-				<img src="./Images/mall.jpg" class="d-block w-100" alt="...">
+				<img src="{% static 'ecommerce/imgs/mainCrousal/mall.jpg' %}" class="d-block w-100" alt="...">
 			  </div>
 			</div>
 			<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -31,128 +31,154 @@
 			</button>
 		  </div>
 	</section>
-	<article>
-		<div class="card" style="width: 18rem; background: black;">
-			<a href="">
-				<div class="imageContainer">
-					<img src="./Images/dslr.jpg" class="card-img-top" alt="...">
+	<article class="products">
+		<div class="row row-cols-1 row-cols-md-3 g-4">
+			<col>
+				<div class="card">
+					<a href="">
+						<div class="imageContainer">
+							<img src="{% static 'ecommerce\imgs\products\dslr.jpg' %}" class="card-img-top" alt="...">
+						</div>
+						<div class="card-body text-center">
+						  <h5 class="card-title">Card title</h5>
+						  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+						  <a href="#" class="btn btn-primary">Add to Cart</a>
+						</div>
+					</a>
 				</div>
-				<div class="card-body text-center text-center">
-				  <h5 class="card-title">Card title</h5>
-				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-				  <a href="#" class="btn btn-primary">Add to Cart</a>
+			</col>
+			<col>
+				<div class="card">
+					<a href="">
+						<div class="imageContainer"><img src="{% static 'ecommerce\imgs\products\dslr orignal.jpg' %}" class="card-img-top" alt="..."></div>
+						<div class="card-body text-center">
+						  <h5 class="card-title">Card title</h5>
+						  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+						  <a href="#" class="btn btn-primary">Add to Cart</a>
+						</div>
+					</a>
 				</div>
-			</a>
-		</div>
-		<div class="card" style="width: 18rem; background: black;">
-			<a href="">
-				<div class="imageContainer"><img src="./Images/dslr orignal.jpg" class="card-img-top" alt="..."></div>
-				<div class="card-body text-center">
-				  <h5 class="card-title">Card title</h5>
-				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-				  <a href="#" class="btn btn-primary">Add to Cart</a>
+			</col>
+			<col>
+				<div class="card">
+					<a href="">
+						<div class="imageContainer"><img src="{% static 'ecommerce\imgs\products\glasses.jpg' %}" class="card-img-top" alt="..."></div>
+						<div class="card-body text-center">
+						  <h5 class="card-title">Card title</h5>
+						  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+						  <a href="#" class="btn btn-primary">Add to Cart</a>
+						</div>
+					</a>
 				</div>
-			</a>
-		</div>
-		<div class="card" style="width: 18rem; background: black;">
-			<a href="">
-				<div class="imageContainer"><img src="./Images/glasses.jpg" class="card-img-top" alt="..."></div>
-				<div class="card-body text-center">
-				  <h5 class="card-title">Card title</h5>
-				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-				  <a href="#" class="btn btn-primary">Add to Cart</a>
+			</col>
+			<col>
+				<div class="card">
+					<a href="">
+						<div class="imageContainer"><img src="{% static 'ecommerce\imgs\products\bike.jpg' %}" class="card-img-top" alt="..."></div>
+						<div class="card-body text-center">
+						  <h5 class="card-title">Card title</h5>
+						  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+						  <a href="#" class="btn btn-primary">Add to Cart</a>
+						</div>
+					</a>
 				</div>
-			</a>
-		</div>
-		<div class="card" style="width: 18rem; background: black;">
-			<a href="">
-				<div class="imageContainer"><img src="./Images/bike.jpg" class="card-img-top" alt="..."></div>
-				<div class="card-body text-center">
-				  <h5 class="card-title">Card title</h5>
-				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-				  <a href="#" class="btn btn-primary">Add to Cart</a>
+			</col>
+			<col>
+				<div class="card">
+					<a href="">
+						<div class="imageContainer"><img src="{% static 'ecommerce\imgs\products\dell.jpg' %}" class="card-img-top" alt="..."></div>
+						<div class="card-body text-center">
+						  <h5 class="card-title">Card title</h5>
+						  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+						  <a href="#" class="btn btn-primary">Add to Cart</a>
+						</div>
+					</a>
 				</div>
-			</a>
-		</div>
-		<div class="card" style="width: 18rem; background: black;">
-			<a href="">
-				<div class="imageContainer"><img src="./Images/dell.jpg" class="card-img-top" alt="..."></div>
-				<div class="card-body text-center">
-				  <h5 class="card-title">Card title</h5>
-				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-				  <a href="#" class="btn btn-primary">Add to Cart</a>
+			</col>
+			<col>
+				<div class="card">
+					<a href="">
+						<div class="imageContainer"><img src="{% static 'ecommerce\imgs\products\No_image_available.png' %}" class="card-img-top" alt="./Images/No_image_available.png"></div>
+						<div class="card-body text-center">
+						  <h5 class="card-title">Card title</h5>
+						  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+						  <a href="#" class="btn btn-primary">Add to Cart</a>
+						</div>
+					</a>
 				</div>
-			</a>
-		</div>
-		<div class="card" style="width: 18rem; background: black;">
-			<a href="">
-				<div class="imageContainer"><img src="./Images/No_image_available.png" class="card-img-top" alt="./Images/No_image_available.png"></div>
-				<div class="card-body text-center">
-				  <h5 class="card-title">Card title</h5>
-				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-				  <a href="#" class="btn btn-primary">Add to Cart</a>
+			</col>
+			<col>
+				<div class="card">
+					<a href="">
+						<div class="imageContainer"><img src="{% static 'ecommerce\imgs\products\No_image_available.png' %}" class="card-img-top" alt="./Images/No_image_available.png"></div>
+						<div class="card-body text-center">
+						  <h5 class="card-title">Card title</h5>
+						  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+						  <a href="#" class="btn btn-primary">Add to Cart</a>
+						</div>
+					</a>
 				</div>
-			</a>
-		</div>
-		<div class="card" style="width: 18rem; background: black;">
-			<a href="">
-				<div class="imageContainer"><img src="./Images/No_image_available.png" class="card-img-top" alt="./Images/No_image_available.png"></div>
-				<div class="card-body text-center">
-				  <h5 class="card-title">Card title</h5>
-				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-				  <a href="#" class="btn btn-primary">Add to Cart</a>
+			</col>
+			<col>
+				<div class="card">
+					<a href="">
+						<div class="imageContainer"><img src="{% static 'ecommerce\imgs\products\No_image_available.png' %}" class="card-img-top" alt="./Images/No_image_available.png"></div>
+						<div class="card-body text-center">
+						  <h5 class="card-title">Card title</h5>
+						  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+						  <a href="#" class="btn btn-primary">Add to Cart</a>
+						</div>
+					</a>
 				</div>
-			</a>
-		</div>
-		<div class="card" style="width: 18rem; background: black;">
-			<a href="">
-				<div class="imageContainer"><img src="./Images/No_image_available.png" class="card-img-top" alt="./Images/No_image_available.png"></div>
-				<div class="card-body text-center">
-				  <h5 class="card-title">Card title</h5>
-				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-				  <a href="#" class="btn btn-primary">Add to Cart</a>
+			</col>
+			<col>
+				<div class="card">
+					<a href="">
+						<div class="imageContainer"><img src="{% static 'ecommerce\imgs\products\No_image_available.png' %}" class="card-img-top" alt="./Images/No_image_available.png"></div>
+						<div class="card-body text-center">
+						  <h5 class="card-title">Card title</h5>
+						  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+						  <a href="#" class="btn btn-primary">Add to Cart</a>
+						</div>
+					</a>
 				</div>
-			</a>
-		</div>
-		<div class="card" style="width: 18rem; background: black;">
-			<a href="">
-				<div class="imageContainer"><img src="./Images/No_image_available.png" class="card-img-top" alt="./Images/No_image_available.png"></div>
-				<div class="card-body text-center">
-				  <h5 class="card-title">Card title</h5>
-				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-				  <a href="#" class="btn btn-primary">Add to Cart</a>
+			</col>
+			<col>
+				<div class="card">
+					<a href="">
+						<div class="imageContainer"><img src="{% static 'ecommerce\imgs\products\No_image_available.png' %}" class="card-img-top" alt="./Images/No_image_available.png"></div>
+						<div class="card-body text-center">
+						  <h5 class="card-title">Card title</h5>
+						  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+						  <a href="#" class="btn btn-primary">Add to Cart</a>
+						</div>
+					</a>
 				</div>
-			</a>
-		</div>
-		<div class="card" style="width: 18rem; background: black;">
-			<a href="">
-				<div class="imageContainer"><img src="./Images/No_image_available.png" class="card-img-top" alt="./Images/No_image_available.png"></div>
-				<div class="card-body text-center">
-				  <h5 class="card-title">Card title</h5>
-				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-				  <a href="#" class="btn btn-primary">Add to Cart</a>
+			</col>
+			<col>
+				<div class="card">
+					<a href="">
+						<div class="imageContainer"><img src="{% static 'ecommerce\imgs\products\No_image_available.png' %}" class="card-img-top" alt="./Images/No_image_available.png"></div>
+						<div class="card-body text-center">
+						  <h5 class="card-title">Card title</h5>
+						  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+						  <a href="#" class="btn btn-primary">Add to Cart</a>
+						</div>
+					</a>
 				</div>
-			</a>
-		</div>
-		<div class="card" style="width: 18rem; background: black;">
-			<a href="">
-				<div class="imageContainer"><img src="./Images/No_image_available.png" class="card-img-top" alt="./Images/No_image_available.png"></div>
-				<div class="card-body text-center">
-				  <h5 class="card-title">Card title</h5>
-				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-				  <a href="#" class="btn btn-primary">Add to Cart</a>
+			</col>
+			<col>
+				<div class="card">
+					<a href="">
+						<div class="imageContainer"><img src="{% static 'ecommerce\imgs\products\No_image_available.png' %}" class="card-img-top" alt="./Images/No_image_available.png"></div>
+						<div class="card-body text-center">
+						  <h5 class="card-title">Card title</h5>
+						  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+						  <a href="#" class="btn btn-primary">Add to Cart</a>
+						</div>
+					</a>
 				</div>
-			</a>
-		</div>
-		<div class="card" style="width: 18rem; background: black;">
-			<a href="">
-				<div class="imageContainer"><img src="./Images/No_image_available.png" class="card-img-top" alt="./Images/No_image_available.png"></div>
-				<div class="card-body text-center">
-				  <h5 class="card-title">Card title</h5>
-				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-				  <a href="#" class="btn btn-primary">Add to Cart</a>
-				</div>
-			</a>
+			</col>
 		</div>
 	</article>
 {% endblock %}

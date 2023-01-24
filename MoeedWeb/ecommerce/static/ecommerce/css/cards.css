@@ -1,13 +1,13 @@
-main
-{
-    display: flex;
+/* main
+{ */
+    /* display: flex;
     justify-content: center;
     flex-direction: row;
     align-items: center;
     width: 100%;
     flex-wrap: wrap;
-	margin: 15px auto;
-}
+	margin: 15px auto; */
+/* } */
 
 footer
 {
@@ -21,45 +21,64 @@ footer
 	font-size: 50px;
 }
 
-.card
+.products  .row
 {
+	align-items: center;
+	justify-content: center;
+	margin: auto;
+}
+
+.products .row .card
+{
+	border-radius: 20px;
+	/* border-bottom-left-radius: 80px;
+	border-bottom-right-radius: 80px; */
+	padding: 0;
+	background: black;
+	width: 18em;
 	margin: 15px 15px;
 	box-shadow: 12px 12px 12px rgb(15, 15, 15);
 }
 
-.card-body
-{
-	background: black;
-}
+/* .products .row .card .card-body */
+/* { */
+	/* width: 100%; */
+	/* background: purple; */
+/* } */
 
-.card a
+.products .row .card a
 {
+	margin: 0;
     color: white;
 	text-decoration: none;
 }
 
-.card:hover .card-title, .card .card-body:hover .card-title, .card .card-body:hover .card-text, .card:hover .card-text
+.products .row .card:hover .card-title, .products .row .card .card-body:hover .card-title, .products .row .card .card-body:hover .card-text, .products .row .card:hover .card-text
 {
 	color: rgb(187, 187, 187);
 }
 
-.card .btn
+.products .row .card .btn
 {
 	color: white;
 	margin-top: 10px;
 }
 
-.card .imageContainer
+.products .row .card .imageContainer
 {
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+	border-bottom-left-radius: 60px;
+	border-bottom-right-radius: 60px;
 	overflow: hidden;
 }
 
-.card img
+.products .row .card img
 {
 	transition: 0.5s all ease-in-out;
 }
 
-.card:hover img
+.products .row .card:hover img
 {
 	transform: scale(1.4); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
