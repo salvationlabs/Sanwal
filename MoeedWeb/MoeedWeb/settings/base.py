@@ -39,7 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'ecommerce',
+    # EXTERNAL PACKAGES
+    'rest_framework',
+    'drf_spectacular',
+
+    # INTERNAL APPS
+    'MoeedWeb.ecommerce',
 ]
 
 MIDDLEWARE = [
@@ -57,8 +62,7 @@ ROOT_URLCONF = 'MoeedWeb.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,8 +80,6 @@ WSGI_APPLICATION = 'MoeedWeb.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-
 
 
 # Password validation
@@ -120,3 +122,12 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema'
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Django DRF Ecommerce',
+}

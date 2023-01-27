@@ -1,3 +1,6 @@
-.env
 virtual/
 commands.md
+**__pycache__/
+db.sqlite3
+.env
+.vscode
