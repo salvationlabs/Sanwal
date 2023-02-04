@@ -1,0 +1,36 @@
+{% extends 'ecommerce/layout.html' %}
+{% load static %}
+
+{% block body %}
+	<article class="product">
+		<div class="card mb-3" style="max-width: 70%;">
+			{% if messages %}
+				{% for message in messages %}
+					<div{% if message.tags %} {% if message.tags == 'error' %} class="alert alert-danger alert-dismissible fade show" {% else %} class="alert alert-{{ message.tags }} alert-dismissible fade show" {% endif %} {% endif %} role="alert">
+						{{ message }}
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				{% endfor %}
+			{% endif %}
+			<div class="row g-0">
+			  <div class="col-md-4">
+				<img src="{% static 'ecommerce\imgs\products\No_image_available.png' %}" class="card-img-top" alt="...">
+			  </div>
+			  <div class="col-md-8">
+				<div class="card-body">
+					<h2 class="card-title text-center">{{ object.title | title }} </h2>
+					<p class="card-text"><strong>Description</strong><br>{{ object.description }}</p>
+					{% if object.discount_price %}
+						<p class="card-text"><del>Rs. {{ object.price }}</del> Rs. {{ object.discount_price }}</p>
+					{% else %}
+						<p class="card-text"><strong>Price: </strong>Rs. {{ object.price }}</p>
+					{% endif %}
+					<a href="{{ object.get_add_to_cart_url }}" class="btn btn-primary">Add to Cart</a>
+					<a href="{{ object.get_remove_from_cart_url }}" class="btn btn-dark">Remove from Cart</a>
+					<p class="card-text text-center"><small class="text-muted">Listed {{ object.time_created | timesince }} ago</small></p>
+				</div>
+			  </div>
+			</div>
+		  </div>
+	</article>
+{% endblock %}

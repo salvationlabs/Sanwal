@@ -82,3 +82,16 @@ footer
 {
 	transform: scale(1.4); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
+
+.product .card
+{
+	background: none;
+	border: none;
+	margin: auto;
+	margin-top: 3%;
+}
+
+.product .card .card-body
+{
+	text-align: justify;
+}
