@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # EXTERNAL PACKAGES
-
+    'crispy_forms',
+    'crispy_bootstrap5',
+    'django_countries',
     # INTERNAL APPS
     'ecommerce',
 ]
@@ -79,6 +81,7 @@ WSGI_APPLICATION = 'MoeedWeb.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+AUTH_USER_MODEL = "ecommerce.User"
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -120,3 +123,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+# LOGIN_REDIRECT_URL = "index"
+
+LOGIN_URL = '/login'

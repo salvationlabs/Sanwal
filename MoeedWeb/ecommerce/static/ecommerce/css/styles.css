@@ -1,0 +1,139 @@
+::-webkit-scrollbar{
+    /* background: black; */
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb{
+    /* background: rgb(100, 16, 168); */
+    background: #fff;
+}
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+#body{
+    overflow-x: hidden;
+    background: #222327;
+    color: white;
+}
+header{
+    position: relative;
+}
+
+						/* Login and Register Form */
+.login, .register, .checkout{
+	color: rgb(231, 229, 229);
+	display: block;
+	align-items: center;
+	justify-content: center;
+	width: 450px;
+	/* height: 83.5vh; */
+	box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05),
+	inset 5px 5px 15px rgba(0, 0, 0, 0.5);
+	background-color: #141414;
+	border-radius: 20px;
+	padding: 25px 20px;
+	margin: auto;
+	margin-top: 2%;
+	margin-bottom: 2%;
+	box-sizing: border-box;
+	/* padding-bottom: 100px; */
+	/* margin-bottom: 5%; */
+	overflow: auto;
+	/* scroll-padding-bottom: 150px; */
+	/* scroll-behavior: smooth; */
+}
+
+.login input, .login input:focus, .login textarea, .login textarea:focus,
+.register input, .register input:focus, .register textarea, .register textarea:focus,
+.checkout input[type="text"], .checkout input[type="text"]:focus, .checkout textarea, .checkout textarea:focus, .checkout input[type="submit"], .checkout .custom_select
+{
+	background: #141414;
+	border: none;
+	outline: none;
+	border-radius: 11px;
+	padding: 12px 20px;
+	color: #fff;
+	margin: 20px auto;
+	box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05),
+	inset 5px 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.login input[type="submit"],
+.register input[type="submit"],
+.checkout input[type="submit"]
+{
+	width: 100%;
+	color: rgb(136, 133, 133);
+	/* background: wheat; */
+}
+
+.login input[type="submit"]:hover,
+.register input[type="submit"]:hover,
+.checkout input[type="submit"]:hover
+{
+	background: rgb(231, 229, 229);
+}
+
+.checkout input[type="text"], .checkout input[type="text"]:focus, .checkout textarea, .checkout textarea:focus
+{
+	margin: auto;
+}
+
+.country-select-flag
+{
+	display: none;
+}
+                        /* Pagination */
+.pagination .page-item a
+{
+	background: black;
+	color: #969696;
+	/* border: none; */
+}
+
+.pagination .page-item.active a
+{
+	background: #33343a;
+	color: white;
+	border: 1px solid white;
+
+}
+
+.pagination .page-item a:hover
+{
+	background: #969696;
+	color: black;
+}
+
+.pagination .page-item .page-link span
+{
+	color: white;
+}
+
+.pagination .page-item.disabled .page-link span
+{
+	color: #969696;
+}
+
+
+/* .table
+{ */
+	/* padding: auto 20px; */
+	/* background: white; */
+	/* margin-left: 20px;
+	margin-top: 20px; */
+/* } */
+
+/* .table tr
+{
+	color: whitesmoke;
+	/* background: whitesmoke; */
+/* }
+
+.table tbody tr:hover td, .table tbody tr:hover th
+{
+	color: rgb(172, 172, 172);
+} */ 

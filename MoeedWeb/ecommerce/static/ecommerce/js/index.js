@@ -1,10 +1,11 @@
-window.onscroll = function () {
-    if (window.innerHeight + window.scrollY >= window.innerHeight + 50) {
-        // $('body').css('background', 'blue');
-        $('.navigation').css({visibility: 'visible', opacity: 1});
-    }
-    else {
-        $('.navigation').css({visibility: 'hidden', opacity: 0});
+document.onreadystatechange = function (e) {
+    if (document.readyState === 'complete') {
+        if (window.innerWidth > 750)
+        {
+            $('#carouselExampleIndicators').height(window.innerHeight - 40);
+            $('.d-block').height(window.innerHeight - 40);
+            console.log();
+        }
     }
 }
 
@@ -18,8 +19,8 @@ window.onload = function () {
     $('#chat').on('click', () => {
         nav('#chat');
     })
-    $('#settings').on('click', () => {
-        nav('#settings');
+    $('#cart').on('click', () => {
+        nav('#cart');
     })
     $('#picture').on('click', () => {
         nav('#picture');
@@ -30,16 +31,12 @@ window.onload = function () {
     $('#logout').on('click', () => {
         nav('#logout');
     })
+    $('#sign-up').on('click', () => {
+        nav('#sign-up');
+    })
     $('#search').on('click', () => {
         nav('#search');
     })
-
-    if (window.innerWidth > 750)
-    {
-        $('#carouselExampleIndicators').height(window.innerHeight - 40);
-        $('.d-block').height(window.innerHeight - 40);
-        console.log();
-    }
 
     $('.searchBtn').on('click', () => {
         $('.searchBox').addClass('active');
@@ -61,6 +58,16 @@ window.onload = function () {
         $('.searchBox').removeClass('active');
         $('.search').removeClass('active');
     })
+}
+
+window.onscroll = function () {
+    if (window.innerHeight + window.scrollY >= window.innerHeight + 50) {
+        // $('body').css('background', 'blue');
+        $('.navigation').css({visibility: 'visible', opacity: 1});
+    }
+    else {
+        $('.navigation').css({visibility: 'hidden', opacity: 0});
+    }
 }
 
 function nav(view) {
