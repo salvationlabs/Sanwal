@@ -3,7 +3,7 @@
 {% block body %}
 
     <div class="login text-center">
-		<h2>Login</h2>
+		<h2>Login</h2><hr>
 		{% if messages %}
 			{% for message in messages %}
 				<div{% if message.tags %} {% if message.tags == 'error' %} class="alert alert-danger alert-dismissible fade show" {% else %} class="alert alert-{{ message.tags }} alert-dismissible fade show" {% endif %} {% endif %} role="alert">

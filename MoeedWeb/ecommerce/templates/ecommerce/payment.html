@@ -11,11 +11,11 @@
 		{% endfor %}
 	{% endif %}
 	<div class="checkout">
-		<h2 class="text-center">Checkout</h2><hr>
+		<h2 class="text-center">Payment</h2><hr>
 		<form action="" method="POST">
 			{% csrf_token %}
 			{{ checkoutForm | crispy }}
-            <input class="btn btn-primary" type="submit" value="Checkout">
+            <input class="btn btn-primary" type="submit" value="Submit">
 		</form>
 	</div>
 {% endblock %}
