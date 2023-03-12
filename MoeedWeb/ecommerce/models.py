@@ -3,6 +3,7 @@ from django.db import models
 from django.conf import settings
 from django.shortcuts import reverse
 from django_countries.fields import CountryField
+from django.utils.text import slugify
 
 # Create your models here.
 
@@ -20,9 +21,16 @@ class Type (models.Model):
 
 class Category (models.Model):
 	name = models.CharField(max_length=124)
-	type = models.ForeignKey(Type, on_delete=models.CASCADE)
+	type = models.ForeignKey(Type, on_delete=models.CASCADE, related_name="typeCategory")
 
 	def __str__(self):
+		return self.name
+
+
+class Material (models.Model):
+	name = models.CharField(max_length=124)
+
+	def __str__ (self):
 		return self.name
 
 
@@ -31,10 +39,11 @@ class Product (models.Model):
 	price = models.FloatField()
 	discount_price = models.FloatField(blank=True, null=True)
 	description = models.TextField(blank=True)
-	type = models.ForeignKey(Type, on_delete=models.CASCADE)
-	category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
+	type = models.ForeignKey(Type, on_delete=models.CASCADE, related_name="productType")
+	category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True, related_name="productCategory")
+	material = models.ForeignKey(Material, on_delete=models.CASCADE, blank=True, null=True, related_name="productMaterial")
 	time_created = models.DateTimeField(auto_now_add=True)
-	slug = models.SlugField()
+	slug = models.SlugField(editable=False)
 
 	def __str__(self):
 		return self.title
@@ -43,6 +52,11 @@ class Product (models.Model):
 		return reverse('product', kwargs={
 			'slug': self.slug
 		})
+
+	def save (self, *args, **kwargs):
+		value = self.title.replace(" ", "-")
+		self.slug = slugify(value, allow_unicode=True)
+		super().save(*args, **kwargs)
 	
 	def get_add_to_cart_url(self):
 		return reverse('add-to-cart', kwargs={
@@ -53,6 +67,24 @@ class Product (models.Model):
 		return reverse('remove-from-cart', kwargs={
 			'slug': self.slug
 		})
+
+
+class Images (models.Model):
+	def user_directory_path(instance, filename):
+        # file will be uploaded to MEDIA_ROOT/user_<id>/listing_<title>/<filename>
+		return 'images/user_{0}/item_{1}/{2}'.format(instance.item.creator.username, instance.item.title, filename)
+	image = models.ImageField(upload_to = user_directory_path, blank=True)
+	item = models.ForeignKey(Product, on_delete= models.CASCADE, related_name='img')
+
+	def __str__(self):
+		return f"{self.item}"
+
+	def image_tag (self):
+		if self.images:
+			return mark_safe('<img src="%s" style="width: 45px; height:45px;" />' % self.images.url)
+		else:
+			return 'No image found'
+	image_tag.short_description = 'Image'
 
 
 class OrderItem (models.Model):

@@ -1,0 +1,76 @@
+{% extends 'ecommerce/layout.html' %}
+{% load static %}
+
+{% block body %}
+
+<article class="products">
+	<div class="row row-cols-1 row-cols-md-3 g-4">
+		{% for item in object_list %}
+		<col>
+			<div class="card">
+				<a href="{{ item.get_absolute_url }}">
+					<div class="imageContainer">
+						<img src="{% static 'ecommerce\imgs\products\No_image_available.png' %}" class="card-img-top" alt="...">
+					</div>
+					<div class="card-body text-center">
+					  <h5 class="card-title">{{ item.title | title }} </h5>
+					  <p class="card-text">{{ item.description | truncatechars:100 }}</p>
+					  {% if item.discount_price %}
+					  <a href="#" class="btn btn-primary">Rs. {{ item.discount_price }}</a>
+					  {% else %}
+					  <a href="#" class="btn btn-primary">Rs. {{ item.price }}</a>
+					  {% endif %}
+					</div>
+				</a>
+			</div>
+		</col>
+		{% endfor %}
+		</col>
+	</div>
+							<!-- PAGINATION START -->
+	{% if is_paginated %}
+		<nav aria-label="Page navigation example">
+			<ul class="pagination justify-content-center">
+				{% if page_obj.has_previous %}
+					<li class="page-item">
+						<a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+							<span aria-hidden="true">&laquo;</span>
+						</a>
+					</li>
+				{% else %}
+					<li class="page-item disabled">
+						<a class="page-link" aria-label="Previous">
+							<span aria-hidden="true">&laquo;</span>
+						</a>
+					</li>
+				{% endif %}
+				{% for i in page_obj.paginator.get_elided_page_range %}
+					{% if page_obj.paginator.ELLIPSIS == forloop.counter %}
+						<li class="page-item disabled"><a class="page-link" href="#">{{ forloop.counter }}</a></li>
+					{% else %}
+						{% if page_obj.number == forloop.counter %}
+							<li class="page-item active" aria-current="page"><a class="page-link" href="?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
+						{% else %}
+							<li class="page-item"><a class="page-link" href="?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+				{% if page_obj.has_next %}
+					<li class="page-item">
+						<a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						</a>
+					</li>
+				{% else %}
+					<li class="page-item disabled">
+						<a class="page-link" aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						</a>
+					</li>
+				{% endif %}
+			</ul>
+		</nav>
+	{% endif %}
+							<!-- PAGINATION END -->
+</article>
+{% endblock %}

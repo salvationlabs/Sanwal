@@ -24,7 +24,7 @@
 					<!-- Top bar Navigation -->
 		<div id="navigation0">
 			<span class="logo">
-				LOGO
+				SANWAL
 			</span>
 			<div class="menu">
 				<span class="menuText">Menu</span>
@@ -37,25 +37,25 @@
 				</li>
 				<li class="list0">
 					<div class="dropdown">
-						<a class="dropdown-content" href="#">Fashion</a>
+						<a class="dropdown-content" href="{% url 'products-by-type' type='FASHION' %}">Fashion</a>
 						<ul>
-							<li><a href="#">JEWELLERY</a></li>
-							<li><a href="#">HAIR ACCESSORIES</a></li>
-							<li><a href="#">BEAUTY</a></li>
-							<li><a href="#">ACCESSORIES</a></li>
+							<li><a href="{% url 'products-by-category' type='FASHION' category='JEWELLERY' %}">JEWELLERY</a></li>
+							<li><a href="{% url 'products-by-category' type='FASHION' category='HAIR ACCESSORIES' %}">HAIR ACCESSORIES</a></li>
+							<li><a href="{% url 'products-by-category' type='FASHION' category='BEAUTY' %}">BEAUTY</a></li>
+							<li><a href="{% url 'products-by-category' type='FASHION' category='ACCESSORIES' %}">ACCESSORIES</a></li>
 						</ul>
 					</div>
 				</li>
 				<li class="list0">
-					<a href="#">Stationary</a>
+					<a href="{% url 'products-by-type' type='STATIONARY' %}">Stationary</a>
 				</li>
 				<li class="list0">
-					<a href="#">Accessories</a>
+					<a href="{% url 'products-by-type' type='ACCESSORIES' %}">Accessories</a>
 				</li>
-				<li class="list0">
+				<!-- <li class="list0">
 					<a href="#">About</a>
-				</li>
-				{% if request.user.is_authenticated %}
+				</li> -->
+				{% if user.is_authenticated and user.is_staff %}
 					<li class="list0">
 						<a href="{% url 'logout' %}">logout</a>
 					</li>
@@ -68,7 +68,7 @@
 					</li>
 				{% endif %}
 			</ul>
-			{% if request.user.is_authenticated %}
+			{% if user.is_authenticated %}
 				<span class="cart">
 					<a href="{% url 'order-summary' %}" class="nav-link">
 						<ion-icon name="cart-outline"></ion-icon>
@@ -95,22 +95,22 @@
 						<span class="text">Home</span>
 					</a>
 				</li>
-				<li class="list" id="user">
+				<!-- <li class="list" id="user">
 					<a href="#">
 						<span class="icon">
 							<ion-icon name="person-outline"></ion-icon>
 						</span>
 						<span class="text">Profile</span>
 					</a>
-				</li>
-				<li class="list" id="chat">
+				</li> -->
+				<!-- <li class="list" id="chat">
 					<a href="#">
 						<span class="icon">
 							<ion-icon name="chatbox-outline"></ion-icon>
 						</span>
 						<span class="text">Chat</span>
 					</a>
-				</li>
+				</li> -->
 				{% if request.user.is_authenticated %}
 					<li class="list" id="cart">
 						<a href="{% url 'order-summary' %}">
@@ -146,22 +146,22 @@
 						</a>
 					</li>
 				{% endif %}
-				<li class="list" id="picture">
+				<!-- <li class="list" id="picture">
 					<a href="#">
 						<span class="icon">
 							<ion-icon name="information-circle-outline"></ion-icon>
 						</span>
 						<span class="text">About</span>
 					</a>
-				</li>
-				<li class="list" id="search">
+				</li> -->
+				<!-- <li class="list" id="search">
 					<a href="#">
 						<span class="icon">
 							<ion-icon name="search-outline"></ion-icon>
 						</span>
 						<span class="text">Search</span>
 					</a>
-				</li>
+				</li> -->
 			</ul>
 		</div>
 	</header>
@@ -172,8 +172,34 @@
 		{% endblock %}
 	</main>
 	<footer>
-		This is footer :)
-	</footer>
+        <div class="row">
+        <div class="col">
+            <img src="sanwal.svg" class="logo">
+            <p>hsh hsh hsh hs hs hsh hsh hsh hsh hs hs hsh hsh hsh hsh hs hs hsh hsh hsh hsh hs hs hshhsh hsh hsh hs hs hshhsh hsh hsh hs hs hshhsh hsh hsh hs hs hshhsh hsh hsh hs hs hshhsh hsh hsh hs hs hshhsh hsh hsh hs hs hshhsh hsh hsh hs hs hshhsh hsh hsh hs hs hshhsh hsh hsh hs hs hshhsh hsh hsh hs hs hsh </p>
+        </div>
+        <div class="col">
+            <h3>Sanwal</h3>
+            <p>That road</p>
+            <p>That town,That city</p>
+            <p>Pakistan</p>
+            <p class="email-id">thatemail@that.com</p>
+            <a href="tel:+92-1111222233" class="">
+				<h4>+92-1111222233</h4>
+			</a>
+        </div>
+
+        <div class="col">
+            <h3>Links</h3>
+            <ul>
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="{% url 'products-by-type' type='FASHION' %}">Fashion</a></li>
+                <li><a href="{% url 'products-by-type' type='STATIONARY' %}">Stationary</a></li>
+                <li><a href="{% url 'products-by-type' type='ACCESSORIES' %}">Accessories</a></li>
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+            </ul>
+        </div>
+    </footer>
 	
 
 	<!--      Icons -->

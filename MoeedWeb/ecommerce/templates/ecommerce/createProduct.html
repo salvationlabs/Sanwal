@@ -1,0 +1,32 @@
+{% extends 'ecommerce/layout.html' %}
+{% load static %}
+
+{% block body %}
+	{% if messages %}
+		{% for message in messages %}
+			<div {% if message.tags %} {% if message.tags == 'error' %} class="alert alert-danger alert-dismissible fade show text-center" {% else %} class="alert alert-{{ message.tags }} alert-dismissible fade show text-center" {% endif %} {% endif %} role="alert">
+				{{ message }}
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		{% endfor %}
+	{% endif %}
+	<section class="main_section">
+		<div class="create_listing">
+			<section class="login">
+				<div class="login-body">
+					<h1 class="card-text text-center">Create Product</h1><hr>
+				</div>
+				<form action="" method="post" enctype="multipart/form-data" class="form-floating m-auto">
+					{% csrf_token %}
+					{{ product_form.as_p }}
+					<div class="form-group">
+						<label for="listing-image">Images</label>
+						<input type="file" name="images" class="form-control-file" id="listing-image" multiple>
+						<div class="form-text ms-5">Select upto 5 images to upload.</div>
+					</div>
+					<input type="submit" value="Create" class="btn btn-dark mt-3">
+				</form>
+			</section>
+		</div>
+	</section>
+{% endblock %}

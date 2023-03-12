@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
@@ -8,8 +9,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, View
 from django.utils import timezone
 
-from .models import User, Category, Type, Product, OrderItem, Order, BillingAddress
-from .forms import CheckoutForm
+from .models import User, Category, Type, Product, OrderItem, Order, BillingAddress, Images
+from .forms import CheckoutForm, ProductForm
 
 # Create your views here.
 
@@ -18,6 +19,26 @@ class HomeView(ListView):
     model = Product
     paginate_by = 8
     template_name = 'ecommerce/index.html'
+
+
+class ItemTypeListView (ListView):
+    model = Product
+    paginate_by = 12
+    template_name = 'ecommerce/products.html'
+
+    def get_queryset(self, **kwargs):
+       qs = super().get_queryset(**kwargs)
+       return qs.filter(type__name=self.kwargs['type']).order_by("-time_created").all()
+
+
+class ItemCategoryListView (ListView):
+    model = Product
+    paginate_by = 12
+    template_name = 'ecommerce/products.html'
+
+    def get_queryset(self, **kwargs):
+       qs = super().get_queryset(**kwargs)
+       return qs.filter(type__name=self.kwargs['type'], category__name=self.kwargs['category']).order_by("-time_created").all()
 
 
 class ItemDetailView (DetailView):
@@ -146,6 +167,34 @@ def remove_single_item_from_cart (request, slug):
         messages.error(request, "You do not have an active order.")
         return redirect('product', slug=slug)
     return redirect('order-summary')
+
+
+@staff_member_required
+def create_product(request):
+    if request.method == "POST":
+        product_form = ProductForm (request.POST)
+        images = request.FILES.getlist('images')
+        # image_form = ImageFormSet(request.POST, request.FILES, queryset=Images.objects.none())
+
+        if product_form.is_valid():
+            product_obj = product_form.save(commit=False)
+            product_obj.creator = request.user
+            product_obj.save()
+
+            for img in images:
+                Images.objects.create(item=product_obj, image=img)
+
+            messages.success(request, "Yeew, check it out on the home page!")
+            return HttpResponseRedirect("/index")
+        
+        else:
+            messages.error(request, "Form is invalid. Please recheck the fields or fields\' values")
+            print(ProductForm.errors)
+
+    product_form = ProductForm()
+    return render(request, 'ecommerce/createProduct.html', {
+        'product_form': product_form,
+    })
 
 
 def login_view(request):

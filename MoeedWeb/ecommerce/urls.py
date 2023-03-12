@@ -4,6 +4,9 @@ from . import views
 
 urlpatterns = [
 	path('', views.HomeView.as_view() , name='index'),
+	path('products/<str:type>', views.ItemTypeListView.as_view() , name='products-by-type'),
+	path('products/<str:type>/<str:category>', views.ItemCategoryListView.as_view() , name='products-by-category'),
+	path('create-product', views.create_product, name='create-product'),
 	path('order-summary/', views.OrderSummaryView.as_view() , name='order-summary'),
 	path('checkout/', views.CheckoutView.as_view() , name='checkout'),
 	path('product/<slug>', views.ItemDetailView.as_view() , name='product'),
