@@ -1,4 +1,3 @@
-from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.conf import settings
 from django.shortcuts import reverse
@@ -6,10 +5,6 @@ from django_countries.fields import CountryField
 from django.utils.text import slugify
 
 # Create your models here.
-
-
-class User (AbstractUser):
-	pass
 
 
 class Type (models.Model):

@@ -4,3 +4,4 @@ commands.md
 db.sqlite3
 .env
 .vscode
+data.json

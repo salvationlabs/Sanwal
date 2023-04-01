@@ -8,8 +8,9 @@ from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, View
 from django.utils import timezone
+from django.contrib.auth.models import User
 
-from .models import User, Category, Type, Product, OrderItem, Order, BillingAddress, Images
+from .models import Category, Type, Product, OrderItem, Order, BillingAddress, Images
 from .forms import CheckoutForm, ProductForm
 
 # Create your views here.
