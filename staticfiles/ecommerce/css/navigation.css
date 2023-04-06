@@ -135,12 +135,14 @@
     transform-origin: left;
 }
 
-#navigation0 .logo
+#navigation0 img
 {
     position: absolute;
     left: 0;
-    margin: 2px 10px;
-    letter-spacing: 1.5em;
+    margin: 0px 10px;
+    z-index: 100;
+    max-width: 33px;
+    /* letter-spacing: 1.5em; */
 }
 
 #navigation0 .cart

@@ -21,6 +21,9 @@ class HomeView(ListView):
     paginate_by = 8
     template_name = 'ecommerce/index.html'
 
+    def get_queryset(self, **kwargs):
+       return Product.objects.all().order_by("-time_created")
+
 
 class ItemTypeListView (ListView):
     model = Product
