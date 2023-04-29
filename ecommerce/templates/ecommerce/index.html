@@ -46,7 +46,11 @@
 				<div class="card">
 					<a href="{{ item.get_absolute_url }}">
 						<div class="imageContainer">
+							{% if item.img.first.image %}
+							<img src="{{ item.img.first.image.url }}" class="card-img-top" alt="...">
+							{% else %}
 							<img src="{% static 'ecommerce\imgs\products\No_image_available.png' %}" class="card-img-top" alt="...">
+							{% endif %}
 						</div>
 						<div class="card-body text-center">
 						  <h5 class="card-title">{{ item.title | title }} </h5>

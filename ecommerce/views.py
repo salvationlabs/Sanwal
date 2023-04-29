@@ -189,7 +189,7 @@ def create_product(request):
                 Images.objects.create(item=product_obj, image=img)
 
             messages.success(request, "Yeew, check it out on the home page!")
-            return HttpResponseRedirect("/index")
+            return redirect("index")
         
         else:
             messages.error(request, "Form is invalid. Please recheck the fields or fields\' values")
