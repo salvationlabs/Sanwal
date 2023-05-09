@@ -30,7 +30,7 @@ class Material (models.Model):
 
 
 class Product (models.Model):
-	title = models.CharField(max_length=124)
+	title = models.CharField(max_length=124, unique=True)
 	price = models.FloatField()
 	discount_price = models.FloatField(blank=True, null=True)
 	description = models.TextField(blank=True)
