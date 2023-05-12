@@ -3,6 +3,7 @@ from django.conf import settings
 from django.shortcuts import reverse
 from django_countries.fields import CountryField
 from django.utils.text import slugify
+from django.utils.safestring import mark_safe
 
 # Create your models here.
 
@@ -75,8 +76,8 @@ class Images (models.Model):
 		return f"{self.item}"
 
 	def image_tag (self):
-		if self.images:
-			return mark_safe('<img src="%s" style="width: 45px; height:45px;" />' % self.images.url)
+		if self.image:
+			return mark_safe('<img src="%s" style="width: 45px; height:45px;" />' % self.image.url)
 		else:
 			return 'No image found'
 	image_tag.short_description = 'Image'

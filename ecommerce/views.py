@@ -192,8 +192,16 @@ def create_product(request):
             return redirect("index")
         
         else:
-            messages.error(request, "Form is invalid. Please recheck the fields or fields\' values")
-            print(ProductForm.errors)
+                # messages.error(request, "Form is invalid. Please recheck the fields or fields\' values")
+            for field in product_form:
+                for error in field.errors:
+                    messages.error(request, f"{field.name}: {error}")
+                        
+            print(product_form.errors)
+            return render(
+                request, 'ecommerce/createProduct.html', {
+                    'product_form': product_form
+                })
 
     product_form = ProductForm()
     return render(request, 'ecommerce/createProduct.html', {
