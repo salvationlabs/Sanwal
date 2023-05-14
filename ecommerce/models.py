@@ -68,7 +68,7 @@ class Product (models.Model):
 class Images (models.Model):
 	def user_directory_path(instance, filename):
         # file will be uploaded to MEDIA_ROOT/user_<id>/listing_<title>/<filename>
-		return 'images/user_{0}/item_{1}/{2}'.format(instance.item.creator.username, instance.item.title, filename)
+		return 'images/item_{0}/{1}'.format(instance.item.title, filename)
 	image = models.ImageField(upload_to = user_directory_path, blank=True)
 	item = models.ForeignKey(Product, on_delete= models.CASCADE, related_name='img')
 
