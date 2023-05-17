@@ -30,6 +30,31 @@ window.onload = function () {
         $('.searchBox').removeClass('active');
         $('.search').removeClass('active');
     })
+
+    var swiperImages = new Swiper(".itemImageSwiper", {
+		effect: "cube",
+        grabCursor: true,
+        loop: true,
+        cubeEffect: {
+            shadow: true,
+            slideShadows: true,
+            shadowOffset: 20,
+            shadowScale: 0.94,
+        },
+		
+		pagination: {
+			el: ".swiper-pagination",
+		},
+
+		scrollbar: {
+			el: ".swiper-scrollbar",
+		},
+		
+		navigation: {
+		  nextEl: ".swiper-button-next",
+		  prevEl: ".swiper-button-prev",
+		},
+	  });
 }
 
 window.onscroll = function () {

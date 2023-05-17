@@ -14,7 +14,26 @@
 			{% endif %}
 			<div class="row g-0">
 			  <div class="col-md-4">
-				<img src="{% static 'ecommerce\imgs\products\No_image_available.png' %}" class="card-img-top" alt="...">
+				{% if object.img.first.image %}
+					<div class="swiper itemImageSwiper">
+						<div class="swiper-wrapper">
+							{% for image in object.img.all %}
+								<div class="swiper-slide">
+									<img src="{{ image.image.url }}" alt="{{ image.image }}" >
+								</div>
+							{% endfor %}
+						</div>
+						<!-- <div class="swiper-button-next">
+							<ion-icon name="caret-forward-outline"></ion-icon>
+						</div>
+						<div class="swiper-button-prev">
+							<ion-icon name="caret-back-outline"></ion-icon>
+						</div> -->
+					</div>
+					<!-- <img src="{{ object.img.first.image.url }}" class="card-img-top" alt="..."> -->
+				{% else %}
+					<img src="{% static 'ecommerce\imgs\products\No_image_available.png' %}" class="card-img-top" alt="...">
+				{% endif %}
 			  </div>
 			  <div class="col-md-8">
 				<div class="card-body">
