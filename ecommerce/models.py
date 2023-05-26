@@ -8,23 +8,32 @@ from django.utils.safestring import mark_safe
 # Create your models here.
 
 
-class Type (models.Model):
-	name = models.CharField(max_length=124)
+class Category (models.Model):
+	name = models.CharField(max_length=124, db_index=True)
+
+	class Meta:
+		verbose_name_plural = 'categories'
 
 	def __str__(self):
 		return self.name
 
 
-class Category (models.Model):
-	name = models.CharField(max_length=124)
-	type = models.ForeignKey(Type, on_delete=models.CASCADE, related_name="typeCategory")
+class SubCategory (models.Model):
+	name = models.CharField(max_length=124, db_index=True)
+	category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="subcategory")
+
+	class Meta:
+		verbose_name_plural = 'subcategories'
 
 	def __str__(self):
 		return self.name
 
 
 class Material (models.Model):
-	name = models.CharField(max_length=124)
+	name = models.CharField(max_length=124, db_index=True)
+
+	class Meta:
+		verbose_name_plural = 'materials'
 
 	def __str__ (self):
 		return self.name
@@ -32,14 +41,21 @@ class Material (models.Model):
 
 class Product (models.Model):
 	title = models.CharField(max_length=124, unique=True)
-	price = models.FloatField()
+	price = models.DecimalField(max_digits=5, decimal_places=2)
 	discount_price = models.FloatField(blank=True, null=True)
 	description = models.TextField(blank=True)
-	type = models.ForeignKey(Type, on_delete=models.CASCADE, related_name="productType")
-	category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True, related_name="productCategory")
+	category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="product")
+	subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, blank=True, null=True, related_name="product")
 	material = models.ForeignKey(Material, on_delete=models.CASCADE, blank=True, null=True, related_name="productMaterial")
+	is_active = models.BooleanField(default=True)
+	in_stock = models.BooleanField(default=True)
 	time_created = models.DateTimeField(auto_now_add=True)
+	updated = models.DateTimeField(auto_now=True)
 	slug = models.SlugField(editable=False)
+
+	class Meta:
+		verbose_name_plural = 'Products'
+		ordering = ('-time_created',)
 
 	def __str__(self):
 		return self.title

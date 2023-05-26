@@ -10,7 +10,7 @@ from django.views.generic import ListView, DetailView, View
 from django.utils import timezone
 from django.contrib.auth.models import User
 
-from .models import Category, Type, Product, OrderItem, Order, BillingAddress, Images
+from .models import Category, SubCategory, Product, OrderItem, Order, BillingAddress, Images
 from .forms import CheckoutForm, ProductForm
 
 # Create your views here.

@@ -26,9 +26,9 @@ class CheckoutForm(forms.Form):
 	zip_code = forms.CharField(widget=forms.TextInput(attrs={
 		'placeholder': 'Zip Code'
 	}), label='')
-	same_billing_address = forms.BooleanField(widget=forms.CheckboxInput())
-	save_info = forms.BooleanField(widget=forms.CheckboxInput())
-	payment_option = forms.ChoiceField(widget=forms.RadioSelect, choices=PAYMENT_OPTIONS)
+	same_billing_address = forms.BooleanField(widget=forms.CheckboxInput(), required=False)
+	save_info = forms.BooleanField(widget=forms.CheckboxInput(), required=False)
+	payment_option = forms.ChoiceField(widget=forms.RadioSelect, choices=PAYMENT_OPTIONS, initial='C')
 
 
 class ProductForm (ModelForm):

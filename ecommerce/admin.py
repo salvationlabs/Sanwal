@@ -2,13 +2,13 @@ from django.contrib import admin
 from django.utils.translation import gettext as _
 
 
-from .models import Type, Category, Product, OrderItem, Order, Images, Material
+from .models import Category, SubCategory, Product, OrderItem, Order, Images, Material
 
 # Register your models here.
 
 
 admin.site.register(Category)
-admin.site.register(Type)
+admin.site.register(SubCategory)
 admin.site.register(OrderItem)
 admin.site.register(Order)
 admin.site.register(Material)
@@ -24,8 +24,8 @@ class ImageInline (admin.TabularInline):
 # Listing Model
 class ProductAdmin (admin.ModelAdmin):
 	inlines = [ImageInline]
-	list_display = ('title', 'price', 'discount_price', 'description', 'type', 'category', 'material', 'time_created')
-	list_filter = ('price', 'discount_price', 'category', 'type', 'material', 'time_created')
+	list_display = ('title', 'price', 'discount_price', 'description', 'category', 'subcategory', 'material', 'time_created', 'updated')
+	list_filter = ('price', 'discount_price', 'category', 'subcategory', 'material', 'time_created', 'updated')
 	empty_value_display = '-empty-'
 	
 	# @admin.action
