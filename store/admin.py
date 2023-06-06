@@ -7,11 +7,27 @@ from .models import Category, SubCategory, Product, OrderItem, Order, Images, Ma
 # Register your models here.
 
 
-admin.site.register(Category)
-admin.site.register(SubCategory)
 admin.site.register(OrderItem)
 admin.site.register(Order)
-admin.site.register(Material)
+
+
+# Category Admin Model
+@admin.register(Category)
+class CategoryAdmin (admin.ModelAdmin):
+	list_display = ['name', 'slug']
+	prepopulated_fields = {'slug': ('name',)}
+
+
+@admin.register(SubCategory)
+class SubCategoryAdmin (admin.ModelAdmin):
+	list_display = ['name', 'category', 'slug']
+	prepopulated_fields = {'slug': ('name',)}
+
+
+@admin.register(Material)
+class MaterialAdmin (admin.ModelAdmin):
+	list_display = ['name', 'slug']
+	prepopulated_fields = {'slug': ('name',)}
 
 
 # Image Model
@@ -24,8 +40,10 @@ class ImageInline (admin.TabularInline):
 # Listing Model
 class ProductAdmin (admin.ModelAdmin):
 	inlines = [ImageInline]
-	list_display = ('title', 'price', 'discount_price', 'description', 'category', 'subcategory', 'material', 'time_created', 'updated')
-	list_filter = ('price', 'discount_price', 'category', 'subcategory', 'material', 'time_created', 'updated')
+	list_display = ('title', 'price', 'slug', 'discount_price', 'in_stock', 'is_active', 'description', 'category', 'subcategory', 'material', 'time_created', 'updated')
+	list_filter = ('price', 'discount_price', 'in_stock', 'is_active', 'category', 'subcategory', 'material', 'time_created')
+	list_editable = ['price', 'discount_price', 'in_stock']
+	prepopulated_fields = {'slug': ('title',)}
 	empty_value_display = '-empty-'
 	
 	# @admin.action

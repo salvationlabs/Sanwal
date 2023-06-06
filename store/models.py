@@ -4,12 +4,15 @@ from django.shortcuts import reverse
 from django_countries.fields import CountryField
 from django.utils.text import slugify
 from django.utils.safestring import mark_safe
+from django.contrib.auth.models import User
+from PIL import Image as PillowImage
 
 # Create your models here.
 
 
 class Category (models.Model):
 	name = models.CharField(max_length=124, db_index=True)
+	slug = models.SlugField(max_length=255, unique=True)
 
 	class Meta:
 		verbose_name_plural = 'categories'
@@ -21,6 +24,7 @@ class Category (models.Model):
 class SubCategory (models.Model):
 	name = models.CharField(max_length=124, db_index=True)
 	category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="subcategory")
+	slug = models.SlugField(max_length=255, unique=True)
 
 	class Meta:
 		verbose_name_plural = 'subcategories'
@@ -31,6 +35,7 @@ class SubCategory (models.Model):
 
 class Material (models.Model):
 	name = models.CharField(max_length=124, db_index=True)
+	slug = models.SlugField(max_length=255, unique=True)
 
 	class Meta:
 		verbose_name_plural = 'materials'
@@ -40,6 +45,7 @@ class Material (models.Model):
 
 
 class Product (models.Model):
+	creator = models.ForeignKey(User, on_delete=models.CASCADE)
 	title = models.CharField(max_length=124, unique=True)
 	price = models.DecimalField(max_digits=5, decimal_places=2)
 	discount_price = models.FloatField(blank=True, null=True)
@@ -51,7 +57,7 @@ class Product (models.Model):
 	in_stock = models.BooleanField(default=True)
 	time_created = models.DateTimeField(auto_now_add=True)
 	updated = models.DateTimeField(auto_now=True)
-	slug = models.SlugField(editable=False)
+	slug = models.SlugField(max_length=255, unique=True)
 
 	class Meta:
 		verbose_name_plural = 'Products'
@@ -65,10 +71,10 @@ class Product (models.Model):
 			'slug': self.slug
 		})
 
-	def save (self, *args, **kwargs):
-		value = self.title.replace(" ", "-")
-		self.slug = slugify(value, allow_unicode=True)
-		super().save(*args, **kwargs)
+	# def save (self, *args, **kwargs):
+	# 	value = self.title.replace(" ", "-")
+	# 	self.slug = slugify(value, allow_unicode=True)
+	# 	super().save(*args, **kwargs)
 	
 	def get_add_to_cart_url(self):
 		return reverse('add-to-cart', kwargs={
@@ -98,9 +104,20 @@ class Images (models.Model):
 			return 'No image found'
 	image_tag.short_description = 'Image'
 
+	def save (self, *args, **kwargs):
+		super().save(*args, **kwargs)
+		if self.image:
+			img = PillowImage.open(self.image.path) # open image
+
+			# resize image
+			if img.height > 500 or img.width > 500:
+				output_size = (500, 500)
+				img.thumbnail(output_size) # resize image
+				img.save(self.image.path) # save it again and override the larger image
+
 
 class OrderItem (models.Model):
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	ordered = models.BooleanField(default=False)
 	item = models.ForeignKey(Product, on_delete=models.CASCADE)
 	quantity = models.IntegerField(default=1)
@@ -124,7 +141,7 @@ class OrderItem (models.Model):
 
 
 class Order (models.Model):
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	items = models.ManyToManyField(OrderItem)
 	start_date = models.DateTimeField(auto_now_add=True)
 	ordered_date = models.DateTimeField()
@@ -142,7 +159,7 @@ class Order (models.Model):
 
 
 class BillingAddress (models.Model):
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	street_address = models.CharField(max_length=100)
 	appartment_address = models.CharField(max_length=100, blank=True, null=True)
 	country = CountryField()
