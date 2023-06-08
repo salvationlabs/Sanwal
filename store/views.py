@@ -1,75 +1,102 @@
+from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db import IntegrityError
-from django.core.exceptions import ObjectDoesNotExist
-from django.contrib import messages
-from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import ListView, DetailView, View
-from django.utils import timezone
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
+from django.db import IntegrityError
+from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
+from django.views.generic import DetailView, ListView, View
 
-from .models import Category, SubCategory, Product, OrderItem, Order, BillingAddress, Images
 from .forms import CheckoutForm, ProductForm
+from .models import BillingAddress, Images, Order, OrderItem, Product
+
 
 # Create your views here.
-
-
 class HomeView(ListView):
     model = Product
     paginate_by = 8
-    template_name = 'ecommerce/index.html'
+    template_name = 'store/index.html'
 
-    def get_queryset(self, **kwargs):
-       return Product.objects.all().order_by("-time_created")
+    def get_queryset(self):
+        return Product.products.all()
 
 
-class ItemTypeListView (ListView):
+class CategoryListView (ListView):
     model = Product
     paginate_by = 12
-    template_name = 'ecommerce/products.html'
+    template_name = 'store/products.html'
 
     def get_queryset(self, **kwargs):
-       qs = super().get_queryset(**kwargs)
-       return qs.filter(type__name=self.kwargs['type']).order_by("-time_created").all()
+        # qs = super().get_queryset(**kwargs)
+        qs = Product.products.all()
+        return qs.filter(category__slug=self.kwargs['category_slug']).all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['heading'] = self.kwargs['category_slug']
+        return context
 
 
-class ItemCategoryListView (ListView):
+class SubCategoryListView (ListView):
     model = Product
     paginate_by = 12
-    template_name = 'ecommerce/products.html'
+    template_name = 'store/products.html'
 
     def get_queryset(self, **kwargs):
-       qs = super().get_queryset(**kwargs)
-       return qs.filter(type__name=self.kwargs['type'], category__name=self.kwargs['category']).order_by("-time_created").all()
+        qs = Product.products.all()
+        return qs.filter(subcategory__slug=self.kwargs['subcategory_slug']).all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['heading'] = self.kwargs['category_slug']
+        context['subheading'] = self.kwargs['subcategory_slug']
+        return context
+
+
+class MaterialListView (ListView):
+    model = Product
+    paginate_by = 12
+    template_name = 'store/products.html'
+
+    def get_queryset(self, **kwargs):
+        qs = Product.products.all()
+        return qs.filter(material__slug=self.kwargs['material_slug']).all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['heading'] = self.kwargs['material_slug']
+        return context
 
 
 class ItemDetailView (DetailView):
     model = Product
-    template_name = 'ecommerce/product.html'
+    template_name = 'store/product.html'
 
 
 class OrderSummaryView (LoginRequiredMixin, View):
-    def get (self, *args, **kwargs):
+    def get(self, *args, **kwargs):
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
         except ObjectDoesNotExist:
             messages.error(self.request, "You do not have an active order")
             return redirect('/')
-        return render(self.request, 'ecommerce/order_summary.html', {
+        return render(self.request, 'store/order_summary.html', {
             'object': order
         })
 
 
 class CheckoutView (View):
-    def get (self, *args, **kargs):
+    def get(self, *args, **kargs):
         # form
         form = CheckoutForm()
-        return render(self.request, 'ecommerce/checkout.html', {
+        return render(self.request, 'store/checkout.html', {
             'checkoutForm': form
         })
-    def post (self, *args, **kargs):
+
+    def post(self, *args, **kargs):
         form = CheckoutForm(self.request.POST or None)
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
@@ -84,21 +111,21 @@ class CheckoutView (View):
                 billing_address.save()
                 order.billing_address = billing_address
                 order.save()
-                return redirect('checkout')
+                return redirect('store:checkout')
             messages.error(self.request, 'Failed Checkout')
-            return redirect('checkout')
+            return redirect('store:checkout')
         except ObjectDoesNotExist:
             messages.error(self.request, 'You do not have an active order.')
-            return redirect('order-summary')
+            return redirect('store:order-summary')
 
 
 class PaymentView (View):
-    def get (self, *args, **kargs):
-        return render(self.request, 'ecommerce/payment.html')
+    def get(self, *args, **kargs):
+        return render(self.request, 'store/payment.html')
 
 
 @login_required
-def add_to_cart (request, slug):
+def add_to_cart(request, slug):
     item = get_object_or_404(Product, slug=slug)
     order_item, created = OrderItem.objects.get_or_create(item=item, user=request.user, ordered=False)
     order_qs = Order.objects.filter(user=request.user, ordered=False)
@@ -117,11 +144,11 @@ def add_to_cart (request, slug):
         order = Order.objects.create(user=request.user, ordered_date=ordered_date)
         order.items.add(order_item)
         messages.success(request, "This item was added to your cart.")
-    return redirect('order-summary')
+    return redirect('store:order-summary')
 
 
 @login_required
-def remove_from_cart (request, slug):
+def remove_from_cart(request, slug):
     item = get_object_or_404(Product, slug=slug)
     order_qs = Order.objects.filter(user=request.user, ordered=False)
     if order_qs.exists():
@@ -136,17 +163,17 @@ def remove_from_cart (request, slug):
         else:
             # add a message saying the user doesn't have an order
             messages.error(request, "This item was not in your cart.")
-            return redirect('product', slug=slug)
+            return redirect('store:product', slug=slug)
 
     else:
         # add a message saying the user doesn't have an order
         messages.error(request, "You do not have an active order.")
-        return redirect('product', slug=slug)
-    return redirect('order-summary')
+        return redirect('store:product', slug=slug)
+    return redirect('store:order-summary')
 
 
 @login_required
-def remove_single_item_from_cart (request, slug):
+def remove_single_item_from_cart(request, slug):
     item = get_object_or_404(Product, slug=slug)
     order_qs = Order.objects.filter(user=request.user, ordered=False)
     if order_qs.exists():
@@ -164,21 +191,20 @@ def remove_single_item_from_cart (request, slug):
         else:
             # add a message saying the user doesn't have an order
             messages.error(request, "This item was not in your cart.")
-            return redirect('product', slug=slug)
+            return redirect('store:product', slug=slug)
 
     else:
         # add a message saying the user doesn't have an order
         messages.error(request, "You do not have an active order.")
-        return redirect('product', slug=slug)
-    return redirect('order-summary')
+        return redirect('store:product', slug=slug)
+    return redirect('store:order-summary')
 
 
 @staff_member_required
 def create_product(request):
     if request.method == "POST":
-        product_form = ProductForm (request.POST)
+        product_form = ProductForm(request.POST)
         images = request.FILES.getlist('images')
-        # image_form = ImageFormSet(request.POST, request.FILES, queryset=Images.objects.none())
 
         if product_form.is_valid():
             product_obj = product_form.save(commit=False)
@@ -189,22 +215,21 @@ def create_product(request):
                 Images.objects.create(item=product_obj, image=img)
 
             messages.success(request, "Yeew, check it out on the home page!")
-            return redirect("index")
-        
+            return redirect("store:index")
+
         else:
-                # messages.error(request, "Form is invalid. Please recheck the fields or fields\' values")
             for field in product_form:
                 for error in field.errors:
                     messages.error(request, f"{field.name}: {error}")
-                        
+
             print(product_form.errors)
             return render(
-                request, 'ecommerce/createProduct.html', {
+                request, 'store/createProduct.html', {
                     'product_form': product_form
                 })
 
     product_form = ProductForm()
-    return render(request, 'ecommerce/createProduct.html', {
+    return render(request, 'store/createProduct.html', {
         'product_form': product_form,
     })
 
@@ -221,17 +246,17 @@ def login_view(request):
         if user is not None:
             login(request, user)
             messages.success(request, f'Welcome, {username}')
-            return redirect("index")
+            return redirect("store:index")
         else:
             messages.warning(request, "Invalid username and/or password.")
             # return redirect('')
-    return render(request, "ecommerce/login.html")
+    return render(request, "store/login.html")
 
 
 def logout_view(request):
     logout(request)
     messages.success(request, 'You have successfully logged out.')
-    return redirect("index")
+    return redirect("store:index")
 
 
 def register(request):
@@ -244,7 +269,7 @@ def register(request):
         confirmation = request.POST["confirmation"]
         if password != confirmation:
             messages.warning(request, "Passwords must match.")
-            return render(request, "ecommerce/register.html")
+            return render(request, "store/register.html")
 
         # Attempt to create new user
         try:
@@ -252,8 +277,8 @@ def register(request):
             user.save()
         except IntegrityError:
             messages.error(request, "Username already taken.")
-            return render(request, "ecommerce/register.html")
+            return render(request, "store/register.html")
         login(request, user)
-        return redirect("index")
+        return redirect("store:index")
     else:
-        return render(request, "ecommerce/register.html")
+        return render(request, "store/register.html")

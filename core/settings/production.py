@@ -2,7 +2,7 @@ import dj_database_url
 
 from .base import *
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['.sanwal.org']
 
 ## CSRF TOKEN CLEARANCE
 CSRF_COOKIE_SECURE = True

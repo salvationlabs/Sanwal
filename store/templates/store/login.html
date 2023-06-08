@@ -1,7 +1,8 @@
-{% extends "ecommerce/layout.html" %}
+{% extends "store/layout.html" %}
+
+{% block title %}Sign In{% endblock %}
 
 {% block body %}
-
     <div class="login text-center">
 		<h2>Login</h2><hr>
 		{% if messages %}
@@ -12,7 +13,7 @@
 				</div>
 			{% endfor %}
 		{% endif %}
-        <form action="{% url 'login' %}" method="post">
+        <form action="{% url 'store:login' %}" method="post">
             {% csrf_token %}
             <div class="form-group">
                 <input autofocus class="form-control" type="text" name="username" placeholder="Username">
@@ -22,7 +23,7 @@
             </div>
             <input class="btn btn-primary" type="submit" value="Login">
         </form>
-        Don't have an account? <a href="{% url 'register' %}">Register here.</a>
+        Don't have an account? <a href="{% url 'store:register' %}">Register here.</a>
     </div>
 
 {% endblock %}

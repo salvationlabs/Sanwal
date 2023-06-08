@@ -1,16 +1,28 @@
-{% extends 'ecommerce/layout.html' %}
+{% extends 'store/layout.html' %}
 {% load static %}
 
-{% block body %}
+{% block title %}
+	{{ heading | title }} 
+	{% if subheading %}
+		- {{ subheading | title }}
+	{% endif %}
+{% endblock %}
 
+{% block body %}
 <article class="products">
+	<h2>
+		{{ heading | title }} 
+		{% if subheading %}
+			- {{ subheading | title }}
+		{% endif %}
+	</h2>
 	<div class="row row-cols-1 row-cols-md-3 g-4">
 		{% for item in object_list %}
 		<col>
 			<div class="card">
 				<a href="{{ item.get_absolute_url }}">
 					<div class="imageContainer">
-						<img src="{% static 'ecommerce\imgs\products\No_image_available.png' %}" class="card-img-top" alt="...">
+						<img src="{% static 'store\imgs\products\No_image_available.png' %}" class="card-img-top" alt="...">
 					</div>
 					<div class="card-body text-center">
 					  <h5 class="card-title">{{ item.title | title }} </h5>

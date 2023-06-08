@@ -1,0 +1,12 @@
+{% extends 'store/layout.html' %}
+
+{% block body %}
+	<div class="checkout">
+		<h2 class="text-center">Checkout</h2><hr>
+		<form action="" method="POST">
+			{% csrf_token %}
+			{{ checkoutForm }}
+            <input class="btn btn-primary" type="submit" value="Checkout">
+		</form>
+	</div>
+{% endblock %}

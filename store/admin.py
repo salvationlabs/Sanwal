@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.utils.translation import gettext as _
 
-
-from .models import Category, SubCategory, Product, OrderItem, Order, Images, Material
+from .models import (Category, Images, Material, Order, OrderItem, Product,
+                     SubCategory)
 
 # Register your models here.
 
@@ -42,7 +42,7 @@ class ProductAdmin (admin.ModelAdmin):
 	inlines = [ImageInline]
 	list_display = ('title', 'price', 'slug', 'discount_price', 'in_stock', 'is_active', 'description', 'category', 'subcategory', 'material', 'time_created', 'updated')
 	list_filter = ('price', 'discount_price', 'in_stock', 'is_active', 'category', 'subcategory', 'material', 'time_created')
-	list_editable = ['price', 'discount_price', 'in_stock']
+	list_editable = ['price', 'discount_price', 'is_active', 'in_stock']
 	prepopulated_fields = {'slug': ('title',)}
 	empty_value_display = '-empty-'
 	

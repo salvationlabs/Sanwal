@@ -1,15 +1,6 @@
-{% extends 'ecommerce/layout.html' %}
+{% extends 'store/layout.html' %}
 
 {% block body %}
-	<!-- <div class="table-responsive text-nowrap"> -->
-	{% if messages %}
-		{% for message in messages %}
-			<div{% if message.tags %} {% if message.tags == 'error' %} class="alert alert-danger alert-dismissible fade show text-center" {% else %} class="alert alert-{{ message.tags }} alert-dismissible fade show text-center" {% endif %} {% endif %} role="alert">
-				{{ message }}
-				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-			</div>
-		{% endfor %}
-	{% endif %}
 	<h2 class="text-center">Order Summary</h2>
 	<table class="table table-hover table-dark text-center">
 		<thead>
@@ -28,11 +19,11 @@
 				<td>{{ order_item.item.title }}</td>
 				<td>{{ order_item.item.price }}</td>
 				<td>
-					<a href="{% url 'remove-single-item-from-cart' order_item.item.slug %}" class="text-light" style="text-decoration: none;">
+					<a href="{% url 'store:remove-single-item-from-cart' order_item.item.slug %}" class="text-light" style="text-decoration: none;">
 						<ion-icon name="remove-outline"></ion-icon>
 					</a>
 					{{ order_item.quantity }}
-					<a href="{% url 'add-to-cart' order_item.item.slug %}" class="text-light">
+					<a href="{% url 'store:add-to-cart' order_item.item.slug %}" class="text-light">
 						<ion-icon name="add-outline"></ion-icon>
 					</a>
 				</td>
@@ -41,7 +32,7 @@
 				{% if order_item.item.discount_price %}
 					<span class="badge rounded-pill text-bg-info">Saving Rs. {{ order_item.get_amount_saved }}</span>
 				{% endif %}
-				<a href="{% url 'remove-from-cart' order_item.item.slug %}" class="float-end text-danger">
+				<a href="{% url 'store:remove-from-cart' order_item.item.slug %}" class="float-end text-danger">
 					<ion-icon name="trash-outline"></ion-icon>
 				</a>
 				</td>
@@ -60,20 +51,14 @@
 			{% endif %}
 		</tbody>
 		<tfoot>
-			{% if object.get_total %}
 			<tr class="text-end">
 				<td colspan="5">
-					<a href="{% url 'index' %}" class="btn btn-outline-primary">Continue Shopping</a>
-					<a href="{% url 'checkout' %}" class="btn btn-outline-success">Proceed To Checkout</a>
+					<a href="{% url 'store:index' %}" class="btn btn-outline-primary">Continue Shopping</a>
+					{% if object.get_total %}
+						<a href="{% url 'store:checkout' %}" class="btn btn-outline-success">Proceed To Checkout</a>
+					{% endif %}
 				</td>
 			</tr>
-			{% else %}
-			<tr class="text-end">
-				<td colspan="5">
-					<a href="{% url 'index' %}" class="btn btn-outline-primary">Continue Shopping</a>
-				</td>
-			</tr>
-			{% endif %}
 		</tfoot>
 	</table>
 	<!-- </div> -->

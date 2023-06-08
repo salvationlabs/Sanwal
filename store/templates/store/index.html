@@ -1,16 +1,8 @@
-{% extends 'ecommerce/layout.html' %}
+{% extends 'store/layout.html' %}
 {% load static %}
 
 {% block body %}
-	{% if messages %}
-		{% for message in messages %}
-			<div{% if message.tags %} {% if message.tags == 'error' %} class="alert alert-danger alert-dismissible fade show text-center" {% else %} class="alert alert-{{ message.tags }} alert-dismissible fade show text-center" {% endif %} {% endif %} role="alert">
-				{{ message }}
-				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-			</div>
-		{% endfor %}
-	{% endif %}
-	<section>
+	<!-- <section>
 		<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
 			<h1 id="companyName">SAN<span class="text-muted">WAL</span></h1>
 			<div class="carousel-indicators">
@@ -20,13 +12,13 @@
 			</div>
 			<div class="carousel-inner">
 			  <div class="carousel-item active" data-bs-interval="4000">
-				<img src="{% static 'ecommerce/imgs/mainCrousal/forest.jpg' %}" class="d-block w-100" alt="...">
+				<img src="{% static 'store/imgs/mainCrousal/forest.jpg' %}" class="d-block w-100" alt="...">
 			  </div>
 			  <div class="carousel-item" data-bs-interval="4000">
-				<img src="{% static 'ecommerce/imgs/mainCrousal/lap.jpg' %}" class="d-block w-100" alt="...">
+				<img src="{% static 'store/imgs/mainCrousal/lap.jpg' %}" class="d-block w-100" alt="...">
 			  </div>
 			  <div class="carousel-item" data-bs-interval="4000">
-				<img src="{% static 'ecommerce/imgs/mainCrousal/mall.jpg' %}" class="d-block w-100" alt="...">
+				<img src="{% static 'store/imgs/mainCrousal/mall.jpg' %}" class="d-block w-100" alt="...">
 			  </div>
 			</div>
 			<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -38,7 +30,7 @@
 			  <span class="visually-hidden">Next</span>
 			</button>
 		  </div>
-	</section>
+	</section> -->
 	<article class="products">
 		<div class="row row-cols-1 row-cols-md-3 g-4">
 			{% for item in object_list %}
@@ -47,14 +39,28 @@
 					<a href="{{ item.get_absolute_url }}">
 						<div class="imageContainer">
 							{% if item.img.first.image %}
-							<img src="{{ item.img.first.image.url }}" class="card-img-top" alt="...">
+								<div class="swiper itemImageSwiper">
+									<div class="swiper-wrapper">
+										{% for image in object.img.all %}
+											<div class="swiper-slide">
+												<img src="{{ image.image.url }}" alt="{{ image.image }}" >
+											</div>
+										{% endfor %}
+									</div>
+									<!-- <div class="swiper-button-next">
+										<ion-icon name="caret-forward-outline"></ion-icon>
+									</div>
+									<div class="swiper-button-prev">
+										<ion-icon name="caret-back-outline"></ion-icon>
+									</div> -->
+								</div>
 							{% else %}
-							<img src="{% static 'ecommerce\imgs\products\No_image_available.png' %}" class="card-img-top" alt="...">
+								<img src="{% static 'store\imgs\products\No_image_available.png' %}" class="card-img-top" alt="No Image Available">
 							{% endif %}
 						</div>
 						<div class="card-body text-center">
 						  <h5 class="card-title">{{ item.title | title }} </h5>
-						  <p class="card-text">{{ item.description | truncatechars:100 }}</p>
+						  <!-- <p class="card-text">{{ item.description | truncatechars:100 }}</p> -->
 						  {% if item.discount_price %}
 						  <a href="{{ item.get_add_to_cart_url }}" class="btn btn-light text-black"><del style="text-decoration-color: red;">Rs. {{ item.price }}</del> Rs. {{ item.discount_price }}</a>
 						  {% else %}

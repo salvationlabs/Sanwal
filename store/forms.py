@@ -5,7 +5,6 @@ from django_countries.widgets import CountrySelectWidget
 
 from .models import Product
 
-
 PAYMENT_OPTIONS = (
 	('C', 'Cash'),
 )

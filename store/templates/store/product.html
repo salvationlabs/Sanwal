@@ -1,17 +1,11 @@
-{% extends 'ecommerce/layout.html' %}
+{% extends 'store/layout.html' %}
 {% load static %}
+
+{% block title %}{{ object.name | title }}{% endblock %}
 
 {% block body %}
 	<article class="product">
 		<div class="card mb-3" style="max-width: 70%;">
-			{% if messages %}
-				{% for message in messages %}
-					<div{% if message.tags %} {% if message.tags == 'error' %} class="alert alert-danger alert-dismissible fade show" {% else %} class="alert alert-{{ message.tags }} alert-dismissible fade show" {% endif %} {% endif %} role="alert">
-						{{ message }}
-						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-					</div>
-				{% endfor %}
-			{% endif %}
 			<div class="row g-0">
 			  <div class="col-md-4">
 				{% if object.img.first.image %}
@@ -30,15 +24,14 @@
 							<ion-icon name="caret-back-outline"></ion-icon>
 						</div> -->
 					</div>
-					<!-- <img src="{{ object.img.first.image.url }}" class="card-img-top" alt="..."> -->
 				{% else %}
-					<img src="{% static 'ecommerce\imgs\products\No_image_available.png' %}" class="card-img-top" alt="...">
+					<img src="{% static 'store\imgs\products\No_image_available.png' %}" class="card-img-top" alt="...">
 				{% endif %}
 			  </div>
 			  <div class="col-md-8">
 				<div class="card-body">
 					<h2 class="card-title text-center">{{ object.title | title }} </h2>
-					<p class="card-text"><strong>Description</strong><br>{{ object.description }}</p>
+					<p class="card-text"><strong>Description</strong><br>{{ object.description | linebreaksbr }}</p>
 					{% if object.discount_price %}
 						<p class="card-text"><del>Rs. {{ object.price }}</del> Rs. {{ object.discount_price }}</p>
 					{% else %}

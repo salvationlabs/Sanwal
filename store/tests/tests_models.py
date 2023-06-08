@@ -1,7 +1,7 @@
-from django.test import TestCase
 from django.contrib.auth.models import User
+from django.test import TestCase
 
-from store.models import Category, SubCategory, Material, Product, Images, Order, OrderItem, BillingAddress
+from store.models import (Category, Material, Product, SubCategory)
 
 
 class TestCategoriesModel (TestCase):

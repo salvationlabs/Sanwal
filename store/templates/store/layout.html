@@ -1,0 +1,219 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{% block title %}Sanwal: Your Ecommerce Store{% endblock %}</title>
+
+			<!-- Style Sheets -->
+	<link rel="stylesheet" href="{% static 'store/css/styles.css' %}">
+	<link rel="stylesheet" href="{% static 'store/css/navandfooter.css' %}">
+	<link rel="stylesheet" href="{% static 'store/css/cards.css' %}">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
+			<!-- Javascript -->
+	<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+	<script src="{% static 'store/js/index.js' %}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+	<link rel="icon" type="image/x-icon" href="{% static 'store/imgs/icon/sanwal.svg' %}">
+</head>
+
+<body id="body">
+	<header>
+		{% if messages %}
+			{% for message in messages %}
+				<div{% if message.tags %} {% if message.tags == 'error' %} class="alert alert-danger alert-dismissible fade show text-center m-0" {% else %} class="alert alert-{{ message.tags }} alert-dismissible fade show text-center m-0" {% endif %} {% endif %} role="alert">
+					{{ message }}
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			{% endfor %}
+		{% endif %}
+					<!-- Top bar Navigation -->
+		<nav class="navbar navbar-dark navbar-expand-lg fs-6">
+			<div class="container-fluid">
+				<a href="{% url 'store:index' %}" class="navbar-brand mb-0 h1">
+					<img src="{% static 'store/imgs/icon/sanwal.svg' %}" alt="LOGO" width="33" height="33" style="background: white;">
+					Sanwal
+				</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				</button>
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav m-auto mb-2 mb-lg-0">
+						<!-- <li class="nav-item">
+							<a href="{% url 'store:index' %}" {% if request.path == "/" %}class="nav-link active text-center"{% endif %} class="nav-link text-center"><div class="seperator"></div>HOME</a>
+						</li> -->
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								<div class="seperator"></div>MATERIALS
+							</a>
+							<ul class="dropdown-menu  dropdown-menu-dark">
+								{% for m in materials %}
+									<li><a class="dropdown-item" href="{{ m.get_absolute_url }}">{{ m.name | upper }} </a></li>
+								{% endfor %}
+							</ul>
+						</li>
+						{% for c in categories %}
+							{% if c.subcategory.all %}
+							<li class="nav-item btn-group">
+								<a class="nav-link pe-0" href="{{ c.get_absolute_url }}" role="button">
+									<div class="seperator"></div>{{ c.name | upper}}
+								</a>
+								<a class="nav-link dropdown-toggle dropdown-toggle-split" href="{{ c.get_absolute_url }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+									<span class="visually-hidden">Toggle Dropdown</span>
+								</a>
+								<ul class="dropdown-menu dropdown-menu-dark">
+									{% for subc in c.subcategory.all %}
+										<li><a class="dropdown-item" href="{{ subc.get_absolute_url }}">{{ subc.name | upper}}</a></li>
+									{% endfor %}
+									<!-- <li><hr class="dropdown-divider"></li> -->
+								</ul>
+							</li>
+							{% else %}
+							<li class="nav-item">
+								<a href="{{ c.get_absolute_url }}" class="nav-link text-center"><div class="seperator"></div>{{ c.name | upper }}</a>
+							</li>
+							{% endif %}
+						{% endfor %}
+						{% if user.is_authenticated %}
+							{% if user.is_staff %}
+							<li class="nav-item">
+								<a href="{% url 'store:create-product' %}" {% if "/create-product" in request.path %}class="nav-link active text-center"{% endif %} class="nav-link text-center"><div class="seperator"></div>CREATE POST</a>
+							</li>
+							<li class="nav-item">
+								<a href="{% url 'admin:index' %}" class="nav-link text-center"><div class="seperator"></div>ADMIN</a>
+							</li>
+							{% endif %}
+							<li class="nav-item">
+								<a href="{% url 'store:logout' %}" {% if "/logout" in request.path %}class="nav-link active text-center"{% endif %} class="nav-link text-center"><div class="seperator"></div>LOGOUT</a>
+							</li>
+						{% else %}
+							<li class="nav-item">
+								<a href="{% url 'store:login' %}" class="nav-link text-center"><div class="seperator"></div>LOGIN</a>
+							</li>
+							<li class="nav-item">
+								<a href="{% url 'store:register' %}" class="nav-link text-center"><div class="seperator"></div>SIGN UP</a>
+							</li>
+						{% endif %}
+					</ul>
+					<!-- <form class="d-flex" role="search">
+						<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+						<button class="btn btn-outline-success" type="submit">Search</button>
+					</form> -->
+				</div>
+			</div>
+		</nav>
+					<!-- Bottom bar Navigation -->
+		<div class="navigation">
+			<ul>
+				<li class="list active" id="home">
+					<a href="{% url 'store:index' %}">
+						<span class="icon">
+							<ion-icon name="home-outline"></ion-icon>
+						</span>
+						<span class="text">Home</span>
+					</a>
+				</li>
+				{% if request.user.is_authenticated %}
+					<li class="list" id="cart">
+						<a href="{% url 'store:order-summary' %}">
+							<span class="icon">
+								<ion-icon name="cart-outline"></ion-icon>
+							</span>
+							<span class="text">Cart</span>
+						</a>
+					</li>
+					<li class="list" id="logout">
+						<a href="{% url 'store:logout' %}">
+							<span class="icon">
+								<ion-icon name="log-out-outline"></ion-icon>
+							</span>
+							<span class="text">Logout</span>
+						</a>
+					</li>
+				{% else %}
+					<li class="list" id="login">
+						<a href="{% url 'store:login' %}">
+							<span class="icon">
+								<ion-icon name="log-in-outline"></ion-icon>
+							</span>
+							<span class="text">Login</span>
+						</a>
+					</li>
+					<li class="list" id="sign-up">
+						<a href="{% url 'store:register' %}">
+							<span class="icon">
+								<ion-icon name="person-add-outline"></ion-icon>
+							</span>
+							<span class="text">Sign Up</span>
+						</a>
+					</li>
+				{% endif %}
+			</ul>
+		</div>
+	</header>
+	
+	<main>
+		{% block body %}
+		{% endblock %}
+	</main>
+
+	<footer>
+		<div class="footer_row">
+			<div class="footer_col">
+				<img src="{% static 'store/imgs/icon/sanwal.svg' %}" class="img-fluid rounded-start" alt="logo"  class="logo" width="100" height="100">
+			</div>
+			<div class="footer_col">
+				<ul class="footer_list">
+					<th class="footer_list_item"><h3><div class="seperator" style="background: wheat; top: -6px;"></div>CONTACT<div class="seperator" style="background: wheat; top: -6px;"></div></h3></th>
+					<li>
+						<a href="tel:+92 3004687431">
+							+92 300-4180531
+						</a>
+					</li>
+					<li>
+						<a href="tel:+92 3214584031">
+							+92 321-4854831
+						</a>
+					</li>
+					<li>
+						<a href="mail:sanwal@example.com">
+							sanwal@example.com
+						</a>
+					</li>
+					<li>Lahore, Punjab, Pakistan
+				</ul>
+			</div>
+			<div class="footer_col">
+				<ul class="footer_list">
+					<th class="th-group-item"><h3><div class="seperator" style="background: wheat; top: -6px;"></div>LINKS<div class="seperator" style="background: wheat; top: -6px;"></div></h3></th>
+					<li>
+						<a href="{% url 'store:index' %}">
+							Home
+						</a>
+					</li>
+					{% for c in categories %}
+					<li>
+						<a href="{{ c.get_absolute_url }}">
+							{{ c.name | upper }}
+						</a>
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</footer>
+	
+
+	<!--      Icons -->
+	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+	<!-- BOOTSTRAP JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+</body>
+</html>
