@@ -31,8 +31,14 @@
 
 .products .row .card .btn
 {
-	color: white;
+	background: wheat;
+	color: black;
 	margin-top: 10px;
+}
+
+.products .row .card .btn:hover
+{
+	background: rgba(245, 222, 179, 0.8);
 }
 
 .products .row .card .imageContainer

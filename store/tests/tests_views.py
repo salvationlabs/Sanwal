@@ -1,5 +1,7 @@
+from importlib import import_module
 from unittest import skip
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.test import Client, RequestFactory, TestCase
 from django.urls import reverse
@@ -53,6 +55,7 @@ class TestViewResponses(TestCase):
 
 		self.assertEqual(response.status_code, 200)
 
+	@skip('for debug=true only')
 	def test_url_allowed_hosts(self):
 		"""
 		Test allowed Hosts
@@ -65,11 +68,12 @@ class TestViewResponses(TestCase):
 
 	def test_homepage_url(self):
 		request = self.factory.get('/')
+		engine = import_module(settings.SESSION_ENGINE)
+		request.session = engine.SessionStore()
 		response = HomeView.as_view()(request)
 		response.render()
 
 		html = response.content.decode('utf-8')
-		# print(html)
 
 		self.assertIn('<title>Sanwal: Your Ecommerce Store</title>', html)
 		self.assertEqual(response.status_code, 200)

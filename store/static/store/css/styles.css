@@ -147,3 +147,15 @@ main
     width: 100%;
     height: auto;
   }
+
+
+  /* ---- Add and Remove Icons ---- */
+.plus-btn.btn,  .min-btn.btn
+{
+	color: #969696;
+}
+.plus-btn.btn:hover, .min-btn.btn:hover
+{
+	color: wheat;
+	cursor: pointer;
+}

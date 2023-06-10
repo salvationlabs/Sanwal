@@ -109,6 +109,20 @@
 	box-shadow: var(--box-shadow);
 }
 
+.navbar .container-fluid .btn
+{
+	color: wheat;
+	border-radius: 50px;
+	border: 1px wheat solid;
+}
+
+.navbar .container-fluid .btn:hover
+{
+	color: black;
+	background: wheat;
+	border: 1px wheat solid;
+}
+
 .seperator
 {
 	display: inline-flex;
@@ -134,11 +148,12 @@
 
 .nav-item .nav-link.active{	color: wheat;	}
 
-.navbar-toggler
+.navbar-toggler[aria-expanded="true"], .navbar-toggler[aria-expanded="false"]
 {
 	border: none;
 	outline: none;
 	display: flex;
+	background: none;
 	position: relative;
 	align-items: center;
 	color: transparent;
@@ -158,7 +173,7 @@
 	background-color: wheat;
 	position: relative;
 	transform: translateY(-7px);
-	transition: 0.2s;
+	transition: 0.3s;
 }
 
 .navbar-toggler::after
@@ -169,14 +184,18 @@
 	background-color: wheat;
 	position: absolute;
 	transform: translateY(7px);
-	transition: 0.2s;
+	transition: 0.3s;
 }
-
-.navbar-toggler[aria-expanded="true"]{	animation: toggler 5s infinite ease-in-out;	}
 
 .navbar-toggler[aria-expanded="true"]::before{	transform: rotate(45deg);	}
 
 .navbar-toggler[aria-expanded="true"]::after{	transform: rotate(-45deg);	}
+
+
+.navbar-toggler[aria-expanded="true"] + div + .btn
+{
+	margin: auto;
+}
 
 /* //////////////////////////////////////////	FOOTER	/////////////////////////////////////////// */
 footer

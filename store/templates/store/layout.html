@@ -43,15 +43,12 @@
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				</button>
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav m-auto mb-2 mb-lg-0">
-						<!-- <li class="nav-item">
-							<a href="{% url 'store:index' %}" {% if request.path == "/" %}class="nav-link active text-center"{% endif %} class="nav-link text-center"><div class="seperator"></div>HOME</a>
-						</li> -->
+					<ul class="navbar-nav m-auto mb-2 mb-lg-0 text-center">
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 								<div class="seperator"></div>MATERIALS
 							</a>
-							<ul class="dropdown-menu  dropdown-menu-dark">
+							<ul class="dropdown-menu  dropdown-menu-dark m-0 p-0 w-25 m-auto">
 								{% for m in materials %}
 									<li><a class="dropdown-item" href="{{ m.get_absolute_url }}">{{ m.name | upper }} </a></li>
 								{% endfor %}
@@ -59,44 +56,43 @@
 						</li>
 						{% for c in categories %}
 							{% if c.subcategory.all %}
-							<li class="nav-item btn-group">
+							<li class="nav-item btn-group m-auto">
 								<a class="nav-link pe-0" href="{{ c.get_absolute_url }}" role="button">
 									<div class="seperator"></div>{{ c.name | upper}}
 								</a>
-								<a class="nav-link dropdown-toggle dropdown-toggle-split" href="{{ c.get_absolute_url }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								<a class="nav-link dropdown-toggle dropdown-toggle-split ms-2" href="{{ c.get_absolute_url }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 									<span class="visually-hidden">Toggle Dropdown</span>
 								</a>
 								<ul class="dropdown-menu dropdown-menu-dark">
 									{% for subc in c.subcategory.all %}
 										<li><a class="dropdown-item" href="{{ subc.get_absolute_url }}">{{ subc.name | upper}}</a></li>
 									{% endfor %}
-									<!-- <li><hr class="dropdown-divider"></li> -->
 								</ul>
 							</li>
 							{% else %}
 							<li class="nav-item">
-								<a href="{{ c.get_absolute_url }}" class="nav-link text-center"><div class="seperator"></div>{{ c.name | upper }}</a>
+								<a href="{{ c.get_absolute_url }}" class="nav-link "><div class="seperator"></div>{{ c.name | upper }}</a>
 							</li>
 							{% endif %}
 						{% endfor %}
 						{% if user.is_authenticated %}
 							{% if user.is_staff %}
 							<li class="nav-item">
-								<a href="{% url 'store:create-product' %}" {% if "/create-product" in request.path %}class="nav-link active text-center"{% endif %} class="nav-link text-center"><div class="seperator"></div>CREATE POST</a>
+								<a href="{% url 'store:create-product' %}" {% if "/create-product" in request.path %}class="nav-link active "{% endif %} class="nav-link "><div class="seperator"></div>CREATE POST</a>
 							</li>
 							<li class="nav-item">
-								<a href="{% url 'admin:index' %}" class="nav-link text-center"><div class="seperator"></div>ADMIN</a>
+								<a href="{% url 'admin:index' %}" class="nav-link "><div class="seperator"></div>ADMIN</a>
 							</li>
 							{% endif %}
 							<li class="nav-item">
-								<a href="{% url 'store:logout' %}" {% if "/logout" in request.path %}class="nav-link active text-center"{% endif %} class="nav-link text-center"><div class="seperator"></div>LOGOUT</a>
+								<a href="{% url 'store:logout' %}" {% if "/logout" in request.path %}class="nav-link active "{% endif %} class="nav-link "><div class="seperator"></div>LOGOUT</a>
 							</li>
 						{% else %}
 							<li class="nav-item">
-								<a href="{% url 'store:login' %}" class="nav-link text-center"><div class="seperator"></div>LOGIN</a>
+								<a href="{% url 'store:login' %}" class="nav-link "><div class="seperator"></div>LOGIN</a>
 							</li>
 							<li class="nav-item">
-								<a href="{% url 'store:register' %}" class="nav-link text-center"><div class="seperator"></div>SIGN UP</a>
+								<a href="{% url 'store:register' %}" class="nav-link "><div class="seperator"></div>SIGN UP</a>
 							</li>
 						{% endif %}
 					</ul>
@@ -105,6 +101,18 @@
 						<button class="btn btn-outline-success" type="submit">Search</button>
 					</form> -->
 				</div>
+				<a href="{% url 'basket:basket_summary' %}" class="btn" role="button" type="button">
+					Basket <span class="position-relative">
+						<ion-icon name="bag-handle-outline"></ion-icon>
+						{% with total_qty=basket|length %}
+							{% if total_qty > 0 %}
+							<span class="basket-qty d-inline-flex">{{ total_qty }}</span>
+							{% else %}
+							<span class="basket-qty d-inline-flex"></span>
+							{% endif %}
+						{% endwith %}
+					</span>
+				</a>
 			</div>
 		</nav>
 					<!-- Bottom bar Navigation -->

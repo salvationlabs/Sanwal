@@ -31,18 +31,59 @@
 			  <div class="col-md-8">
 				<div class="card-body">
 					<h2 class="card-title text-center">{{ object.title | title }} </h2>
-					<p class="card-text"><strong>Description</strong><br>{{ object.description | linebreaksbr }}</p>
+					<p class="card-text">
 					{% if object.discount_price %}
-						<p class="card-text"><del>Rs. {{ object.price }}</del> Rs. {{ object.discount_price }}</p>
+						<del>Rs. {{ object.price }}</del> Rs. {{ object.discount_price }}
 					{% else %}
-						<p class="card-text"><strong>Price: </strong>Rs. {{ object.price }}</p>
+						<strong>Price: </strong>Rs. {{ object.price }}
 					{% endif %}
-					<a href="{{ object.get_add_to_cart_url }}" class="btn btn-primary">Add to Cart</a>
-					<a href="{{ object.get_remove_from_cart_url }}" class="btn btn-dark">Remove from Cart</a>
+					<span class="ms-lg-5 float-end">
+						<button class="plus-btn btn p-0" type="button"><ion-icon name="add-outline"></ion-icon></button>
+						<span class="quantity">1</span>
+						<button type="button" class="min-btn btn p-0"><ion-icon name="remove-outline"></ion-icon></button>
+						<button class="btn btn-primary btn-sm ms-lg-3" type="button" id="add-to-basket" data-index="{{  product.id }}">Throw to Basket</button>
+					</span>
+					</p>
+					<hr class="mt-5">
+					<p class="card-text mt-3"><strong>Description</strong><br>{{ object.description | linebreaksbr }}</p>
 					<p class="card-text text-center"><small class="text-muted">Listed {{ object.time_created | timesince }} ago</small></p>
 				</div>
 			  </div>
 			</div>
 		  </div>
 	</article>
+
+	<script>
+		// Quantity Change
+		$('.plus-btn').on('click', function (e) {
+			$('.quantity').text(parseInt($('.quantity').text()) + 1);
+		})
+		$('.min-btn').on('click', function (e) {
+			let quantity = parseInt($('.quantity').text());
+			if(quantity > 1)
+			{
+				$('.quantity').text(quantity - 1);
+			}
+		})
+		// Add to Basket
+		$(document).on('click', '#add-to-basket', function (e) {
+			e.preventDefault();
+			var csrfToken = "{{ csrf_token }}";
+			$.ajax({
+				type: "POST",
+				url: "{% url 'basket:basket_update' %}",
+				data: {
+					productId: $('#add-to-basket').data('index'),
+					product_qty: parseInt($('.quantity').text()),
+					csrfmiddlewaretoken: csrfToken,
+					action: 'add'
+				},
+				success: function (response) {
+					$('.quantity').text(1);
+					$('.basket-qty').text(response.qty);
+				},
+				error: function (xhr, errmessage, err) {}
+			});
+		})
+	</script>
 {% endblock %}

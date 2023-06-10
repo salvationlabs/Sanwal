@@ -4,7 +4,6 @@ document.onreadystatechange = function (e) {
         {
             $('#carouselExampleIndicators').height(window.innerHeight - 40);
             $('.d-block').height(window.innerHeight - 40);
-            console.log();
         }
     }
 }
