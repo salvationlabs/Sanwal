@@ -1,0 +1,51 @@
+{% extends 'store/layout.html' %}
+{% load static %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+	<div class="row no-gutter">
+		<div class="col-md-12">
+			<div class="d-flex align-items-center py-4 pb-5">
+				<div class="container">
+					<div class="row">
+						<div class="auth_form col-12 col-lg-7 mx-auto">
+							<form action="" class="rounded mx-auto account-form p-4 col-lg-10" method="post">
+								{% csrf_token %}
+								<h3 class="mb-2">Create an Account</h3>
+								<p class="mb-4 text-muted">It's free and only takes a minute.</p>
+
+								{% if form.errors %}
+								<p class="text-danger">Please correct the following errors:</p>
+								{% for field in form %}
+								{% if field.errors %}
+								<div class="alert alert-danger alert-dismissible fade show" role="alert">
+									{{ field.label }}: {{ field.errors | striptags }}
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+								</div>
+								{% endif %}
+								{% endfor %}
+								{% endif %}
+
+								<label for="">{{ form.username.label }}<span class="text-muted small ms-1">(Required)</span></label>
+								{{ form.username }}
+								<label for="">{{ form.email.label }}<span class="text-muted small ms-1">(Required)</span></label>
+								{{ form.email }}
+								<label for="">{{ form.password.label }}<span class="text-muted small"></span></label>
+								<small class="form-text text-muted mb-4 small">At least 8 characters and 1 digit</small>
+								{{ form.password }}
+								<label for="">{{ form.password2.label }}<span class="text-muted small ms-1">(Required)</span></label>
+								{{ form.password2 }}
+								<input class="btn w-100" type="submit" value="Register">
+								<p class="text-center"><a href="{% url 'account:login' %}">Already have an account?</a></p>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

@@ -1,9 +1,8 @@
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
-from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
 from django.shortcuts import get_object_or_404, redirect, render
@@ -11,7 +10,8 @@ from django.utils import timezone
 from django.views.generic import DetailView, ListView, View
 
 from .forms import CheckoutForm, ProductForm
-from .models import BillingAddress, Images, Order, OrderItem, Product
+from .models import Images, Order, OrderItem, Product
+from account.models import User, BillingAddress
 
 
 # Create your views here.
@@ -232,53 +232,3 @@ def create_product(request):
     return render(request, 'store/createProduct.html', {
         'product_form': product_form,
     })
-
-
-def login_view(request):
-    if request.method == "POST":
-
-        # Attempt to sign user in
-        username = request.POST["username"]
-        password = request.POST["password"]
-        user = authenticate(request, username=username, password=password)
-
-        # Check if authentication successful
-        if user is not None:
-            login(request, user)
-            messages.success(request, f'Welcome, {username}')
-            return redirect("store:index")
-        else:
-            messages.warning(request, "Invalid username and/or password.")
-            # return redirect('')
-    return render(request, "store/login.html")
-
-
-def logout_view(request):
-    logout(request)
-    messages.success(request, 'You have successfully logged out.')
-    return redirect("store:index")
-
-
-def register(request):
-    if request.method == "POST":
-        username = request.POST["username"]
-        email = request.POST["email"]
-
-        # Ensure password matches confirmation
-        password = request.POST["password"]
-        confirmation = request.POST["confirmation"]
-        if password != confirmation:
-            messages.warning(request, "Passwords must match.")
-            return render(request, "store/register.html")
-
-        # Attempt to create new user
-        try:
-            user = User.objects.create_user(username, email, password)
-            user.save()
-        except IntegrityError:
-            messages.error(request, "Username already taken.")
-            return render(request, "store/register.html")
-        login(request, user)
-        return redirect("store:index")
-    else:
-        return render(request, "store/register.html")

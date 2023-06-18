@@ -28,33 +28,23 @@
 }
 
 						/* MAIN */
-main
+/* main
 {
 	min-height: 22.1rem;
-}
+} */
 
 
 						/* Login and Register Form */
-.login, .register, .checkout{
+.auth_form, .checkout{
 	color: wheat;
-	display: block;
-	align-items: center;
-	justify-content: center;
-	width: 40%;
-	/* height: 83.5vh; */
 	box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05),
 	inset 5px 5px 15px rgba(0, 0, 0, 0.5);
 	background-color: #141414;
 	border-radius: 20px;
-	padding: 25px 20px;
-	margin: auto;
-	margin-top: 5%;
-	box-sizing: border-box;
-	overflow: auto;
+	padding-top: 20px;
 }
 
-.login input, .login input:focus, .login textarea, .login textarea:focus,
-.register input, .register input:focus, .register textarea, .register textarea:focus,
+.auth_form input, .auth_form input:focus, .auth_form textarea, .auth_form textarea:focus,
 .checkout input[type="text"], .checkout input[type="text"]:focus, .checkout textarea, .checkout textarea:focus, .checkout input[type="submit"], .checkout .custom_select
 {
 	background: #141414;
@@ -63,26 +53,32 @@ main
 	border-radius: 11px;
 	padding: 12px 20px;
 	color: #fff;
-	margin: 20px auto;
+	margin: 10px auto;
+	margin-bottom: 25px;
 	box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05),
 	inset 5px 5px 15px rgba(0, 0, 0, 0.5);
+	/* width: 100%; */
 }
 
-.login input[type="submit"],
-.register input[type="submit"],
+.auth_form input[type="submit"],
 .checkout input[type="submit"]
 {
 	width: 40%;
 	color: rgb(136, 133, 133);
 	background: wheat;
-	/* background: wheat; */
 }
 
-.login input[type="submit"]:hover,
-.register input[type="submit"]:hover,
-.checkout input[type="submit"]:hover
+.auth_form input[type="submit"]:hover,
+.checkout input[type="submit"]:hover,
+.auth_form input[type="submit"].btn-danger:hover
 {
 	background: inherit;
+}
+
+.auth_form input[type="submit"].btn-danger
+{
+	background: red;
+	color: #fff;
 }
 
 .checkout input[type="text"], .checkout input[type="text"]:focus, .checkout textarea, .checkout textarea:focus

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django_countries',
     # INTERNAL APPS
     'store',
+    'account',
 ]
 
 MIDDLEWARE = [
@@ -131,6 +132,12 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# LOGIN_REDIRECT_URL = "index"
-
+LOGIN_REDIRECT_URL = "/"
+AUTH_USER_MODEL = 'account.User'
 LOGIN_URL = '/login'
+
+PASSWORD_RESET_TIMEOUT_DAYS = 2
+
+# Email Backend
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

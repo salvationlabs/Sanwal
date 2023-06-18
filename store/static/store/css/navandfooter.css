@@ -97,7 +97,7 @@
 }
 
 /* //////////////////////////////////////////	Top Bar Nav	/////////////////////////////////////////// */
-.navbar .container-fluid .navbar-nav .nav-item
+.navbar .container-fluid .nav-item
 {
 	font-size: larger;
 }
@@ -123,7 +123,7 @@
 	border: 1px wheat solid;
 }
 
-.seperator
+/* .seperator
 {
 	display: inline-flex;
 	position: relative;
@@ -134,19 +134,19 @@
 	margin-right: 5px;
 	transform: rotate(45deg);
 	transition: 0.2s ease-in-out;
-}
+} */
 
-.nav-item:hover .seperator, .mail:hover .seperator
+/* .nav-item:hover .seperator
 {
 	background: wheat;
 	transform: rotate(-45deg);
-}
+} */
 
-.nav-item:hover .nav-link, .mail:hover{	text-decoration: solid line-through wheat;	}
+.nav-item:hover .nav-link{	color:  wheat;	}
 
-.nav-link.active .seperator{	background: wheat;	}
+/* .nav-link.active .seperator{	background: wheat;	} */
 
-.nav-item .nav-link.active{	color: wheat;	}
+.nav-item .nav-link.active{	color: #000;}
 
 .navbar-toggler[aria-expanded="true"], .navbar-toggler[aria-expanded="false"]
 {

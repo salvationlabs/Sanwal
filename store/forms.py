@@ -1,9 +1,9 @@
 from django import forms
-from django.forms import ModelForm
 from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
 
 from .models import Product
+
 
 PAYMENT_OPTIONS = (
 	('C', 'Cash'),
@@ -30,7 +30,7 @@ class CheckoutForm(forms.Form):
 	payment_option = forms.ChoiceField(widget=forms.RadioSelect, choices=PAYMENT_OPTIONS, initial='C')
 
 
-class ProductForm (ModelForm):
+class ProductForm (forms.ModelForm):
 	class Meta:
 		model = Product
 		fields = ('__all__')
