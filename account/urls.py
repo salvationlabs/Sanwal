@@ -10,7 +10,7 @@ app_name = 'account'
 urlpatterns = [
 	# login
 	path("login", LoginView.as_view(
-		template_name='account/registration/login.html', 
+		template_name='account/user/login.html', 
 		form_class=LoginForm
 	), name="login"),
 	# logout
@@ -21,21 +21,27 @@ urlpatterns = [
 	path('activate/<slug:uid64>/<slug:token>/', views.account_activate, name='activate'),
 	# password reset
 	path('password_reset', PasswordResetView.as_view(
-		template_name='account/user/password_reset.html',
+		template_name='account/pwd_reset/password_reset.html',
 		success_url='password_reset/password_reset_email_confirm/',
-		email_template_name='account/user/password_reset_email.html',
+		email_template_name='account/pwd_reset/password_reset_email.html',
 		form_class=PwdResetForm
 		), name='pwd_reset'),
+	# password reset email confirm
+	path('password_reset/password_reset_email_confirm/', LoginView.as_view(
+		template_name='account/user/login.html', 
+		form_class=LoginForm
+		), name='password_reset_done'),
 	# password reset confirm
 	path('password_reset_confirm/<slug:uidb64>/<slug:token>/', PasswordResetConfirmView.as_view(
-		template_name='account/user/password_reset_confirm.html',
+		template_name='account/pwd_reset/password_reset_confirm.html',
 		success_url='password_reset_complete/',
 		form_class=PwdResetConfirmForm
 		), name='pwd_reset_confirm'),
-	# password reset email confirm
-	path('password_reset/password_reset_email_confirm/', TemplateView.as_view(template_name='account/user/reset_status.html'), name='password_reset_done'),
 	# password reset complete
-	path('password_reset_confirm/MTA/set-password/password_reset_complete/', TemplateView.as_view(template_name='account/user/reset_status.html'), name='password_reset_complete'),
+	path('password_reset_confirm/MTA/set-password/password_reset_complete/', LoginView.as_view(
+		template_name='account/user/login.html', 
+		form_class=LoginForm
+		), name='password_reset_complete'),
 
 	# user dashboard
 	path('dashboard/', views.dashboard, name='dashboard'),

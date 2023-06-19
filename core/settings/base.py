@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     # INTERNAL APPS
     'store',
     'account',
+    'payment',
 ]
 
 MIDDLEWARE = [
