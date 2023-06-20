@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 import os
 from pathlib import Path
-
+from django.urls import reverse_lazy
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'store',
     'account',
     'payment',
+    'order',
 ]
 
 MIDDLEWARE = [
@@ -73,6 +74,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'store.context_processors.navlist',
                 'basket.context_processors.basket',
+                'payment.context_processors.billing_session',
             ],
         },
     },
@@ -133,12 +135,19 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = reverse_lazy('account:index')
 AUTH_USER_MODEL = 'account.User'
-LOGIN_URL = '/login'
+LOGIN_URL = '/account/login'
 
 PASSWORD_RESET_TIMEOUT_DAYS = 2
 
 # Email Backend
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# SMTP Configuration for Gmail
+EMAIL_HOST = 'smtp.gmail.com'  # or the SMTP server provided by your email service
+EMAIL_PORT = 587  # or the appropriate port for your email service
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')  # your Gmail or email service username
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # your Gmail or email service password
+EMAIL_USE_TLS = True  # or False if your email service does not support TLS/SSL
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

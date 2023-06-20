@@ -26,6 +26,7 @@ class Basket():
 		if product_id not in self.basket:
 			self.basket[product_id] = {
 				'price': float(product.price),
+				'discount_price': float(product.discount_price),
 				'qty': int(qty)
 			}
 		else:
@@ -74,8 +75,18 @@ class Basket():
 		"""
 		return sum(item['qty'] for item in self.basket.values())
 
+	def get_discount_price(self):
+		return float(self.get_total_price()) - float(self.get_discount_total_price())
+
 	def get_total_price(self):
 		return sum(item['price'] * item['qty'] for item in self.basket.values())
 
+	def get_discount_total_price(self):
+		return sum(item['discount_price'] * item['qty'] for item in self.basket.values())
+
 	def save(self):
 		self.session.modified = True
+
+	def clear(self):
+		del self.session['skey']
+		self.save()

@@ -10,9 +10,7 @@
 	color: whitesmoke;
 	scroll-behavior: smooth;
 	background-color: rgb(24, 22, 17);
-	/* background-color: #141414; */
 	font-family: 'Viga', sans-serif;
-	/* font-family: 'Red Hat Text', sans-serif; */
 }
 /* //////////////////////////////////	SCROLL BAR	////////////////////////////////////////////// */
 ::-webkit-scrollbar
@@ -28,14 +26,10 @@
 }
 
 						/* MAIN */
-/* main
-{
-	min-height: 22.1rem;
-} */
 
 
 						/* Login and Register Form */
-.auth_form, .checkout{
+.auth_form{
 	color: wheat;
 	box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05),
 	inset 5px 5px 15px rgba(0, 0, 0, 0.5);
@@ -44,8 +38,7 @@
 	padding-top: 20px;
 }
 
-.auth_form input, .auth_form input:focus, .auth_form textarea, .auth_form textarea:focus,
-.checkout input[type="text"], .checkout input[type="text"]:focus, .checkout textarea, .checkout textarea:focus, .checkout input[type="submit"], .checkout .custom_select
+.auth_form input, .auth_form .form-select, .auth_form input:focus, .auth_form textarea, .auth_form textarea:focus
 {
 	background: #141414;
 	border: none;
@@ -57,11 +50,35 @@
 	margin-bottom: 25px;
 	box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05),
 	inset 5px 5px 15px rgba(0, 0, 0, 0.5);
-	/* width: 100%; */
 }
 
-.auth_form input[type="submit"],
-.checkout input[type="submit"]
+/*------------- Radio button for payment input -----------*/
+.auth_form input#id_payment_method_0
+{
+	display: none;
+}
+
+.auth_form #id_payment_method label::before {
+	content: '';
+	display: inline-block;
+	background-color: #ddd;
+	padding: 6px;
+	cursor: pointer;
+	border-radius: 50%;
+  }
+  
+.auth_form #id_payment_method label:has(> input#id_payment_method_0:checked)::before {
+	background: none;
+	padding: 3px;
+	border: 3px solid wheat;
+}
+
+.auth_form .form-select, .auth_form #id_payment_method label
+{
+	cursor: pointer;
+}
+
+.auth_form input[type="submit"]
 {
 	width: 40%;
 	color: rgb(136, 133, 133);
@@ -69,7 +86,6 @@
 }
 
 .auth_form input[type="submit"]:hover,
-.checkout input[type="submit"]:hover,
 .auth_form input[type="submit"].btn-danger:hover
 {
 	background: inherit;
@@ -81,15 +97,54 @@
 	color: #fff;
 }
 
-.checkout input[type="text"], .checkout input[type="text"]:focus, .checkout textarea, .checkout textarea:focus
+.btn.basket
 {
-	margin: auto;
+	color: wheat;
+	border-radius: 10px;
+	border: 1px wheat solid;
 }
 
-.country-select-flag
+.btn.basket:hover, .btn.basket.filled
 {
-	display: none;
+	color: black;
+	background: wheat;
+	border: 1px wheat solid;
+	/* box-shadow: 0 0 5px wheat; */
 }
+
+.btn.basket.filled:hover
+{
+	/* box-shadow: none; */
+	background: rgba(245, 222, 179, 0.9);
+}
+
+/*------------------ Checkout Cart Form ----------------*/
+.checkout-list li
+{
+	color: white;
+	background: none;
+	border-bottom: 1px rgba(245, 222, 179, 0.05) solid;
+	/* background: #141414; */
+	/* margin: 5px; */
+}
+
+.checkout-list:nth-last-child() li
+{
+	background: wheat;
+	border-bottom: none;
+}
+
+.checkout-list
+{
+	/* padding: 10px; */
+	box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05),
+	inset 5px 5px 15px rgba(0, 0, 0, 0.5);
+	background: #141414;
+	border-radius: 20px;
+}
+
+
+
                         /* Pagination */
 .pagination .page-item a
 {

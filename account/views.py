@@ -1,8 +1,11 @@
 from django.contrib import messages
 from django.shortcuts import (render, redirect)
 from django.http import HttpResponse
+from django.core.exceptions import ObjectDoesNotExist
+from django.urls import reverse
 from django.template.loader import render_to_string
 from django.contrib.auth import login, logout
+from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import (force_bytes, force_str)
@@ -46,6 +49,44 @@ def delete_user(request):
 	return redirect('account:delete_confirm')
 
 
+class CustomLoginView(LoginView):
+	def form_valid(self, form):
+		print('form validation')
+		user = form.get_user()
+		# Check if the user is active
+		if not user.is_active:
+			# Resend verification email to the user
+			# Setup email
+			current_site = get_current_site(self.request)
+			subject = 'Activate your Account'
+			# user = self.request.user
+			message = render_to_string('account/registration/account_activation_email.html', {
+				'user': user,
+				'domain': current_site.domain,
+				'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+				'token': account_activation_token.make_token(user),
+			})
+			user.send_verification_email(subject=subject, message=message)
+			# Add a message to inform the user about the email resent
+			messages.info(request, 'A verification email has been resent. Please check your email and activate your account.')
+			self.user.send_verification_email(self.request.user)
+			
+			
+			# Redirect the user to a page indicating that the verification email has been resent
+			return redirect('account:login')
+		
+		return super().form_valid(form)
+
+	def get_success_url(self):
+		# Get the value of the 'next' parameter from the request's GET parameters
+		next_url = self.request.GET.get('next')
+
+		if next_url:
+			return next_url
+		else:
+			return reverse('store:index')
+
+
 def register(request):
 	if request.user.is_authenticated:
 		return redirect('/')
@@ -57,6 +98,7 @@ def register(request):
 			user.email = registerForm.cleaned_data['email']
 			user.set_password(registerForm.cleaned_data['password'])
 			user.is_active = False
+			user.is_verified = False
 			user.save()
 
 			# Setup email
@@ -68,8 +110,9 @@ def register(request):
 				'uid': urlsafe_base64_encode(force_bytes(user.pk)),
 				'token': account_activation_token.make_token(user),
 			})
-			user.email_user(subject=subject, message=message)
-			return HttpResponse('registered successfully and activation sent')
+			user.send_verification_email(subject=subject, message=message)
+			messages.success(request, 'Your account has been created successfully. Please check your mail for account verification')
+			return redirect('store:index')
 
 	else:
 		registerForm = RegistrationForm()
@@ -86,11 +129,15 @@ def account_activate(request, uid64, token):
 		pass
 	if user is not None and account_activation_token.check_token(user, token):
 		user.is_active = True
+		user.is_verified = True
 		user.save()
+		messages.success(request, 'Your account has been verified.')
 		login(request, user)
 		return redirect('account:dashboard')
 	else:
-		return render(request, 'account/registration/activation_invalid.html')
+		messages.error(request, 'Invalid User/token')
+		return redirect('account:login')
+		# return render(request, 'account/registration/activation_invalid.html')
 
 
 def logout_view(request):

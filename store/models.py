@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.shortcuts import reverse
 from django.utils.safestring import mark_safe
+from django.utils.text import slugify
 from PIL import Image as PillowImage
 
 
@@ -92,20 +93,21 @@ class Product (models.Model):
 			'slug': self.slug
 		})
 
-	# def save (self, *args, **kwargs):
-	# 	value = self.title.replace(" ", "-")
-	# 	self.slug = slugify(value, allow_unicode=True)
-	# 	super().save(*args, **kwargs)
+	def save (self, *args, **kwargs):
+		if self.slug == '':
+			value = self.title.replace(" ", "-")
+			self.slug = slugify(value, allow_unicode=True)
+		super().save(*args, **kwargs)
 
-	def get_add_to_cart_url(self):
-		return reverse('store:add-to-cart', kwargs={
-			'slug': self.slug
-		})
+	# def get_add_to_cart_url(self):
+	# 	return reverse('order:add-to-cart', kwargs={
+	# 		'slug': self.slug
+	# 	})
 
-	def get_remove_from_cart_url(self):
-		return reverse('store:remove-from-cart', kwargs={
-			'slug': self.slug
-		})
+	# def get_remove_from_cart_url(self):
+	# 	return reverse('order:remove-from-cart', kwargs={
+	# 		'slug': self.slug
+	# 	})
 
 
 class Images (models.Model):
@@ -135,45 +137,3 @@ class Images (models.Model):
 				output_size = (500, 500)
 				img.thumbnail(output_size)  # resize image
 				img.save(self.image.path)  # save it again and override the larger image
-
-
-class OrderItem (models.Model):
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-	ordered = models.BooleanField(default=False)
-	item = models.ForeignKey(Product, on_delete=models.CASCADE)
-	quantity = models.IntegerField(default=1)
-
-	def __str__(self):
-		return f"{self.quantity} of {self.item.title}"
-
-	def get_total_item_price(self):
-		return self.quantity * self.item.price
-
-	def get_total_discount_price(self):
-		return self.quantity * self.item.discount_price
-
-	def get_amount_saved(self):
-		return self.get_total_item_price() - self.get_total_discount_price()
-
-	def get_final_price(self):
-		if self.item.discount_price:
-			return self.get_total_discount_price()
-		return self.get_total_item_price()
-
-
-class Order (models.Model):
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-	items = models.ManyToManyField(OrderItem)
-	start_date = models.DateTimeField(auto_now_add=True)
-	ordered_date = models.DateTimeField()
-	ordered = models.BooleanField(default=False)
-	# billing_address = models.ForeignKey('BillingAddress', on_delete=models.SET_NULL, blank=True, null=True)
-
-	def __str__(self):
-		return self.user.username
-
-	def get_total(self):
-		total = 0
-		for order_item in self.items.all():
-			total += order_item.get_final_price()
-		return total

@@ -59,13 +59,15 @@
 							{% endif %}
 						</div>
 						<div class="card-body text-center">
-						  <h5 class="card-title">{{ item.title | title }} </h5>
-						  <!-- <p class="card-text">{{ item.description | truncatechars:100 }}</p> -->
-						  {% if item.discount_price %}
-						  <a href="{{ item.get_add_to_cart_url }}" class="btn"><del style="text-decoration-color: red;">Rs. {{ item.price }}</del> Rs. {{ item.discount_price }}</a>
-						  {% else %}
-						  <a href="{{ item.get_add_to_cart_url }}" class="btn">Rs. {{ item.price }}</a>
-						  {% endif %}
+							<h5 class="card-title">{{ item.title | title }} </h5>
+							<!-- <p class="card-text">{{ item.description | truncatechars:100 }}</p> -->
+							<a href="{{ item.get_absolute_url }}" class="btn">
+								{% if item.discount_price %}
+								<del style="text-decoration-color: red;">Rs. {{ item.price }}</del> Rs. {{ item.discount_price }}
+								{% else %}
+								Rs. {{ item.price }}
+								{% endif %}
+							</a>
 						</div>
 					</a>
 				</div>

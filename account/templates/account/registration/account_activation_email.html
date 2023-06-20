@@ -1,8 +1,32 @@
 {% autoescape off %}
-Hi {{ user.username }}
+<h1>Hi {{ user.username }}</h1>
 
-Your account has been successfully created. Please click below link to activate your account
+<p>Your account has been successfully created. Please click below link to activate your account</p>
 
-<a href="http://{{ domain }}{% url 'account:activate' uid64=uid token=token %}" class="btn btn-primary" type="button" role="button">Activate</a>
+<button type="button" role="button"><a href="http://{{ domain }}{% url 'account:activate' uid64=uid token=token %}">Activate</a></button>
 
 {% endautoescape %}
+<style>
+	h1
+	{
+		width: 100%;
+		padding: 20px;
+		background: wheat;
+		text-align: center;
+		font-size: 25px;
+	}
+	button
+	{
+		border: 1px wheat solid;
+		background: none;
+		border-radius: 50px;
+	}
+	button:hover
+	{
+		background: wheat;
+	}
+	a{
+		text-decoration: none;
+		color: black;
+	}
+</style>

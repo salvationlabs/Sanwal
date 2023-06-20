@@ -6,6 +6,9 @@
 {% block body %}
 	<div class="container pt-5">
 		<h1 class="h5">Shopping Basket</h1>
+		{% if not basket %}
+		<p class="mb-4 text-muted">Your Basket is empty.</p>
+		{% endif %}
 		{% for item in basket %}
 		{% with product=item.product %}
 		<div data-index="{{ product.id }}" class="row mb-4 border product-item">
@@ -40,7 +43,11 @@
 		{% endwith %}
 		{% endfor %}
 		<div class="col-12 text-end">
-			<div class="h6 fw-blod">Sub Total: Rs. <span id="sub-total">{{ basket.get_total_price }}</span></div>
+			<div class="h6 text-muted">Sub Total: Rs. <span id="sub-total" class="text-success">{{ basket.get_total_price }}</span></div>
+			<a href="{% url 'store:index' %}" {% if basket %} class="btn basket filled mb-5" {% endif %} class="btn basket mb-5">Continue Shopping</a>
+			{% if basket %}
+			<a href="{% url 'payment:payment' %}" class="btn basket mb-5">Proceed to Checkout</a>
+			{% endif %}
 		</div>
 	</div>
 
@@ -96,6 +103,9 @@
 				success: function (response) {
 					if (response.qty == '0') {
 						$('.basket-qty').text('');
+						$('.btn.basket:nth-of-type(2)').remove();
+						$('.btn.basket:nth-of-type(1)').removeClass('filled');
+						$('.container > h1').after('<p class="mb-4 text-muted">Your Basket is empty.</p>');
 					}
 					else
 					{

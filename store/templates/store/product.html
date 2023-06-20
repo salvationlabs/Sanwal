@@ -31,20 +31,22 @@
 			  <div class="col-md-8">
 				<div class="card-body">
 					<h2 class="card-title text-center">{{ object.title | title }} </h2>
-					<p class="card-text">
-					{% if object.discount_price %}
-						<del>Rs. {{ object.price }}</del> Rs. {{ object.discount_price }}
-					{% else %}
-						<strong>Price: </strong>Rs. {{ object.price }}
-					{% endif %}
-					<span class="ms-lg-5 float-end">
+					<div class="row card-text">
+					<div class="col-lg-7">
+						{% if object.discount_price %}
+							<del style="text-decoration-color: red;">Rs. {{ object.price }}</del> Rs. {{ object.discount_price }}
+						{% else %}
+							<strong>Price: </strong>Rs. {{ object.price }}
+						{% endif %}
+					</div>
+					<div class="col">
 						<button class="plus-btn btn p-0" type="button"><ion-icon name="add-outline"></ion-icon></button>
 						<span class="quantity">1</span>
 						<button type="button" class="min-btn btn p-0"><ion-icon name="remove-outline"></ion-icon></button>
 						<button class="btn btn-primary btn-sm ms-lg-3" type="button" id="add-to-basket" data-index="{{  product.id }}">Throw to Basket</button>
-					</span>
-					</p>
-					<hr class="mt-5">
+					</div>
+					</div>
+					<hr>
 					<p class="card-text mt-3"><strong>Description</strong><br>{{ object.description | linebreaksbr }}</p>
 					<p class="card-text text-center"><small class="text-muted">Listed {{ object.time_created | timesince }} ago</small></p>
 				</div>

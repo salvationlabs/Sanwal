@@ -1,17 +1,11 @@
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-# from django.contrib.auth.models import User
-from django.core.exceptions import ObjectDoesNotExist
-from django.db import IntegrityError
-from django.shortcuts import get_object_or_404, redirect, render
-from django.utils import timezone
+from django.shortcuts import redirect, render
 from django.views.generic import DetailView, ListView, View
 
-from .forms import CheckoutForm, ProductForm
-from .models import Images, Order, OrderItem, Product
-from account.models import User, BillingAddress
+from .forms import ProductForm
+from .models import Images, Product
+from account.models import User
 
 
 # Create your views here.
@@ -76,130 +70,6 @@ class ItemDetailView (DetailView):
     template_name = 'store/product.html'
 
 
-class OrderSummaryView (LoginRequiredMixin, View):
-    def get(self, *args, **kwargs):
-        try:
-            order = Order.objects.get(user=self.request.user, ordered=False)
-        except ObjectDoesNotExist:
-            messages.error(self.request, "You do not have an active order")
-            return redirect('/')
-        return render(self.request, 'store/order_summary.html', {
-            'object': order
-        })
-
-
-class CheckoutView (View):
-    def get(self, *args, **kargs):
-        # form
-        form = CheckoutForm()
-        return render(self.request, 'store/checkout.html', {
-            'checkoutForm': form
-        })
-
-    def post(self, *args, **kargs):
-        form = CheckoutForm(self.request.POST or None)
-        try:
-            order = Order.objects.get(user=self.request.user, ordered=False)
-            if form.is_valid():
-                billing_address = BillingAddress(
-                    user=self.request.user,
-                    street_address=form.cleaned_data.get('street_address'),
-                    appartment_address=form.cleaned_data.get('appartment_address'),
-                    country=form.cleaned_data.get('country'),
-                    zip_code=form.cleaned_data.get('zip_code')
-                )
-                billing_address.save()
-                order.billing_address = billing_address
-                order.save()
-                return redirect('store:checkout')
-            messages.error(self.request, 'Failed Checkout')
-            return redirect('store:checkout')
-        except ObjectDoesNotExist:
-            messages.error(self.request, 'You do not have an active order.')
-            return redirect('store:order-summary')
-
-
-class PaymentView (View):
-    def get(self, *args, **kargs):
-        return render(self.request, 'store/payment.html')
-
-
-@login_required
-def add_to_cart(request, slug):
-    item = get_object_or_404(Product, slug=slug)
-    order_item, created = OrderItem.objects.get_or_create(item=item, user=request.user, ordered=False)
-    order_qs = Order.objects.filter(user=request.user, ordered=False)
-    if order_qs.exists():
-        order = order_qs[0]
-        # check if the order item is in the order
-        if order.items.filter(item__slug=item.slug).exists():
-            order_item.quantity += 1
-            order_item.save()
-            messages.success(request, "This item quantity was updated.")
-        else:
-            messages.success(request, "This item was added to your cart.")
-            order.items.add(order_item)
-    else:
-        ordered_date = timezone.now()
-        order = Order.objects.create(user=request.user, ordered_date=ordered_date)
-        order.items.add(order_item)
-        messages.success(request, "This item was added to your cart.")
-    return redirect('store:order-summary')
-
-
-@login_required
-def remove_from_cart(request, slug):
-    item = get_object_or_404(Product, slug=slug)
-    order_qs = Order.objects.filter(user=request.user, ordered=False)
-    if order_qs.exists():
-        order = order_qs[0]
-        # check if the order item is in the order
-        if order.items.filter(item__slug=item.slug).exists():
-            order_item = OrderItem.objects.filter(item=item, user=request.user, ordered=False)[0]
-            order_item.quantity = 1
-            order_item.save()
-            order.items.remove(order_item)
-            messages.success(request, f"{order_item.item.title} item was removed from your cart.")
-        else:
-            # add a message saying the user doesn't have an order
-            messages.error(request, "This item was not in your cart.")
-            return redirect('store:product', slug=slug)
-
-    else:
-        # add a message saying the user doesn't have an order
-        messages.error(request, "You do not have an active order.")
-        return redirect('store:product', slug=slug)
-    return redirect('store:order-summary')
-
-
-@login_required
-def remove_single_item_from_cart(request, slug):
-    item = get_object_or_404(Product, slug=slug)
-    order_qs = Order.objects.filter(user=request.user, ordered=False)
-    if order_qs.exists():
-        order = order_qs[0]
-        # check if the order item is in the order
-        if order.items.filter(item__slug=item.slug).exists():
-            order_item = OrderItem.objects.filter(item=item, user=request.user, ordered=False)[0]
-            if order_item.quantity > 1:
-                order_item.quantity -= 1
-                order_item.save()
-                messages.success(request, f"{order_item.item.title} item quantity was updated.")
-            else:
-                order.items.remove(order_item)
-                messages.success(request, f"{order_item.item.title} item has been removed.")
-        else:
-            # add a message saying the user doesn't have an order
-            messages.error(request, "This item was not in your cart.")
-            return redirect('store:product', slug=slug)
-
-    else:
-        # add a message saying the user doesn't have an order
-        messages.error(request, "You do not have an active order.")
-        return redirect('store:product', slug=slug)
-    return redirect('store:order-summary')
-
-
 @staff_member_required
 def create_product(request):
     if request.method == "POST":
@@ -225,10 +95,10 @@ def create_product(request):
             print(product_form.errors)
             return render(
                 request, 'store/createProduct.html', {
-                    'product_form': product_form
+                    'form': product_form
                 })
 
     product_form = ProductForm()
     return render(request, 'store/createProduct.html', {
-        'product_form': product_form,
+        'form': product_form,
     })

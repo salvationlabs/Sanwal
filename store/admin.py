@@ -1,43 +1,41 @@
 from django.contrib import admin
 from django.utils.translation import gettext as _
 
-from .models import (Category, Images, Material, Order, OrderItem, Product,
-                     SubCategory)
+from .models import (Category, SubCategory, Material, Product, Images)
 
 # Register your models here.
 
 
-admin.site.register(OrderItem)
-admin.site.register(Order)
-
-
-# Category Admin Model
+# Category Model
 @admin.register(Category)
 class CategoryAdmin (admin.ModelAdmin):
 	list_display = ['name', 'slug']
 	prepopulated_fields = {'slug': ('name',)}
 
 
+# SubCategory Model
 @admin.register(SubCategory)
 class SubCategoryAdmin (admin.ModelAdmin):
 	list_display = ['name', 'category', 'slug']
 	prepopulated_fields = {'slug': ('name',)}
 
 
+# Material Model
 @admin.register(Material)
 class MaterialAdmin (admin.ModelAdmin):
 	list_display = ['name', 'slug']
 	prepopulated_fields = {'slug': ('name',)}
 
 
-# Image Model
+# Image Inline Model
 class ImageInline (admin.TabularInline):
 	model = Images
 	fk_name = 'item'
 	max_num = 5
 	verbose_name_plural = _('image')
 
-# Listing Model
+# Product Model
+@admin.register(Product)
 class ProductAdmin (admin.ModelAdmin):
 	inlines = [ImageInline]
 	list_display = ('title', 'price', 'slug', 'discount_price', 'in_stock', 'is_active', 'description', 'category', 'subcategory', 'material', 'time_created', 'updated')
@@ -57,7 +55,6 @@ class ProductAdmin (admin.ModelAdmin):
 	# 	messages.success(request, "Selected Record(s) Marked as Inactive Successfully !!")
 
 	# actions = ['make_active', 'make_inactive']
-admin.site.register(Product, ProductAdmin)
 
 class ImageAdmin (admin.ModelAdmin):
 	list_display = ('item', 'image_tag')
