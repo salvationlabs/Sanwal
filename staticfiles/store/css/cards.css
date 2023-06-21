@@ -1,0 +1,74 @@
+.products  .row
+{
+	align-items: center;
+	justify-content: center;
+	margin: auto;
+}
+
+.products .row .card
+{
+	border-radius: 20px;
+	/* border-bottom-left-radius: 80px;
+	border-bottom-right-radius: 80px; */
+	padding: 0;
+	background: none;
+	width: 18em;
+	margin: 15px 15px;
+	/* box-shadow: 12px 12px 12px rgb(15, 15, 15); */
+}
+
+.products .row .card a
+{
+	margin: 0;
+    color: white;
+	text-decoration: none;
+}
+
+.products .row .card:hover .card-title, .products .row .card .card-body:hover .card-title, .products .row .card .card-body:hover .card-text, .products .row .card:hover .card-text
+{
+	color: rgb(187, 187, 187);
+}
+
+.products .row .card .btn
+{
+	background: wheat;
+	color: black;
+	margin-top: 10px;
+}
+
+.products .row .card .btn:hover
+{
+	background: rgba(245, 222, 179, 0.8);
+}
+
+.products .row .card .imageContainer
+{
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+	border-bottom-left-radius: 60px;
+	border-bottom-right-radius: 60px;
+	overflow: hidden;
+}
+
+.products .row .card img
+{
+	transition: 0.5s all ease-in-out;
+}
+
+.products .row .card:hover img
+{
+	transform: scale(1.4); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
+.product .card
+{
+	background: none;
+	border: none;
+	margin: auto;
+	margin-top: 3%;
+}
+
+.product .card .card-body
+{
+	text-align: justify;
+}
