@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG =  False
-# DEBUG_PROPAGATE_EXCEPTIONS = True
+DEBUG_PROPAGATE_EXCEPTIONS = True
 
 # Application definition
 
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # EXTERNAL PACKAGES
+    'django_cleanup.apps.CleanupConfig',
     'django_countries',
     # INTERNAL APPS
     'store',
