@@ -140,6 +140,7 @@ class Images (models.Model):
 	# 			img.save(self.image.path)  # save it again and override the larger image
 
 	def save(self, *args, **kwargs):
+		super().save(*args, **kwargs)
 		if self.image:
 			img = PillowImage.open(self.image)
 			
@@ -152,4 +153,3 @@ class Images (models.Model):
 				with default_storage.open(self.image.name, 'wb') as f:
 					img.save('images/item_{0}/'.format(self.item.title), 'JPEG')
 		
-		super().save(*args, **kwargs)
