@@ -128,12 +128,13 @@ class Images (models.Model):
 	image_tag.short_description = 'Image'
 
 	def save(self, *args, **kwargs):
-		super().save(*args, **kwargs)
 		if self.image:
-			img = PillowImage.open(self.image.path)  # open image
+			img = PillowImage.open(self.image.file)  # open image
 
 			# resize image
 			if img.height > 500 or img.width > 500:
 				output_size = (500, 500)
 				img.thumbnail(output_size)  # resize image
-				img.save(self.image.path)  # save it again and override the larger image
+				# img.save(self.image.path)  # older line
+				self.image = img  # save it again and override the larger image
+		super().save(*args, **kwargs)
