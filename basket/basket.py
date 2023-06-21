@@ -23,10 +23,14 @@ class Basket():
 		"""
 		product_id = str(product.id)
 
+		if product.discount_price:
+			discount_price = float(product.discount_price)
+		else:
+			discount_price = ''
 		if product_id not in self.basket:
 			self.basket[product_id] = {
 				'price': float(product.price),
-				'discount_price': float(product.discount_price),
+				'discount_price': discount_price,
 				'qty': int(qty)
 			}
 		else:
@@ -76,13 +80,13 @@ class Basket():
 		return sum(item['qty'] for item in self.basket.values())
 
 	def get_discount_price(self):
-		return float(self.get_total_price()) - float(self.get_discount_total_price())
+		return float(self.get_before_discount()) - float(self.get_total_price())
 
-	def get_total_price(self):
+	def get_before_discount(self):
 		return sum(item['price'] * item['qty'] for item in self.basket.values())
 
-	def get_discount_total_price(self):
-		return sum(item['discount_price'] * item['qty'] for item in self.basket.values())
+	def get_total_price(self):
+		return sum(item['discount_price'] * item['qty'] if item['discount_price'] != '' else item['price'] * item['qty'] for item in self.basket.values())
 
 	def save(self):
 		self.session.modified = True

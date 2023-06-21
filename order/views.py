@@ -32,7 +32,7 @@ def Order_placement(request):
 	billing_address = billing_session.billing_address[str(request.user.id)]
 
 
-	order = Order.objects.create(user=request.user, total_payment=basket_session.get_discount_total_price())
+	order = Order.objects.create(user=request.user, total_payment=basket_session.get_total_price())
 	for item in basket_session:
 		prdt = get_object_or_404(Product, id=item['product'].id)
 		order_item = OrderItem.objects.create(item=prdt, user=request.user, quantity=item['qty'])

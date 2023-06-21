@@ -35,16 +35,29 @@
 				</div>
 				<span class="text-success">−$5</span>
 			  </li> -->
-			  <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
-				<div class="text-success">
-				  <h6 class="my-0">Discount</h6>
-				  <small>Special Discount for You</small>
-				</div>
-				<span class="text-success">−Rs. {{ basket.get_discount_price }}</span>
+			  <li class="list-group-item d-flex justify-content-between" style="color: wheat;">
+				<span>Sub Total (PKR)</span>
+				<strong>Rs. {{ basket.get_before_discount }}</strong>
 			  </li>
-			  <li class="list-group-item d-flex justify-content-between">
+			  <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
+				  {% if basket.get_discount_price > 0 %}
+					<div class="text-success">
+						<h6 class="my-0">Discount</h6>
+						<small>Special Discount for You</small>
+					</div>
+					<span class="text-success">−Rs. {{ basket.get_discount_price }}</span>
+				{% else %}
+					<div class="text-danger">
+						<h6 class="my-0">Discount</h6>
+					<small>Sorry! No discount available</small>
+				</div>
+				<span class="text-danger">Rs. {{ basket.get_discount_price }}</span>
+				{% endif %}
+			  </li>
+
+			  <li class="list-group-item d-flex justify-content-between" style="color: wheat;">
 				<span>Total (PKR)</span>
-				<strong style="color: wheat;">Rs. {{ basket.get_discount_total_price }}</strong>
+				<strong>Rs. {{ basket.get_total_price }}</strong>
 			  </li>
 			</ul>
 	
