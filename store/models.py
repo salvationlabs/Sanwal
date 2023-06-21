@@ -151,5 +151,5 @@ class Images (models.Model):
 				
 				# Save the resized image to S3
 				with default_storage.open(self.image.name, 'wb') as f:
-					img.save('images/item_{0}/'.format(self.item.title), 'JPEG')
+					img.save(f, 'JPEG')
 		
