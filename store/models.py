@@ -140,6 +140,8 @@ class Images (models.Model):
 	# 			img.save(self.image.path)  # save it again and override the larger image
 
 	def save(self, *args, **kwargs):
+		super().save(*args, **kwargs)
+		
 		if self.image:
 			img = PillowImage.open(self.image)
 			
@@ -151,5 +153,3 @@ class Images (models.Model):
 				# Save the resized image to S3
 				with default_storage.open(self.image.name, 'wb') as f:
 					img.save(f, 'JPEG')
-		
-		super().save(*args, **kwargs)
