@@ -41,7 +41,7 @@
 							{% if item.img.first.image %}
 								<div class="swiper itemImageSwiper">
 									<div class="swiper-wrapper">
-										{% for image in object.img.all %}
+										{% for image in item.img.all %}
 											<div class="swiper-slide">
 												<img src="{{ image.image.url }}" alt="{{ image.image }}" >
 											</div>
