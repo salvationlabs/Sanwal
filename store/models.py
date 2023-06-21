@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.core.files.storage import default_storage
 from django.shortcuts import reverse
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
@@ -127,14 +128,28 @@ class Images (models.Model):
 			return 'No image found'
 	image_tag.short_description = 'Image'
 
+	# def save(self, *args, **kwargs):
+	# 	super().save(*args, **kwargs)
+	# 	if self.image:
+	# 		img = PillowImage.open(self.image.path)  # open image
+
+	# 		# resize image
+	# 		if img.height > 500 or img.width > 500:
+	# 			output_size = (500, 500)
+	# 			img.thumbnail(output_size)  # resize image
+	# 			img.save(self.image.path)  # save it again and override the larger image
+
 	def save(self, *args, **kwargs):
 		if self.image:
-			img = PillowImage.open(self.image.file)  # open image
-
-			# resize image
+			img = PillowImage.open(self.image)
+			
+			# Resize image
 			if img.height > 500 or img.width > 500:
 				output_size = (500, 500)
-				img.thumbnail(output_size)  # resize image
-				# img.save(self.image.path)  # older line
-				self.image = img  # save it again and override the larger image
+				img.thumbnail(output_size)
+				
+				# Save the resized image to S3
+				with default_storage.open(self.image.name, 'wb') as f:
+					img.save(f, 'JPEG')
+		
 		super().save(*args, **kwargs)
