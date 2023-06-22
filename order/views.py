@@ -20,7 +20,9 @@ from basket.basket import Basket
 @login_required
 def Order_placement(request):
 	"""
-	Orders and Orderitems are fetched from basket_session if exist, and are stored in actual order and orderitem models respectively. Then session is cleared.
+	Orders and Orderitems are fetched from basket_session if exist, and are stored in actual order and orderitem models respectively.
+    Then if billing address exists in databases, then it's attached to the order otherwise billing address details are fetched from billing_session and stored respectively in order.
+    At last basket_session is cleared but not billing_session so can be used next time the user places order(s)
 	"""
 	basket_session = Basket(request)
 	basketqty = basket_session.__len__()
@@ -85,3 +87,8 @@ def remove_from_cart(request, slug):
         return redirect('order:product', slug=slug)
     return redirect('order:order-summary')
 
+
+def Orders_history(request):
+    user = request.user
+    orders = Order.objects.filter(user=user, is_cancelled=False)
+    return orders

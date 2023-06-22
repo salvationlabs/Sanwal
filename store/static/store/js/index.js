@@ -37,8 +37,8 @@ window.onload = function () {
         cubeEffect: {
             shadow: true,
             slideShadows: true,
-            shadowOffset: 20,
-            shadowScale: 0.94,
+            shadowOffset: 5,
+            shadowScale: 1,
         },
 		
 		pagination: {

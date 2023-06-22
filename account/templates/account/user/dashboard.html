@@ -15,6 +15,67 @@
 		<hr>
 	</div>
 	<div class="container" style="max-width: 1000px;">
+		{% for order in orders %}
+			<div class="row g-3">
+				<div class="col-12 p-3 d-flex justify-content-between">
+					<div class="d-flex d-flex-inline">
+						<div class="pe-3">{{ order.created }}</div>
+						<div class="dropdown">
+							<a href="#" class="text-reset text-decoration-none dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								<!-- <svg xmlns="https://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-chevron-down">
+									<path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.29315.646-5.647a.5.5 0 0 1 .708.7081-6 6a.5.5">
+								</svg> -->
+								Dispatched to
+							</a>
 
+							<ul class="dropdown-menu" aria-labelledby="dropdownLink">
+								<li class="item small">{{ order.first_name }} {{ order.last_name }}</li>
+								<li class="item small">{{ order.email }}</li>
+								{% if order.billing_address %}
+								{% with b=order.billing_address %}
+								<li class="item small">{{ b.phone_number }}</li>
+								<li class="item small">{{ b.address_line_1 }}</li>
+								<li class="item small">{{ b.address_line_2 }}</li>
+								<li class="item small">{{ b.city | title }}, {{ b.state | title }}, {{ b.get_country_display | title }}</li>
+								{% endwith %}
+								{% else %}
+								<li class="item small">{{ order.phone_number }}</li>
+								<li class="item small">{{ order.address_line_1 }}</li>
+								<li class="item small">{{ order.address_line_2 }}</li>
+								<li class="item small">{{ order.city | title }}, {{ order.state | title }}, {{ order.country | title }}</li>
+								<li class="item small"></li>
+								<li class="item small">{{ order.country }}</li>
+								{% endif %}
+							</ul>
+						</div>
+					</div>
+					<div class="text-end">
+						Total paid: <span class="fw-bold">Rs. {{ order.total_payment }}</span>
+					</div>
+				</div>
+				<div class="col-md-5 col-lg-4 order-md-last p-0 order-3">
+					<div class="d-grid gap-2">
+						<button class="btn btn-warning" type="button">Cancel Order</button>
+						<button class="btn btn-light" type="button">Leave a Review</button>
+					</div>
+				</div>
+				<div class="col-md-7 col-lg-8 p-0">
+					{% for item in order.items.all %}
+						<div class="card mb-3 border-0">
+							<div class="row g-0">
+								<div class="col-md-2 d-none d-md-block"><img width="90px" src="{{ item.item.img.first.image.url }}" alt="" class="img-fluid"></div>
+							</div>
+							<div class="col-md-10">
+								<div class="card-body p-1">
+									<a href="{{ item.item.get_absolute_url }}" class="text-decoration-none">
+										<p class="card-text small">{{ item.item | title }}</p>
+									</a>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		{% endfor %}
 	</div>
 {% endblock %}

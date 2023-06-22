@@ -15,14 +15,18 @@ from .models import User
 from .forms import (RegistrationForm, ProfileEditForm)
 from .token import account_activation_token
 
+# Order App
+from order.views import Orders_history
+
 # Create your views here.
 
 
 @login_required
 def dashboard(request):
+	orders = Orders_history(request)
 	return render(request, 'account/user/dashboard.html', {
 		'section': 'profile',
-		'orders': 'orders'
+		'orders': orders
 	})
 
 
@@ -50,32 +54,34 @@ def delete_user(request):
 
 
 class CustomLoginView(LoginView):
-	def form_valid(self, form):
-		print('form validation')
-		user = form.get_user()
-		# Check if the user is active
-		if not user.is_active:
-			# Resend verification email to the user
-			# Setup email
-			current_site = get_current_site(self.request)
-			subject = 'Activate your Account'
-			# user = self.request.user
-			message = render_to_string('account/registration/account_activation_email.html', {
-				'user': user,
-				'domain': current_site.domain,
-				'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-				'token': account_activation_token.make_token(user),
-			})
-			user.send_verification_email(subject=subject, message=message)
-			# Add a message to inform the user about the email resent
-			messages.info(request, 'A verification email has been resent. Please check your email and activate your account.')
-			self.user.send_verification_email(self.request.user)
-			
-			
-			# Redirect the user to a page indicating that the verification email has been resent
-			return redirect('account:login')
+	def form_invalid(self, form):
+		try:
+			user = User.objects.get(email=form.cleaned_data.get('username'))
+			# Check if the user is active
+			if not user.is_active and not user.is_verified:
+				# Resend verification email to the user
+				# Setup email
+				current_site = get_current_site(self.request)
+				subject = 'Activate your Account'
+				# user = self.request.user
+				message = render_to_string('account/registration/account_verification_resent_email.html', {
+					'user': user,
+					'domain': current_site.domain,
+					'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+					'token': account_activation_token.make_token(user),
+				})
+				user.send_verification_email(subject=subject, message=message)
+				# Add a message to inform the user about the email resent
+				messages.info(self.request, 'A verification email has been resent. Please check your email and activate your account.')
+				self.user.send_verification_email(self.request.user)
+				
+				
+				# Redirect the user to a page indicating that the verification email has been resent
+				return redirect('account:login')
+		except:
+			pass
 		
-		return super().form_valid(form)
+		return super().form_invalid(form)
 
 	def get_success_url(self):
 		# Get the value of the 'next' parameter from the request's GET parameters

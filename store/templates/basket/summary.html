@@ -11,11 +11,30 @@
 		{% endif %}
 		{% for item in basket %}
 		{% with product=item.product %}
-		<div data-index="{{ product.id }}" class="row mb-4 border product-item">
-			<div class="col-md-3 col-lg-2 order-md-first bg-light">
-				<img src="{{ product.img.first.image.url }}" alt="Responsive image" width="120px" class="img-fluid mx-auto d-block">
+		<div data-index="{{ product.id }}" class="row mb-4 product-item">
+			<div class="col-4 order-md-first">
+				{% if product.img.first.image %}
+				<div class="swiper itemImageSwiper">
+					<div class="swiper-wrapper">
+						{% for image in product.img.all %}
+							<div class="swiper-slide">
+								<img src="{{ image.image.url }}" alt="{{ image.image }}">
+							</div>
+						{% endfor %}
+					</div>
+					<!-- <div class="swiper-button-next">
+						<ion-icon name="caret-forward-outline"></ion-icon>
+					</div>
+					<div class="swiper-button-prev">
+						<ion-icon name="caret-back-outline"></ion-icon>
+					</div> -->
+				</div>
+				<!-- <img src="{{ product.img.first.image.url }}" alt="Responsive image" width="120px" height="120px" class="img-fluid mx-auto d-block"> -->
+				{% else %}
+				<img src="{% static 'store\imgs\products\No_image_available.png' %}" class="card-img-top" alt="No image available">
+				{% endif %}
 			</div>
-			<div class="col-md-9 col-lg-10 ps-md-3 ps-lg-10">
+			<div class="col-lg-8 ps-md-3 ps-lg-10">
 				<a href="{{ product.get_absolute_url }}" class="text-decoration-none text-reset"><h1 class="h5 pt-2">{{ product.title }}</h1></a>
 				<div class="border">
 					<div class="col border-bottom">
@@ -26,7 +45,7 @@
 					</div>
 					<div class="col">
 						<div class="row p-2">
-							<div class="col-10 m-auto">
+							<div class="col-9 m-auto ms-4">
 								Qty
 								<button class="plus-btn btn p-0" type="button" data-index="{{ product.id }}"><ion-icon name="add-outline"></ion-icon></button>
 								<span class="quantity">{{ item.qty }}</span>

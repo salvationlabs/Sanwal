@@ -20,7 +20,7 @@
 	<script src="{% static 'store/js/index.js' %}"></script>
 	<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 
-	<link rel="icon" type="image/x-icon" href="{% static 'store/imgs/icon/sanwal.svg' %}">
+	<link rel="icon" type="image/x-icon" href="{% static 'store/imgs/icon/sanwal2.webp' %}">
 </head>
 
 <body id="body">
@@ -37,7 +37,7 @@
 		<nav class="navbar navbar-dark navbar-expand-lg fs-6">
 			<div class="container-fluid">
 				<a href="{% url 'store:index' %}" class="navbar-brand mb-0 h1">
-					<img src="{% static 'store/imgs/icon/sanwal.svg' %}" alt="LOGO" width="33" height="33" style="background: white;">
+					<img src="{% static 'store/imgs/icon/sanwal2.webp' %}" alt="LOGO" width="50" height="40">
 					Sanwal
 				</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -129,7 +129,7 @@
 		{% endblock %}
 	</main>
 
-	<footer>
+	<!-- <footer>
 		<div class="footer_row">
 			<div class="footer_col">
 				<img src="{% static 'store/imgs/icon/sanwal.svg' %}" class="img-fluid rounded-start" alt="logo"  class="logo" width="100" height="100">
@@ -173,8 +173,73 @@
 				</ul>
 			</div>
 		</div>
-	</footer>
+	</footer> -->
 	
+	<div class="auth_form px-5">
+		<footer class="pt-4 pb-1">
+			<div class="row">
+				<div class="col-6 col-md-2 mb-3">
+				  <h5>Section</h5>
+				  <ul class="nav flex-column">
+					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Home</a></li>
+					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
+					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
+					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
+					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
+				  </ul>
+				</div>
+		  
+				<div class="col-6 col-md-2 mb-3">
+				  <h5>Section</h5>
+				  <ul class="nav flex-column">
+					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Home</a></li>
+					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
+					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
+					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
+					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
+				  </ul>
+				</div>
+		  
+				<div class="col-6 col-md-2 mb-3">
+				  <h5>More From Sanwal</h5>
+				  <ul class="nav flex-column">
+					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Become a Seller</a></li>
+					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
+					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
+					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
+					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
+				  </ul>
+				</div>
+		  
+				<div class="col-md-5 offset-md-1 mb-3">
+				  <form>
+					<h5>Subscribe to our newsletter</h5>
+					<p>Monthly digest of what's new and exciting from us.</p>
+					<div class="d-flex flex-column flex-sm-row w-100 gap-2">
+					  <label for="newsletter1" class="visually-hidden">Email address</label>
+					  <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
+					  <input type="submit" value="Subscribe" class="btn w-25">
+					  <!-- <button class="btn basket" type="button">Subscribe</button> -->
+					</div>
+				  </form>
+				</div>
+			  </div>
+			<div class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+			  <p class="col-md-4 mb-0 text-body-secondary">© 2023 Sanwal, Inc. All rights reserved.</p>
+			  <a href="{% url 'store:index' %}" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+				<img src="{% static 'store/imgs/icon/sanwal2.webp' %}" alt="Logo" class="bi me-2" width="50" height="45">
+			  </a>
+			  <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+				  <li class="ms-3"><a class="text-body-secondary text-reset fs-5 call-icon" href="tel:0313795111"><ion-icon name="call-outline"></ion-icon></a></li>
+				  <li class="ms-3"><a class="text-body-secondary text-reset fs-5" href="mailto:sanwalcrafts@gmail.com"><ion-icon name="mail-outline"></ion-icon></a></li>
+				<li class="ms-3"><a class="text-body-secondary text-reset fs-5" href="#"><ion-icon name="logo-whatsapp"></ion-icon></a></li>
+				<li class="ms-3"><a class="text-body-secondary text-reset fs-5" href="#"><ion-icon name="logo-instagram"></ion-icon></a></li>
+				<li class="ms-3"><a class="text-body-secondary text-reset fs-5" href="#"><ion-icon name="logo-facebook"></ion-icon></a></li>
+				<li class="ms-3"><a class="text-body-secondary text-reset fs-5" href="#"><ion-icon name="logo-youtube"></ion-icon></a></li>
+			  </ul>
+			</div>
+		</footer>
+	  </div>
 
 	<!--      Icons -->
 	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

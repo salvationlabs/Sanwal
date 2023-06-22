@@ -148,3 +148,10 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')  # your Gmail or email service us
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # your Gmail or email service password
 EMAIL_USE_TLS = True  # or False if your email service does not support TLS/SSL
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+# Sessions IDs
+BASKET_SESSION_ID = 'basket'
+BILLING_ADDRESS_SESSION_ID = 'billing_address'
+
+

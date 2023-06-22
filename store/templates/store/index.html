@@ -37,37 +37,39 @@
 			<col>
 				<div class="card">
 					<a href="{{ item.get_absolute_url }}">
-						<div class="imageContainer">
-							{% if item.img.first.image %}
-								<div class="swiper itemImageSwiper">
-									<div class="swiper-wrapper">
-										{% for image in item.img.all %}
-											<div class="swiper-slide">
-												<img src="{{ image.image.url }}" alt="{{ image.image }}" >
-											</div>
-										{% endfor %}
+						<div class="row g-1">
+							<div class="col-md-12 p-4 pb-0 pt-0">
+								{% if item.img.first.image %}
+									<div class="swiper itemImageSwiper">
+										<div class="swiper-wrapper">
+											{% for image in item.img.all %}
+												<div class="swiper-slide">
+													<img src="{{ image.image.url }}" alt="{{ image.image }}" >
+												</div>
+											{% endfor %}
+										</div>
+										<!-- <div class="swiper-button-next">
+											<ion-icon name="caret-forward-outline"></ion-icon>
+										</div>
+										<div class="swiper-button-prev">
+											<ion-icon name="caret-back-outline"></ion-icon>
+										</div> -->
 									</div>
-									<!-- <div class="swiper-button-next">
-										<ion-icon name="caret-forward-outline"></ion-icon>
-									</div>
-									<div class="swiper-button-prev">
-										<ion-icon name="caret-back-outline"></ion-icon>
-									</div> -->
-								</div>
-							{% else %}
-								<img src="{% static 'store\imgs\products\No_image_available.png' %}" class="card-img-top" alt="No Image Available">
-							{% endif %}
-						</div>
-						<div class="card-body text-center">
-							<h5 class="card-title">{{ item.title | title }} </h5>
-							<!-- <p class="card-text">{{ item.description | truncatechars:100 }}</p> -->
-							<a href="{{ item.get_absolute_url }}" class="btn">
-								{% if item.discount_price %}
-								<del style="text-decoration-color: red;">Rs. {{ item.price }}</del> Rs. {{ item.discount_price }}
 								{% else %}
-								Rs. {{ item.price }}
+									<img src="{% static 'store\imgs\products\No_image_available.png' %}" class="card-img-top" alt="No Image Available">
 								{% endif %}
-							</a>
+							</div>
+							<div class="card-body text-center col-12 pt-0">
+								<h5 class="card-title">{{ item.title | title }} </h5>
+								<!-- <p class="card-text">{{ item.description | truncatechars:100 }}</p> -->
+								<a href="{{ item.get_absolute_url }}" class="btn">
+									{% if item.discount_price %}
+									<del style="text-decoration-color: red;">Rs. {{ item.price }}</del> Rs. {{ item.discount_price }}
+									{% else %}
+									Rs. {{ item.price }}
+									{% endif %}
+								</a>
+							</div>
 						</div>
 					</a>
 				</div>

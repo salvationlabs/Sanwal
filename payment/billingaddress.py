@@ -1,3 +1,4 @@
+from django.conf import settings
 
 
 class Billing():
@@ -7,10 +8,10 @@ class Billing():
 
 	def __init__(self, request):
 		self.session = request.session
-		billing_address = self.session.get('billing_address')
+		billing_address = self.session.get(settings.BILLING_ADDRESS_SESSION_ID)
 
-		if 'billing_address' not in request.session:
-			billing_address = self.session['billing_address'] = {}
+		if settings.BILLING_ADDRESS_SESSION_ID not in request.session:
+			billing_address = self.session[settings.BILLING_ADDRESS_SESSION_ID] = {}
 		self.billing_address = billing_address
 		# print(self.billing_address)
 
@@ -47,5 +48,5 @@ class Billing():
 		self.session.modified = True
 
 	def clear(self):
-		del self.session['billing_address']
+		del self.session[settings.BILLING_ADDRESS_SESSION_ID]
 		self.save()
