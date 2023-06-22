@@ -33,6 +33,10 @@ class Order (models.Model):
 	order_updated = models.DateTimeField(auto_now=True)
 	order_status = models.CharField(max_length=2, choices=ORDER_STATUS_CHOICES, default='P')
 
+	# cancel
+	is_cancel_allowed = models.BooleanField(default=True)
+	is_cancelled = models.BooleanField(default=False)
+
 	# delivery
 	delivery_status = models.CharField(max_length=2, choices=DELIVERY_STATUS_CHOICES, default='P')
 	delivered_date = models.DateTimeField(blank=True, null=True)

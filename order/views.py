@@ -86,30 +86,3 @@ def remove_from_cart(request, slug):
         return redirect('order:product', slug=slug)
     return redirect('order:order-summary')
 
-
-@login_required
-def remove_single_item_from_cart(request, slug):
-    item = get_object_or_404(Product, slug=slug)
-    order_qs = Order.objects.filter(user=request.user, ordered=False)
-    if order_qs.exists():
-        order = order_qs[0]
-        # check if the order item is in the order
-        if order.items.filter(item__slug=item.slug).exists():
-            order_item = OrderItem.objects.filter(item=item, user=request.user, ordered=False)[0]
-            if order_item.quantity > 1:
-                order_item.quantity -= 1
-                order_item.save()
-                messages.success(request, f"{order_item.item.title} item quantity was updated.")
-            else:
-                order.items.remove(order_item)
-                messages.success(request, f"{order_item.item.title} item has been removed.")
-        else:
-            # add a message saying the user doesn't have an order
-            messages.error(request, "This item was not in your cart.")
-            return redirect('order:product', slug=slug)
-
-    else:
-        # add a message saying the user doesn't have an order
-        messages.error(request, "You do not have an active order.")
-        return redirect('order:product', slug=slug)
-    return redirect('order:order-summary')
