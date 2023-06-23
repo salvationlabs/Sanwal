@@ -138,15 +138,17 @@
 										{{ form.zip_code }}
 									</div>
 								</div>
+								{% if user.is_authenticated %}
 								<hr>
 								{{ form.save_info }}
 								<label for="id_save_info" style="cursor: pointer;">{{ form.save_info.label }}</label>
+								{% endif %}
 								<hr class="mt-0">
 
 								<label for="id_payment_method" class="h3">{{ form.payment_method.label }}</label>
 								{{ form.payment_method }}
 
-								<hr class="mt-0">
+								<hr>
 
 								<input class="btn w-100" type="submit" value="Confirm Order">
 								<p class="text-center">Back to <a href="{% url 'store:index' %}">home</a></p>

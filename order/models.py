@@ -17,7 +17,7 @@ class Order (models.Model):
 		('D', 'Delivered'),
 		('P', 'In Process'),
 	)
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='order')
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='order', blank=True, null=True)
 	items = models.ManyToManyField('OrderItem')
 
 	# payment
@@ -72,7 +72,7 @@ class Order (models.Model):
 
 
 class OrderItem (models.Model):
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='order_items')
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='order_items', blank=True, null=True)
 	item = models.ForeignKey(Product, on_delete=models.CASCADE)
 	quantity = models.IntegerField(default=1)
 

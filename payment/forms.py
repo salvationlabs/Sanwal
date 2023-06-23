@@ -30,7 +30,6 @@ class BillingForm(forms.ModelForm):
 	save_info = forms.BooleanField(
 		label='Save this information for next time',
 		required=False,
-		initial=True,
 		widget=forms.CheckboxInput()
 	)
 	PAYMENT_CHOICES = [

@@ -5,11 +5,13 @@
     box-sizing: border-box;
 }
 
-#body
+body
 {
 	color: whitesmoke;
 	scroll-behavior: smooth;
-	background-color: rgb(24, 22, 17);
+	background-color: rgb(65, 59, 46);
+	/* background-color: rgb(54, 49, 38); */
+	/* background-color: rgb(24, 22, 17); */
 	font-family: 'Viga', sans-serif;
 }
 /* //////////////////////////////////	SCROLL BAR	////////////////////////////////////////////// */

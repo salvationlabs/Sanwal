@@ -2,7 +2,6 @@ from django.contrib import messages
 from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render, get_object_or_404
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.views.generic import View
 
@@ -17,7 +16,6 @@ from payment.billingaddress import Billing
 from basket.basket import Basket
 
 # Create your views here.
-@login_required
 def Order_placement(request):
 	"""
 	Orders and Orderitems are fetched from basket_session if exist, and are stored in actual order and orderitem models respectively.
@@ -30,19 +28,26 @@ def Order_placement(request):
 		messages.error(request, 'Your basket is empty.')
 		return redirect('store:index')
 	billing_session = Billing(request)
-	billing_address = billing_session.billing_address[str(request.user.id)]
+	if billing_session.exists():
+		billing_address = billing_session.billing_address[str(request.user.id) if request.user.is_authenticated else 'Anonymous']
+	else:
+		messages.error(request, 'You have not filled billing details')
+		return redirect('payment:checkout')
 
 
-	order = Order.objects.create(user=request.user, total_payment=basket_session.get_total_price())
+	order = Order.objects.create(user=request.user if request.user.is_authenticated else None, total_payment=basket_session.get_total_price())
 	for item in basket_session:
 		prdt = get_object_or_404(Product, id=item['product'].id)
-		order_item = OrderItem.objects.create(item=prdt, user=request.user, quantity=item['qty'])
+		order_item = OrderItem.objects.create(item=prdt, user=request.user if request.user.is_authenticated else None, quantity=item['qty'])
 		order.items.add(order_item)
 	
 	try:
-		billing_instance = BillingAddress.objects.get(user=request.user)
-		order.billing_address = billing_instance
+		if request.user.is_authenticated:
+			billing = BillingAddress.objects.get(user=request.user)
+			order.billing_address = BillingAddress(user=request.user)
 	except ObjectDoesNotExist:
+		order.billing_address = None
+	if not request.user.is_authenticated:
 		order.phone_number = billing_address['phone_number']
 		order.address_line_1 = billing_address['address_line_1']
 		order.address_line_2 = billing_address['address_line_2']
@@ -50,7 +55,7 @@ def Order_placement(request):
 		order.state = billing_address['state']
 		order.country = billing_address['country']
 		order.zip_code = billing_address['zip_code']
-	
+		order.billing_address = None
 	order.first_name = billing_address['first_name']
 	order.last_name = billing_address['last_name']
 	order.email = billing_address['email']

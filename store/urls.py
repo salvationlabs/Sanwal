@@ -7,6 +7,7 @@ app_name = 'store'
 urlpatterns = [
 	# Home Url
 	path('', views.HomeView.as_view(), name='index'),
+	path('extra', views.ExtraView, name='extra'),
 	# Category Url
 	path('?category=<slug:category_slug>', views.CategoryListView.as_view(), name='products-by-category'),
 	# SubCategory Url

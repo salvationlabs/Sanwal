@@ -1,0 +1,33 @@
+{% extends 'store/layout.html' %}
+{% load static %}
+
+{% block style %}
+<style>
+	.container{
+		margin: 0 auto;
+		display: flex;
+		width: 100%;
+    min-height: 33vh;
+    justify-content: center;
+    align-items: center;
+}
+	.noise
+	{
+		background: rgb(122, 97, 44);
+		/* background: rgb(182, 34, 58); */
+		background-image: url("{% static 'store/imgs/grainy-background/noise.svg' %}");
+	}
+</style>
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block body %}
+<section class="container noise">
+	<h1>Noise with PNG</h1>
+</section>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

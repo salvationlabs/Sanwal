@@ -55,7 +55,7 @@ class TestViewResponses(TestCase):
 
 		self.assertEqual(response.status_code, 200)
 
-	@skip('for debug=true only')
+	@skip('for debug=false only')
 	def test_url_allowed_hosts(self):
 		"""
 		Test allowed Hosts

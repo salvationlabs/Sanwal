@@ -17,6 +17,8 @@ class HomeView(ListView):
     def get_queryset(self):
         return Product.products.all()
 
+def ExtraView(request):
+    return render(request, 'store/extra.html')
 
 class CategoryListView (ListView):
     model = Product
