@@ -58,12 +58,10 @@ class BillingForm(forms.ModelForm):
 		self.fields['phone_number'].widget.attrs.update({
 			'class': 'form-control',
 			'placeholder': 'Phone number',
-			'autofocus': 'autofocus'
 		})
 		self.fields['address_line_1'].widget.attrs.update({
 			'class': 'form-control',
 			'placeholder': 'Address',
-			'autofocus': 'autofocus'
 		})
 		self.fields['address_line_2'].widget.attrs.update({
 			'class': 'form-control',

@@ -11,57 +11,61 @@
 			</a><div class="vr me-2"></div>
 			Your Shopping Basket
 		</h1>
-		{% if not basket %}
+		{% if basket|length == 0 %}
 		<p class="mb-4 text-muted">Your Basket is empty.</p>
-		{% endif %}
-		{% for item in basket %}
-		{% with product=item.product %}
-		<div data-index="{{ product.id }}" class="row col-10 my-4 p-3 product-item m-auto rounded-4 gx-0" style="max-width: 60rem; box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05), inset 5px 5px 15px rgba(0, 0, 0, 0.5); background-color: #141414;">
-			<!--------------- Image ----------------->
-			<div class="col-1 order-md-first m-auto">
-				{% if product.img.first.image %}
-				{% comment %}
-				<div class="swiper itemImageSwiper" style="width: 50px;">
-					<div class="swiper-wrapper">
-						{% for image in product.img.all %}
-							<div class="swiper-slide">
-								<img src="{{ image.image.url }}" alt="{{ image.image }}" style="border-radius: 50%; height: 70px; width: 70px;">
-							</div>
-						{% endfor %}
+		{% else %}
+			{% for item in basket %}
+			{% with product=item.product %}
+			<div data-index="{{ product.id }}" class="row col-11 col-sm-12 col-md-10 my-4 p-3 product-item m-auto rounded-4 gx-0" style="max-width: 60rem; box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05), inset 5px 5px 15px rgba(0, 0, 0, 0.5); background-color: #141414;">
+				<!--------------- Image ----------------->
+				<div class="col-3 col-md-2 col-lg-1 order-md-first m-auto">
+					{% if product.img.first.image %}
+					{% comment %}
+					<div class="swiper itemImageSwiper" style="width: 50px;">
+						<div class="swiper-wrapper">
+							{% for image in product.img.all %}
+								<div class="swiper-slide">
+									<img src="{{ image.image.url }}" alt="{{ image.image }}" style="border-radius: 50%; height: 70px; width: 70px;">
+								</div>
+							{% endfor %}
+						</div>
 					</div>
+					{% endcomment %}
+					<img src="{{ product.img.first.image.url }}" alt="{{ product.title }} image" style="border-radius: 50%; height: 70px; width: 70px;" class="img-fluid">
+					{% else %}
+					<img src="{% static 'store\imgs\products\No_image_available.png' %}" class="card-img-top" alt="No image available">
+					{% endif %}
 				</div>
-				{% endcomment %}
-				<img src="{{ product.img.first.image.url }}" alt="{{ product.title }} image" style="border-radius: 50%; height: 70px; width: 70px;" class="img-fluid">
-				{% else %}
-				<img src="{% static 'store\imgs\products\No_image_available.png' %}" class="card-img-top" alt="No image available">
+				<!------------- Product Body ------------>
+				<div class="row col-8 col-md-9 m-auto">
+					<a href="{{ product.get_absolute_url }}" class="text-decoration-none text-reset col-12 col-md-3">
+						<h1 class="h5">{{ product.title }}</h1>
+						<h2 class="h6">Ref. {{ product.id }}</h1>
+					</a>
+					<div class="col-12 col-md-2 col-lg-2 m-auto">{{  product.material }}</div>
+					<div class="col-5 col-sm-5 col-md-3 col-lg-2 m-md-auto">
+						<button class="plus-btn btn p-0" type="button" data-index="{{ product.id }}"><ion-icon name="add-outline"></ion-icon></button>
+						<span class="quantity">{{ item.qty }}</span>
+						<button type="button" class="min-btn btn p-0" data-index="{{ product.id }}"><ion-icon name="remove-outline"></ion-icon></button>
+					</div>
+					<div class="col-7 col-md-3 m-md-auto">Rs. {{  product.price }}</div>
+				</div>
+				<div class="col-1 my-auto">
+					<span type="button" data-index="{{ product.id }}" class="dlt-btn"><ion-icon name="close-outline" style="font-size: 25px;"></ion-icon></span>
+				</div>
+			</div>
+			{% endwith %}
+			{% endfor %}
+		{% endif %}
+		<div class="col-11 text-end">
+			<div class="h6 text-muted">Sub Total: <span id="sub-total" class="text-light ms-4">Rs. {{ basket.get_total_price }}</span></div>
+
+			<div class="row mb-5">
+				<a href="{% url 'store:index' %}"class="col-6 col-sm-4 col-md-3 col-lg-2 offset-1 offset-lg-0 position-relative btn-shop h-100"><ion-icon name="chevron-back-outline" class="position-absolute top-50 start-0"></ion-icon>Continue Shopping</a>
+				{% if basket %}
+				<a href="{% url 'payment:checkout' %}" class="col-6 col-sm-5 col-md-4 col-lg-3 offset-6 offset-sm-2 offset-md-4 offset-lg-7 btn basket">Proceed to Checkout</a>
 				{% endif %}
 			</div>
-			<!------------- Product Body ------------>
-			<div class="row col-5 col-lg-9 m-auto">
-				<a href="{{ product.get_absolute_url }}" class="text-decoration-none text-reset col-4">
-					<h1 class="h5">{{ product.title }}</h1>
-					<h2 class="h6">Ref. {{ product.id }}</h1>
-				</a>
-				<div class="col-2 m-auto">{{  product.material }}</div>
-				<div class="col-2 m-auto">
-					<button class="plus-btn btn p-0" type="button" data-index="{{ product.id }}"><ion-icon name="add-outline"></ion-icon></button>
-					<span class="quantity">{{ item.qty }}</span>
-					<button type="button" class="min-btn btn p-0" data-index="{{ product.id }}"><ion-icon name="remove-outline"></ion-icon></button>
-				</div>
-				<div class="col-2 m-auto">Rs. {{  product.price }}</div>
-			</div>
-			<div class="col-1 my-auto">
-				<span type="button" data-index="{{ product.id }}" class="dlt-btn"><ion-icon name="close-outline" style="font-size: 25px;"></ion-icon></span>
-			</div>
-		</div>
-		{% endwith %}
-		{% endfor %}
-		<div class="row g-1 col-11 text-end">
-			<div class="h6 text-muted">Sub Total: <span id="sub-total" class="text-light ms-4">Rs. {{ basket.get_total_price }}</span></div>
-			<a href="{% url 'store:index' %}" {% if basket %} class="col-2 btn basket filled" {% endif %} class="btn basket">Continue Shopping</a>
-			{% if basket %}
-			<a href="{% url 'payment:checkout' %}" class="col-3 offset-md-9 btn basket mb-5">Proceed to Checkout</a>
-			{% endif %}
 		</div>
 	</div>
 
@@ -82,8 +86,8 @@
 			}
 		})
 
+		// Update to basket
 		const updateBasket = function (btn) {
-			// add to basket
 			var csrfToken = "{{ csrf_token }}";
 			$.ajax({
 				type: "POST",
@@ -96,12 +100,13 @@
 				},
 				success: function (response) {
 					$('.basket-qty').text(response.qty);
-					$('#sub-total').text(response.subtotal);
+					$('#sub-total').text(`Rs. ${response.subtotal}`);
 				},
 				error: function (xhr, errmessage, err) {}
 			});
 		}
-		// add to basket
+
+		// Delete to basket
 		$(document).on('click', '.dlt-btn', function (e) {
 			e.preventDefault();
 			const product_id = $(this).data('index');
@@ -125,7 +130,7 @@
 					{
 						$('.basket-qty').text(response.qty);
 					}
-					$('#sub-total').text(response.subtotal);
+					$('#sub-total').text(`Rs. ${response.subtotal}`);
 					$(`.product-item[data-index="${product_id}"]`).remove();
 				},
 				error: function (xhr, errmessage, err) {}

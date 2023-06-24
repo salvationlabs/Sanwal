@@ -114,6 +114,28 @@
 	background: rgba(245, 222, 179, 0.9);
 }
 
+a.btn-shop, a.btn-shop:hover
+{
+	text-decoration: none;
+	color: wheat;
+}
+
+a.btn-shop:hover
+{
+	text-decoration: 1px solid wheat underline;
+}
+
+.btn-shop ion-icon
+{
+	transform: translateY(-50%);
+	transition: .5s;
+}
+
+.btn-shop:hover ion-icon
+{
+	transform: translateX(-10px) translateY(-50%);
+}
+
 /*------------------ Checkout Cart Form ----------------*/
 .checkout-list li
 {
