@@ -5,20 +5,14 @@
     box-sizing: border-box;
 }
 
-body
-{
-	color: whitesmoke;
-	scroll-behavior: smooth;
-	background-color: rgb(65, 59, 46);
-	/* background-color: rgb(54, 49, 38); */
+	/* background-color: rgb(65, 59, 46); */
 	/* background-color: rgb(24, 22, 17); */
-	font-family: 'Viga', sans-serif;
-}
+
 /* //////////////////////////////////	SCROLL BAR	////////////////////////////////////////////// */
 ::-webkit-scrollbar
 {
 	width: 3px;
-	background: none;
+	background: rgb(24, 22, 17);
 	height: 3px;
 }
 
