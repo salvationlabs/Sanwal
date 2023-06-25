@@ -5,12 +5,14 @@ from django.shortcuts import reverse
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from PIL import Image as PillowImage
+from io import BytesIO
+from django.core.files.base import ContentFile
 
 
 # Model Managers
 class ProductManager(models.Manager):
 	def get_queryset(self):
-		return super(ProductManager, self).get_queryset().filter(is_active=True)
+		return super(ProductManager, self).get_queryset().filter(is_active=True, in_stock=True)
 
 # Create your models here.
 
@@ -100,16 +102,6 @@ class Product (models.Model):
 			self.slug = slugify(value, allow_unicode=True)
 		super().save(*args, **kwargs)
 
-	# def get_add_to_cart_url(self):
-	# 	return reverse('order:add-to-cart', kwargs={
-	# 		'slug': self.slug
-	# 	})
-
-	# def get_remove_from_cart_url(self):
-	# 	return reverse('order:remove-from-cart', kwargs={
-	# 		'slug': self.slug
-	# 	})
-
 
 class Images (models.Model):
 	def user_directory_path(instance, filename):
@@ -128,6 +120,27 @@ class Images (models.Model):
 			return 'No image found'
 	image_tag.short_description = 'Image'
 
+
+	def save(self, *args, **kwargs):
+		if self.image:
+			img = PillowImage.open(self.image)
+
+			# Resize image
+			if img.height > 500 or img.width > 500:
+				output_size = (500, 500)
+				img.thumbnail(output_size)
+
+				# Save the resized image to a BytesIO buffer
+				output_buffer = BytesIO()
+				img.save(output_buffer, format='JPEG')
+				output_buffer.seek(0)
+
+				# Save the buffer content to the image field
+				self.image.save(self.image.name, ContentFile(output_buffer.read()), save=False)
+
+		super().save(*args, **kwargs)
+		
+
 	# def save(self, *args, **kwargs):
 	# 	super().save(*args, **kwargs)
 	# 	if self.image:
@@ -138,18 +151,3 @@ class Images (models.Model):
 	# 			output_size = (500, 500)
 	# 			img.thumbnail(output_size)  # resize image
 	# 			img.save(self.image.path)  # save it again and override the larger image
-
-	def save(self, *args, **kwargs):
-		super().save(*args, **kwargs)
-		if self.image:
-			img = PillowImage.open(self.image)
-			
-			# Resize image
-			if img.height > 500 or img.width > 500:
-				output_size = (500, 500)
-				img.thumbnail(output_size)
-				
-				# Save the resized image to S3
-				with default_storage.open(self.image.name, 'wb') as f:
-					img.save(f, 'JPEG')
-		
