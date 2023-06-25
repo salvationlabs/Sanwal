@@ -37,3 +37,14 @@ padding: 3rem 2rem;
 	margin-right: 0;
 	margin-left: 8px;
 }
+
+.delete-button {
+	display: block;
+	margin-top: 5px;
+	cursor: pointer;
+  }
+  
+  .image-preview-container {
+	display: inline-block;
+	margin-right: 8px;
+  }

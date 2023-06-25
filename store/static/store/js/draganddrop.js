@@ -32,34 +32,21 @@ function handleDragLeave(e) {
 }
 
 function handleDrop(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    // Remove any visual effects when the dragged element is dropped
-    // dropzone.classList.remove('drag-over');
-    // Handle the dropped files
-    var files = e.dataTransfer.files;
-	console.log(files)
-	// Clear the image preview container
-	imagePreview.innerHTML = '';
-    // Process the files as per your requirements, such as saving them to the database or storing them on the server
-    for (var i = 0; i < files.length; i++) {
-		var file = files[i];
-		console.log(file)
-		var reader = new FileReader();
-
-		// Read the file as a data URL
-		reader.readAsDataURL(file);
-
-		// Once the file is loaded, create an image element and append it to the preview container
-		reader.onload = function(e) {
-			var image = document.createElement('img');
-			image.classList.add('image-preview');
-			image.src = e.target.result;
-			imagePreview.appendChild(image);
-		};
-    }
-	dropzone.classList.remove('drag-over');
+  e.preventDefault();
+  e.stopPropagation();
+  // Remove any visual effects when the dragged element is dropped
+  // dropzone.classList.remove('drag-over');
+  // Handle the dropped files
+  var files = e.dataTransfer.files;
+  // Clear the image preview container
+  imagePreview.innerHTML = '';
+  // Process the files as per your requirements, such as saving them to the database or storing them on the server
+  for (var i = 0; i < files.length; i++) {
+    var file = files[i];
+    createImagePreview(file);
   }
+	dropzone.classList.remove('drag-over');
+}
 
 
 // Add an event listener to the file input element
@@ -73,17 +60,41 @@ fileInput.addEventListener('change', function() {
   // Iterate over the selected files
   for (var i = 0; i < files.length; i++) {
     var file = files[i];
-    var reader = new FileReader();
-
-    // Read the file as a data URL
-    reader.readAsDataURL(file);
-
-    // Once the file is loaded, create an image element and append it to the preview container
-    reader.onload = function(e) {
-      var image = document.createElement('img');
-	  image.classList.add('image-preview');
-      image.src = e.target.result;
-      imagePreview.appendChild(image);
+    createImagePreview(file);
     };
-  }
 });
+
+function createImagePreview(file) {
+  var reader = new FileReader();
+
+  reader.readAsDataURL(file);
+
+  reader.onload = function(e) {
+    var image = document.createElement('img');
+    image.classList.add('image-preview');
+    image.src = e.target.result;
+
+    var deleteButton = document.createElement('button');
+    deleteButton.classList.add('delete-button', 'btn', 'btn-sm', 'basket', 'mx-auto', 'mt-2');
+    deleteButton.textContent = 'Remove';
+    deleteButton.addEventListener('click', function() {
+      var inputFile = document.getElementById('listing-image');
+      var imageFile = inputFile.files[Array.from(imagePreview.children).indexOf(previewContainer)];
+      var dt = new DataTransfer();
+      Array.from(inputFile.files).forEach(function (file) {
+        if (file !== imageFile) {
+          dt.items.add(file);
+        }
+      });
+      inputFile.files = dt.files;
+      imagePreview.removeChild(previewContainer);
+    });
+
+    var previewContainer = document.createElement('div');
+    previewContainer.classList.add('image-preview-container');
+    previewContainer.appendChild(image);
+    previewContainer.appendChild(deleteButton);
+
+    imagePreview.appendChild(previewContainer);
+  };
+}
