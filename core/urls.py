@@ -21,11 +21,16 @@ from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    # Internal Apps Urls
     path('', include('store.urls', namespace='store')),
     path('basket/', include('basket.urls', namespace='basket')),
     path('account/', include('account.urls', namespace='account')),
     path('payment/', include('payment.urls', namespace='payment')),
     path('order/', include('order.urls', namespace='order')),
+
+    # External Apps Urls
+    path("__debug__/", include("debug_toolbar.urls")),
 ]
 
 if settings.DEBUG:

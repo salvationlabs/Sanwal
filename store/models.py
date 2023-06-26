@@ -106,7 +106,7 @@ class Product (models.Model):
 class Images (models.Model):
 	def user_directory_path(instance, filename):
         # file will be uploaded to MEDIA_ROOT/user_<id>/listing_<title>/<filename>
-		return 'images/item_{0}/{1}'.format(instance.item.title, filename)
+		return 'product_media/item_{0}/{1}'.format(instance.item.title, filename)
 	image = models.ImageField(upload_to=user_directory_path, blank=True)
 	item = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='img')
 
@@ -123,7 +123,7 @@ class Images (models.Model):
 
 	def save(self, *args, **kwargs):
 		if self.image:
-			img = PillowImage.open(self.image)
+			img = PillowImage.open(self.image)	# open image
 
 			# Resize image
 			if img.height > 500 or img.width > 500:
@@ -139,15 +139,4 @@ class Images (models.Model):
 				self.image.save(self.image.name, ContentFile(output_buffer.read()), save=False)
 
 		super().save(*args, **kwargs)
-		
 
-	# def save(self, *args, **kwargs):
-	# 	super().save(*args, **kwargs)
-	# 	if self.image:
-	# 		img = PillowImage.open(self.image.path)  # open image
-
-	# 		# resize image
-	# 		if img.height > 500 or img.width > 500:
-	# 			output_size = (500, 500)
-	# 			img.thumbnail(output_size)  # resize image
-	# 			img.save(self.image.path)  # save it again and override the larger image
