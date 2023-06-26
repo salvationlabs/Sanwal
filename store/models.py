@@ -95,6 +95,14 @@ class Product (models.Model):
 		return reverse('store:product', kwargs={
 			'slug': self.slug
 		})
+	
+	def image_tag(self):
+		f_image = self.img.first()
+		if f_image:
+			return mark_safe('<img src="%s" style="width: 45px; height:45px;" />' % f_image.image.url)
+		else:
+			return 'No image found'
+	image_tag.short_description = 'Image'
 
 	def save (self, *args, **kwargs):
 		if self.slug == '':

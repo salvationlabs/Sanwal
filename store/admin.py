@@ -38,7 +38,7 @@ class ImageInline (admin.TabularInline):
 @admin.register(Product)
 class ProductAdmin (admin.ModelAdmin):
 	inlines = [ImageInline]
-	list_display = ('title', 'price', 'slug', 'discount_price', 'in_stock', 'is_active', 'description', 'category', 'subcategory', 'material', 'time_created', 'updated')
+	list_display = ('title', 'price', 'slug', 'discount_price', 'in_stock', 'is_active', 'description', 'category', 'subcategory', 'material', 'time_created', 'updated', 'image_tag')
 	list_filter = ('price', 'discount_price', 'in_stock', 'is_active', 'category', 'subcategory', 'material', 'time_created')
 	list_editable = ['price', 'discount_price', 'is_active', 'in_stock']
 	prepopulated_fields = {'slug': ('title',)}
@@ -58,4 +58,5 @@ class ProductAdmin (admin.ModelAdmin):
 
 class ImageAdmin (admin.ModelAdmin):
 	list_display = ('item', 'image_tag')
+	list_filter = ('item',)
 admin.site.register(Images, ImageAdmin)
