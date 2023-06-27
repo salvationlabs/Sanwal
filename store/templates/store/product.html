@@ -7,7 +7,7 @@
 	<article class="product">
 		<div class="card col-10 my-4 mt-5">
 			<div class="row g-2">
-				<!----------- Image ------------->
+				<!------------ Image -------------->
 				<div class="col-md-5">
 					{% if object.img.first.image %}
 						<div class="swiper itemImageSwiper">
@@ -30,16 +30,16 @@
 					{% endif %}
 				</div>
 
-				<!-------- Product Body --------->
+				<!-------- Product Body ---------->
 				<div class="col-sm-12 col-md-7">
 					<div class="card-body">
 						<h2 class="card-title text-center">{{ object.title | title }} </h2>
 						<div class="row g-3 card-text m-auto">
 							<div class="col-5 col-sm-5 col-md-4 col-lg-6">
 								{% if object.discount_price %}
-								Rs. <del style="text-decoration-color: red;">{{ object.price }}</del> {{ object.discount_price }}
+								Rs. <del style="text-decoration-color: red;">{{ object.regular_price }}</del> {{ object.discount_price }}
 								{% else %}
-									Rs. {{ object.price }}
+									Rs. {{ object.regular_price }}
 								{% endif %}
 							</div>
 							<div class="col-4 col-sm-3 col-lg-2 text-end">
@@ -49,9 +49,10 @@
 							</div>
 							<button class="col-8 col-sm-4 col-md-4 col-lg-3 mx-auto btn btn-sm basket filled ms-lg-3" type="button" id="add-to-basket" data-index="{{  product.id }}">Throw to Basket</button>
 						</div>
-						<div class="col">{{ object.material.name }}</div>
+						{% for m in object.material.all %}
+						<div class="col">{{ m.material }}</div>
+						{% endfor %}
 						<div class="col">{{ object.category.name }}</div>
-						<div class="col">{{ object.subcategory.name }}</div>
 						<hr>
 						<p class="col card-text mt-3">{{ object.description | linebreaksbr }}</p>
 					</div>

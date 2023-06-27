@@ -1,0 +1,12 @@
+Package List
+####
+
+django
+black
+isort
+django-mptt
+pillow
+coverage
+django-contries
+django-debug-toolbar
+six

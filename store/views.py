@@ -4,7 +4,7 @@ from django.shortcuts import redirect, render
 from django.views.generic import DetailView, ListView, View
 
 from .forms import ProductForm
-from .models import Images, Product
+from .models import Images, Product, Category
 from account.models import User
 
 
@@ -27,8 +27,8 @@ class CategoryListView (ListView):
 
     def get_queryset(self, **kwargs):
         # qs = super().get_queryset(**kwargs)
-        qs = Product.products.all()
-        return qs.filter(category__slug=self.kwargs['category_slug']).all()
+        category = Category.objects.get(slug=self.kwargs['category_slug'])
+        return Product.products.filter(category__in=Category.objects.get(name=category).get_descendants(include_self=True))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -79,12 +79,10 @@ def create_product(request):
         images = request.FILES.getlist('images')
 
         if product_form.is_valid():
-            product_obj = product_form.save(commit=False)
-            product_obj.creator = request.user
-            product_obj.save()
+            product_form.save()
 
             for img in images:
-                Images.objects.create(item=product_obj, image=img)
+                Images.objects.create(item=product_form, image=img)
 
             messages.success(request, "Yeew, check it out on the home page!")
             return redirect("store:index")

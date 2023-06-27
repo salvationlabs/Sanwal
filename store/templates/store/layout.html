@@ -72,7 +72,7 @@
 							</ul>
 						</li>
 						{% for c in categories %}
-							{% if c.subcategory.all %}
+							{% if c.children.all %}
 							<li class="nav-item btn-group m-auto">
 								<a {% if c.slug in request.path %} class="nav-link active pe-0" {% endif %} class="nav-link pe-0" href="{{ c.get_absolute_url }}" role="button">
 									<div class="seperator"></div>{{ c.name | upper}}
@@ -81,7 +81,7 @@
 									<span class="visually-hidden">Toggle Dropdown</span>
 								</a>
 								<ul class="dropdown-menu dropdown-menu-dark">
-									{% for subc in c.subcategory.all %}
+									{% for subc in c.children.all %}
 										<li><a class="dropdown-item" href="{{ subc.get_absolute_url }}">{{ subc.name | upper}}</a></li>
 									{% endfor %}
 								</ul>

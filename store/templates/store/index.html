@@ -5,7 +5,6 @@
 	<article class="products">
 		<div class="row row-cols-1 row-cols-md-3 g-4 m-auto justify-content-center">
 			{% for item in object_list %}
-			<col>
 				<div class="card">
 					<a href="{{ item.get_absolute_url }}">
 						<div class="row g-1">
@@ -35,16 +34,15 @@
 								<!-- <p class="card-text">{{ item.description | truncatechars:100 }}</p> -->
 								<a href="{{ item.get_absolute_url }}" class="btn">
 									{% if item.discount_price %}
-									<del style="text-decoration-color: red;">Rs. {{ item.price }}</del> Rs. {{ item.discount_price }}
+									<del style="text-decoration-color: red;">Rs. {{ item.regular_price }}</del> Rs. {{ item.discount_price }}
 									{% else %}
-									Rs. {{ item.price }}
+									Rs. {{ item.regular_price }}
 									{% endif %}
 								</a>
 							</div>
 						</div>
 					</a>
 				</div>
-			</col>
 			{% endfor %}
 			</col>
 		</div>
