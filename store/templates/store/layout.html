@@ -92,39 +92,31 @@
 							</li>
 							{% endif %}
 						{% endfor %}
-						{% if user.is_authenticated %}
-							{% if user.is_staff %}
+						{% if user.is_authenticated and user.is_staff %}
 							<li class="nav-item">
 								<a href="{% url 'store:create-product' %}" {% if "/create-product" in request.path %}class="nav-link active "{% endif %} class="nav-link "><div class="seperator"></div>CREATE POST</a>
 							</li>
 							<li class="nav-item">
 								<a href="{% url 'admin:index' %}" class="nav-link "><div class="seperator"></div>ADMIN</a>
 							</li>
-							{% endif %}
-							<li class="nav-item">
-								<a href="{% url 'account:logout' %}" class="nav-link"><div class="seperator"></div>LOGOUT</a>
-							</li>
-						{% else %}
-							<li class="nav-item">
-								<a href="{% url 'account:login' %}" {% if "/account/login" in request.path %}class="nav-link active"{% endif %} class="nav-link"><div class="seperator"></div>LOGIN</a>
-							</li>
-							<li class="nav-item">
-								<a href="{% url 'account:register' %}" {% if "/account/register" in request.path %}class="nav-link active "{% endif %} class="nav-link "><div class="seperator"></div>SIGN UP</a>
-							</li>
 						{% endif %}
 					</ul>
-					<!-- <form class="d-flex" role="search">
-						<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-						<button class="btn btn-outline-success" type="submit">Search</button>
-					</form> -->
 				</div>
-				{% if user.is_authenticated %}
-				<span class="nav-item me-2">
-					<a href="{% url 'account:dashboard' %}" {% if "/account/dashboard" in request.path %}class="nav-link active"{% endif %} class="nav-link" role="button" type="button" title="Dashboard">
-						DASHBOARD <ion-icon name="person"></ion-icon>
+				<div class="nav-item dropdown me-2">
+					<a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						ACCOUNT<ion-icon name="person"></ion-icon>
 					</a>
-				</span>
-				{% endif %}
+					<ul class="dropdown-menu  dropdown-menu-dark m-0 p-0 w-25 m-auto">
+						{% if user.is_authenticated %}
+						<li><a class="dropdown-item" href="{% url 'account:dashboard' %}">DASHBOARD</a></li>
+						<li><a class="dropdown-item" href="{% url 'account:wishlist' %}">WISHLIST</a></li>
+						<li><a class="dropdown-item" href="{% url 'account:logout' %}">LOGOUT</a></li>
+						{% else %}
+						<li><a class="dropdown-item" href="{% url 'account:login' %}">LOGIN</a></li>
+						<li><a class="dropdown-item" href="{% url 'account:register' %}">SIGN UP</a></li>
+						{% endif %}
+					</ul>
+				</div>
 				<a href="{% url 'basket:basket_summary' %}" {% if "/basket" in request.path %}class="btn active"{% endif %} class="btn" role="button" type="button">
 					Basket <span class="position-relative">
 						<ion-icon name="bag-handle-outline"></ion-icon>

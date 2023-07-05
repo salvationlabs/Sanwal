@@ -1,6 +1,30 @@
 from django import forms
 
-from account.models import User, BillingAddress
+from account.models import User
+
+from .models import BillingAddress
+
+
+class UserAddressForm(forms.ModelForm):
+	class Meta:
+		model = BillingAddress
+		fields = ('__all__')
+		exclude = ('customer', 'default')
+	
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		for field_name in self.fields:
+			self.fields[field_name].widget.attrs.update({
+				'class': 'form-control mb-2',
+				'placeholder': field_name.replace('_', ' ').title()
+			})
+		self.fields['country'].widget.attrs.update({
+			'class': 'form-select',
+			'placeholder': 'Country'
+		})
+		# self.fields['first_name'].widget.attrs.update(
+		# 	{'class'}
+		# )
 
 class BillingForm(forms.ModelForm):
 	first_name = forms.CharField(

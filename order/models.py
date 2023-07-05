@@ -3,7 +3,6 @@ from django_countries.fields import CountryField
 from django.db import models
 
 from store.models import Product
-from account.models import BillingAddress
 
 # Create your models here.
 
@@ -55,7 +54,7 @@ class Order (models.Model):
 	state = models.CharField(max_length=150, blank=True, null=True)
 	country = CountryField(blank_label='Country', blank=True, null=True)
 	zip_code = models.CharField(max_length=12, blank=True, null=True)
-	billing_address = models.ForeignKey(BillingAddress, on_delete=models.SET_NULL, blank=True, null=True)
+	billing_address = models.ForeignKey("address.BillingAddress", on_delete=models.SET_NULL, blank=True, null=True)
 
 	class Meta:
 		ordering = ('-order_created',)

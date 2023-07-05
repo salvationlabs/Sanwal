@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.core.mail import send_mail
 from django.contrib.auth.models import AbstractUser
@@ -5,6 +6,7 @@ from django_countries.fields import CountryField
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+from django.utils.translation import gettext_lazy as _
 
 
 class User(AbstractUser):
@@ -34,7 +36,7 @@ class User(AbstractUser):
 		email.attach_alternative(message, "text/html")
 
 
-		email.send()
+		email.send(fail_silently=False)
 		# send_mail(
 		# 	subject,
 		# 	message,
@@ -45,23 +47,3 @@ class User(AbstractUser):
 
 	def __str__(self):
 		return self.email
-
-
-class BillingAddress (models.Model):
-	# User
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	# Delivery Details
-	phone_number = models.CharField(max_length=15)
-	address_line_1 = models.CharField(max_length=150)
-	address_line_2 = models.CharField(max_length=150, blank=True)
-	city = models.CharField(max_length=150)
-	state = models.CharField(max_length=150)
-	country = CountryField(blank_label='Country')
-	zip_code = models.CharField(max_length=12, blank=True)
-
-	class Meta:
-		verbose_name = 'Billing Address'
-		verbose_name_plural = 'Billing Addresses'
-
-	def __str__(self):
-		return self.user.username

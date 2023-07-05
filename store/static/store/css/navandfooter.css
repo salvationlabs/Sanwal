@@ -102,7 +102,7 @@
 	font-size: larger;
 }
 
-.navbar .container-fluid .navbar-nav .nav-item.dropdown .dropdown-menu,
+.navbar .container-fluid .nav-item.dropdown .dropdown-menu,
 .navbar .container-fluid .navbar-nav .nav-item.btn-group .dropdown-menu
 {
 	background: #141414;

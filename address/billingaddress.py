@@ -17,7 +17,7 @@ class Billing():
 
 	def add(self, bform, uid):
 		"""
-		Adding and updating the users billing session data
+		Adding and updating the users billing session data via billing form
 		"""
 		self.billing_address[uid] = {
 			'first_name': bform.cleaned_data['first_name'],
@@ -33,6 +33,26 @@ class Billing():
 			'payment_method': bform.cleaned_data['payment_method'],
 		}
 
+		self.save()
+
+	def addBillingObject(self, address, uid):
+		"""
+		Adding and updating the users billing session data via Billing object
+		"""
+		self.billing_address[uid] = {
+			'first_name': str(address.first_name),
+			'last_name': str(address.last_name),
+			'email': str(address.email),
+			'phone_number': str(address.phone_number),
+			'address_line_1': str(address.address_line_1),
+			'address_line_2': str(address.address_line_2),
+			'city': str(address.city),
+			'state': str(address.state),
+			'country': str(address.country),
+			'zip_code': str(address.zip_code),
+			'payment_method': 'COD'
+		}
+		print(self.billing_address)
 		self.save()
 
 	def exists(self):

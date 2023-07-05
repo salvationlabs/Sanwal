@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
-DEBUG =  True
+DEBUG =  False
 # DEBUG_PROPAGATE_EXCEPTIONS = True
 
 # Application definition
@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     # INTERNAL APPS
     'store',
     'account',
-    'payment',
+    'address',
     'order',
 ]
 
@@ -77,7 +77,6 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'store.context_processors.navlist',
                 'basket.context_processors.basket',
-                'payment.context_processors.billing_session',
             ],
         },
     },

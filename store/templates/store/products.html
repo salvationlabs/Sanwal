@@ -9,33 +9,57 @@
 {% endblock %}
 
 {% block body %}
-<article class="products">
-	<div class="container">
-		<h2>
-			{{ heading | title }}
-			{% if subheading %}
-				- {{ subheading | title }}
-			{% endif %}
-		</h2>
+<div class="container">
+	<h2>
+		{{ heading | title }}
+		{% if subheading %}
+			- {{ subheading | title }}
+		{% endif %}
+	</h2>
+	<article class="products">
 		<div class="row row-cols-1 row-cols-md-3 g-4 m-auto justify-content-center">
 			{% for item in object_list %}
 				<div class="card">
 					<a href="{{ item.get_absolute_url }}">
-						<div class="imageContainer">
-							<img src="{% static 'store\imgs\products\No_image_available.png' %}" class="card-img-top" alt="...">
-						</div>
-						<div class="card-body text-center">
-						  <h5 class="card-title">{{ item.title | title }} </h5>
-						  {% comment %} <p class="card-text">{{ item.description | truncatechars:100 }}</p> {% endcomment %}
-						  {% if item.discount_price %}
-						  <a href="#" class="btn btn-primary">Rs. {{ item.discount_price }}</a>
-						  {% else %}
-						  <a href="#" class="btn btn-primary">Rs. {{ item.regular_price }}</a>
-						  {% endif %}
+						<div class="row g-1">
+							<div class="col-md-12 pb-2">
+								{% if item.img.first.image %}
+									<div class="swiper itemImageSwiper">
+										<div class="swiper-wrapper">
+											{% for image in item.img.all %}
+												<div class="swiper-slide">
+													<img src="{{ image.image.url }}" alt="{{ image.image }}" >
+												</div>
+											{% endfor %}
+										</div>
+									</div>
+								{% else %}
+									<img src="{% static 'store\imgs\products\No_image_available.png' %}" class="card-img-top" alt="No Image Available">
+								{% endif %}
+							</div>
+							<div class="card-body text-center col-12 pt-0 position-relative">
+								<h6 class="card-title">{{ item.title | title }}</h6>
+								<!-- <p class="card-text">{{ item.description | truncatechars:100 }}</p> -->
+								<a href="{{ item.get_absolute_url }}">
+									{% if item.discount_price %}
+									<del style="text-decoration-color: red;">Rs. {{ item.regular_price }}</del> Rs. {{ item.discount_price }}
+									{% else %}
+									Rs. {{ item.regular_price }}
+									{% endif %}
+								</a>
+								<a href="{% url 'account:add-to-wishlist' item.slug %}" class="position-absolute start-100 translate-middle-x">
+									{% if item.is_in_wishlist %}
+										<ion-icon name="heart"></ion-icon>
+									{% else %}
+										<ion-icon name="heart-outline"></ion-icon>
+									{% endif %}
+								</a>
+							</div>
 						</div>
 					</a>
 				</div>
 			{% endfor %}
+			</col>
 		</div>
 								<!-- PAGINATION START -->
 		{% if is_paginated %}
@@ -81,7 +105,7 @@
 				</ul>
 			</nav>
 		{% endif %}
-	</div>
-							<!-- PAGINATION END -->
-</article>
+								<!-- PAGINATION END -->
+	</article>
+</div>
 {% endblock %}

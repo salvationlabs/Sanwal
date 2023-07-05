@@ -4,22 +4,48 @@ from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
 from django.template.loader import render_to_string
-from django.contrib.auth import login, logout
+from django.contrib.auth import (login, logout)
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import (force_bytes, force_str)
 from django.utils.http import (urlsafe_base64_decode, urlsafe_base64_encode)
+from django.views.generic import ListView
 
 from .models import User
 from .forms import (RegistrationForm, ProfileEditForm)
 from .token import account_activation_token
 
+# Store App
+from store.models import Product
+
 # Order App
 from order.views import Orders_history
 
 # Create your views here.
+class WishlistView(LoginRequiredMixin, ListView):
+	model = Product
+	template_name = 'account/user/wishlist.html'
+	paginate_by = 12
 
+	def get_queryset(self, *kwargs):
+		return Product.objects.filter(user_wishlist=self.request.user)
+
+
+@login_required
+def Add_to_wishlist_view(request, slug):
+	try:
+		product = Product.products.get(slug=slug)
+		if product.user_wishlist.filter(id=request.user.id).exists():
+			product.user_wishlist.remove(request.user)
+		else:
+			product.user_wishlist.add(request.user)
+			
+	except ObjectDoesNotExist:
+		messages.error(request, 'Product doesn\'t exist.')
+	
+	return redirect(request.META['HTTP_REFERER'])
 
 @login_required
 def dashboard(request):
@@ -54,6 +80,15 @@ def delete_user(request):
 
 
 class CustomLoginView(LoginView):
+	def dispatch(self, request, *args, **kwargs):
+		if self.request.user.is_authenticated:
+			next_url = self.request.GET.get('next')
+			if next_url != None:
+				return redirect(next_url)
+			else:
+				return redirect('store:index')
+		return super().dispatch(request, *args, **kwargs)
+
 	def form_invalid(self, form):
 		try:
 			user = User.objects.get(email=form.cleaned_data.get('username'))
@@ -87,7 +122,7 @@ class CustomLoginView(LoginView):
 		# Get the value of the 'next' parameter from the request's GET parameters
 		next_url = self.request.GET.get('next')
 
-		if next_url:
+		if next_url != None:
 			return next_url
 		else:
 			return reverse('store:index')

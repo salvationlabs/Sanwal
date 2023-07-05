@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import redirect, render
 from django.views.generic import DetailView, ListView, View
+from django.db.models import BooleanField, Case, When
 
 from .forms import ProductForm
 from .models import Images, Product, Category
@@ -15,10 +16,14 @@ class HomeView(ListView):
     template_name = 'store/index.html'
 
     def get_queryset(self):
-        return Product.products.all()
+        qs = Product.products.all()
+        qs = qs.annotate(is_in_wishlist=Case(
+            When(user_wishlist__id=self.request.user.id, then=True),
+            default=False,
+            output_field=BooleanField(),
+        ))
+        return qs
 
-def ExtraView(request):
-    return render(request, 'store/extra.html')
 
 class CategoryListView (ListView):
     model = Product
