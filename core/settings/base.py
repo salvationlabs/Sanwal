@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
-DEBUG =  False
+DEBUG =  True
 # DEBUG_PROPAGATE_EXCEPTIONS = True
 
 # Application definition
@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'account',
     'address',
     'order',
+    'more',
 ]
 
 MIDDLEWARE = [

@@ -222,7 +222,7 @@
 			var csrfToken = "{{ csrf_token }}";
 			$.ajax({
 				type: "POST",
-				url: "{% url 'account:subscribe' %}",
+				url: "{% url 'more:subscribe' %}",
 				data: {
 					email: $('input[type="email"][name="email"]#newsletter1').val(),
 					csrfmiddlewaretoken: csrfToken,

@@ -48,8 +48,3 @@ class User(AbstractUser):
 	def __str__(self):
 		return self.email
 
-class NewsLetter(models.Model):
-	email = models.EmailField()
-
-	def __str__(self):
-		return self.email

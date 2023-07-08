@@ -54,6 +54,4 @@ urlpatterns = [
 	# wishlist
 	path('wishlist/', views.WishlistView.as_view(), name="wishlist"),
 	path('wishlist/add_to_wishlist/<slug:slug>', views.Add_to_wishlist_view, name="add-to-wishlist"),
-	# Subscription
-	path('subscribe/', views.SubscribeView, name="subscribe"),
 ]
