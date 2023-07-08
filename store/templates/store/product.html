@@ -61,42 +61,44 @@
 			</div>
 		  </div>
 	</article>
+{% endblock %}
 
-	<script>
-		// Quantity Change
-		$('.plus-btn').on('click', function (e) {
-			$('.quantity').text(parseInt($('.quantity').text()) + 1);
-		})
-		$('.min-btn').on('click', function (e) {
-			let quantity = parseInt($('.quantity').text());
-			if(quantity > 1)
-			{
-				$('.quantity').text(quantity - 1);
+{% block script %}
+<script>
+	// Quantity Change
+	$('.plus-btn').on('click', function (e) {
+		$('.quantity').text(parseInt($('.quantity').text()) + 1);
+	})
+	$('.min-btn').on('click', function (e) {
+		let quantity = parseInt($('.quantity').text());
+		if(quantity > 1)
+		{
+			$('.quantity').text(quantity - 1);
+		}
+	})
+	// Add to Basket
+	$(document).on('click', '#add-to-basket', function (e) {
+		e.preventDefault();
+		$(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...')
+		var csrfToken = "{{ csrf_token }}";
+		$.ajax({
+			type: "POST",
+			url: "{% url 'basket:basket_update' %}",
+			data: {
+				productId: $('#add-to-basket').data('index'),
+				product_qty: parseInt($('.quantity').text()),
+				csrfmiddlewaretoken: csrfToken,
+				action: 'add'
+			},
+			success: function (response) {
+				$('.quantity').text(1);
+				$('.basket-qty').text(response.qty);
+				$('#add-to-basket').html('Throw to Basket');
+			},
+			error: function (xhr, errmessage, err) {
+				$('#add-to-basket').html('Error: Try Again');
 			}
-		})
-		// Add to Basket
-		$(document).on('click', '#add-to-basket', function (e) {
-			e.preventDefault();
-			$(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...')
-			var csrfToken = "{{ csrf_token }}";
-			$.ajax({
-				type: "POST",
-				url: "{% url 'basket:basket_update' %}",
-				data: {
-					productId: $('#add-to-basket').data('index'),
-					product_qty: parseInt($('.quantity').text()),
-					csrfmiddlewaretoken: csrfToken,
-					action: 'add'
-				},
-				success: function (response) {
-					$('.quantity').text(1);
-					$('.basket-qty').text(response.qty);
-					$('#add-to-basket').html('Throw to Basket');
-				},
-				error: function (xhr, errmessage, err) {
-					$('#add-to-basket').html('Error: Try Again');
-				}
-			});
-		})
-	</script>
+		});
+	})
+</script>
 {% endblock %}

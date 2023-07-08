@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.shortcuts import (render, redirect)
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
 from django.template.loader import render_to_string
@@ -13,7 +13,7 @@ from django.utils.encoding import (force_bytes, force_str)
 from django.utils.http import (urlsafe_base64_decode, urlsafe_base64_encode)
 from django.views.generic import ListView
 
-from .models import User
+from .models import (User, NewsLetter)
 from .forms import (RegistrationForm, ProfileEditForm)
 from .token import account_activation_token
 
@@ -24,6 +24,19 @@ from store.models import Product
 from order.views import Orders_history
 
 # Create your views here.
+def SubscribeView(request):
+	if request.POST:
+		email = request.POST.get('email')
+		if request.POST.get('action') == 'subscribe':
+			newsltr, create = NewsLetter.objects.get_or_create(email=email)
+			if create:
+				response = JsonResponse('🎉 Congratulations and Welcome to Our Website\'s Subscriber Family! 🎉', safe=False)
+			else:
+				response = JsonResponse('You Have Already Been Subscribed!', safe=False)
+
+	return response
+
+
 class WishlistView(LoginRequiredMixin, ListView):
 	model = Product
 	template_name = 'account/user/wishlist.html'
