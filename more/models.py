@@ -88,8 +88,8 @@ class BecomeSellerImage(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True, editable=False)
 
 	class Meta:
-		verbose_name = _("Seller Product Image")
-		verbose_name_plural = _("Seller Product Images")
+		verbose_name = _("Become Seller Product Image")
+		verbose_name_plural = _("Become Seller Product Images")
 
 	def __str__(self):
 		return f"{self.item}"
