@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.translation import gettext as _
 from mptt.admin import MPTTModelAdmin
 
-from .models import (Category, Material, ProductMaterial, Product, ProductType, ProductSpecification, ProductSpecificationValue, Images)
+from .models import (Category, Material, ProductMaterial, Product, ProductType, ProductSpecification, ProductSpecificationValue, ProductImages)
 
 # Register your models here.
 
@@ -49,7 +49,7 @@ class ProductSpecificationValueInline(admin.TabularInline):
 
 # Image Inline Model
 class ImageInline (admin.TabularInline):
-	model = Images
+	model = ProductImages
 	fk_name = 'item'
 	max_num = 5
 	verbose_name_plural = _('image')
@@ -86,4 +86,4 @@ class ProductAdmin (admin.ModelAdmin):
 class ImageAdmin (admin.ModelAdmin):
 	list_display = ('item', 'image_tag')
 	list_filter = ('item',)
-admin.site.register(Images, ImageAdmin)
+admin.site.register(ProductImages, ImageAdmin)

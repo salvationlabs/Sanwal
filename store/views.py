@@ -5,7 +5,7 @@ from django.views.generic import DetailView, ListView, View
 from django.db.models import BooleanField, Case, When
 
 from .forms import ProductForm
-from .models import Images, Product, Category
+from .models import ProductImages, Product, Category
 from account.models import User
 
 
@@ -87,7 +87,7 @@ def create_product(request):
             product_form.save()
 
             for img in images:
-                Images.objects.create(item=product_form, image=img)
+                ProductImages.objects.create(item=product_form, image=img)
 
             messages.success(request, "Yeew, check it out on the home page!")
             return redirect("store:index")

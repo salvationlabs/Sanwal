@@ -189,7 +189,7 @@ class Product (models.Model):
 		super().save(*args, **kwargs)
 
 
-class Images (models.Model):
+class ProductImages (models.Model):
 	def user_directory_path(instance, filename):
         # file will be uploaded to MEDIA_ROOT/user_<id>/listing_<title>/<filename>
 		return 'product_media/item_{0}/{1}'.format(instance.item.title, filename)

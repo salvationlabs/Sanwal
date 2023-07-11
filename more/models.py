@@ -68,3 +68,35 @@ class BecomeSeller(models.Model):
 	supply_chain = models.CharField(choices=SUPPLY_CHAIN_CHOICES, max_length=12, verbose_name=_("How do you manage your Supply Chain?"), help_text=_('Inhouse: Select this if you own machines/setup\nOutsourced: Select this if you do not own machines/setup and buy services from 3rd party vendors. '))
 	inventory = models.CharField(choices=INVENTORY_CHOICES, max_length=12, verbose_name=_("Do you produce inventory before selling?"))
 	feedback = models.TextField(verbose_name=_("If any, please share your feedback regarding the form."), help_text=_("Please give a brief introduction of your company"))
+	time_created = models.DateTimeField(verbose_name=_("Created At"), auto_now_add=True, editable=False)
+
+	class Meta:
+		verbose_name = _("Become Seller")
+		verbose_name_plural = _("Become Seller List")
+		ordering = ('-time_created',)
+
+	def __str__(self):
+		return self.brand_name
+
+class BecomeSellerImage(models.Model):
+	def user_directory_path(instance, filename):
+        # file will be uploaded to MEDIA_ROOT/user_<id>/listing_<title>/<filename>
+		return 'seller_media/item_{0}/{1}'.format(instance.item.title, filename)
+
+	seller = models.ForeignKey(BecomeSeller, on_delete=models.CASCADE, related_name='img')
+	image = models.ImageField(verbose_name=_("image"), upload_to=user_directory_path)
+	created_at = models.DateTimeField(auto_now_add=True, editable=False)
+
+	class Meta:
+		verbose_name = _("Seller Product Image")
+		verbose_name_plural = _("Seller Product Images")
+
+	def __str__(self):
+		return f"{self.item}"
+
+	def image_tag(self):
+		if self.image:
+			return mark_safe('<img src="%s" style="width: 45px; height:45px;" />' % self.image.url)
+		else:
+			return 'No image found'
+	image_tag.short_description = 'Image'
