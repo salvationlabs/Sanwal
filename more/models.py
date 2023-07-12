@@ -19,14 +19,6 @@ class BusinessOperation(models.Model):
 
 
 class BecomeSeller(models.Model):
-	OPERATION_CHOICES = [
-		('E/W', 'East/West'),
-		('EX', 'Export'),
-		('ONL', 'Online'),
-		('RE', 'Retail'),
-		('RB', 'Retail Brand'),
-		('WS', 'Wholesale'),
-	]
 	CATEGORY = [
 		('KDS', 'Kids'),
 		('MR', 'Manufacturer'),

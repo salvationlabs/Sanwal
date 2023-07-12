@@ -10,17 +10,6 @@ class BecomeSellerForm (forms.ModelForm):
 
 		exclude = ('time_created',)
 
-		# widgets = {
-		# 	'brand_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Title'}),
-		# 	'price': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter Price', 'min': 0}),
-		# 	'discount_price': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter Discount Price', 'min': 0}),
-        #     'type': forms.Select(attrs={'class': 'form-select'}),
-        #     'category': forms.Select(attrs={'class': 'form-select'}),
-        #     'subcategory': forms.Select(attrs={'class': 'form-select'}),
-        #     'material': forms.Select(attrs={'class': 'form-select'}),
-        #     'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Description'}),
-		# }
-
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		for field_name in self.fields:
@@ -28,3 +17,19 @@ class BecomeSellerForm (forms.ModelForm):
 				'class': 'form-control mb-3',
 				'placeholder': field_name.replace('_', ' ').title()
 			})
+		
+		self.fields['bussiness_operations'].widget.attrs.update({
+			'class': 'form-select'
+		})
+		self.fields['products_category'].widget.attrs.update({
+			'class': 'form-select'
+		})
+		self.fields['catalogue_size'].widget.attrs.update({
+			'class': 'form-select'
+		})
+		self.fields['supply_chain'].widget.attrs.update({
+			'class': 'form-select'
+		})
+		self.fields['inventory'].widget.attrs.update({
+			'class': 'form-select'
+		})
