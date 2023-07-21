@@ -34,7 +34,7 @@
 									{% endif %}
 								</a>
 								<a href="{% url 'account:add-to-wishlist' item.slug %}" class="position-absolute start-100 translate-middle-x">
-									{% if item.is_in_wishlist %}
+									{% if item in wishlist_listings %}
 										<ion-icon name="heart"></ion-icon>
 									{% else %}
 										<ion-icon name="heart-outline"></ion-icon>

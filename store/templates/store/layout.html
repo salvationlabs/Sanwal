@@ -93,9 +93,9 @@
 							{% endif %}
 						{% endfor %}
 						{% if user.is_authenticated and user.is_staff %}
-							<li class="nav-item">
+							<!-- <li class="nav-item">
 								<a href="{% url 'store:create-product' %}" {% if "/create-product" in request.path %}class="nav-link active "{% endif %} class="nav-link "><div class="seperator"></div>CREATE POST</a>
-							</li>
+							</li> -->
 							<li class="nav-item">
 								<a href="{% url 'admin:index' %}" class="nav-link "><div class="seperator"></div>ADMIN</a>
 							</li>

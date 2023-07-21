@@ -12,17 +12,17 @@ from account.models import User
 # Create your views here.
 class HomeView(ListView):
     model = Product
+    queryset = Product.products.all()
     paginate_by = 8
     template_name = 'store/index.html'
 
-    def get_queryset(self):
-        qs = Product.products.all()
-        qs = qs.annotate(is_in_wishlist=Case(
-            When(user_wishlist__id=self.request.user.id, then=True),
-            default=False,
-            output_field=BooleanField(),
-        ))
-        return qs
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        wishlist_listings = []
+        if self.request.user.is_authenticated:
+            wishlist_listings = self.request.user.user_wishlist.all()
+        context['wishlist_listings'] = wishlist_listings
+        return context
 
 
 class CategoryListView (ListView):
@@ -37,6 +37,10 @@ class CategoryListView (ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        wishlist_listings = []
+        if self.request.user.is_authenticated:
+            wishlist_listings = self.request.user.user_wishlist.all()
+        context['wishlist_listings'] = wishlist_listings
         context['heading'] = self.kwargs['category_slug']
         return context
 
@@ -47,11 +51,14 @@ class SubCategoryListView (ListView):
     template_name = 'store/products.html'
 
     def get_queryset(self, **kwargs):
-        qs = Product.products.all()
-        return qs.filter(subcategory__slug=self.kwargs['subcategory_slug']).all()
+        return Product.products.filter(category__in=Category.objects.get(name=category).get_descendants(include_self=True))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        wishlist_listings = []
+        if self.request.user.is_authenticated:
+            wishlist_listings = self.request.user.user_wishlist.all()
+        context['wishlist_listings'] = wishlist_listings
         context['heading'] = self.kwargs['category_slug']
         context['subheading'] = self.kwargs['subcategory_slug']
         return context
@@ -64,10 +71,14 @@ class MaterialListView (ListView):
 
     def get_queryset(self, **kwargs):
         qs = Product.products.all()
-        return qs.filter(material__slug=self.kwargs['material_slug']).all()
+        return qs.filter(material__material__slug=self.kwargs['material_slug'])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        wishlist_listings = []
+        if self.request.user.is_authenticated:
+            wishlist_listings = self.request.user.user_wishlist.all()
+        context['wishlist_listings'] = wishlist_listings
         context['heading'] = self.kwargs['material_slug']
         return context
 
@@ -75,6 +86,19 @@ class MaterialListView (ListView):
 class ItemDetailView (DetailView):
     model = Product
     template_name = 'store/product.html'
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     post = Product.products.get(slug=self.kwargs['slug'])
+    #     is_added_to_wishlist = False
+
+    #     if request.user.is_authenticated:
+    #         is_added_to_wishlist = post.user_wishlist.filter(id=request.user.id).exists()
+    #         if request.user.username == post.creator.username:
+    #             active = True
+        
+    #     context['is_added_to_wishlist'] = is_added_to_wishlist
+    #     return context
 
 
 @staff_member_required

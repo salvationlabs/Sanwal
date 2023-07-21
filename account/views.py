@@ -30,7 +30,15 @@ class WishlistView(LoginRequiredMixin, ListView):
 	paginate_by = 12
 
 	def get_queryset(self, *kwargs):
-		return Product.objects.filter(user_wishlist=self.request.user)
+		return Product.products.filter(user_wishlist=self.request.user)
+	
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		wishlist_listings = []
+		if self.request.user.is_authenticated:
+			wishlist_listings = self.request.user.user_wishlist.all()
+		context['wishlist_listings'] = wishlist_listings
+		return context
 
 
 @login_required
