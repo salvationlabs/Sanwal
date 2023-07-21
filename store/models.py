@@ -217,20 +217,22 @@ class ProductImages (models.Model):
 
 
 	def save(self, *args, **kwargs):
-		if self.image:
-			img = PillowImage.open(self.image)	# open image
+		img = PillowImage.open(self.image)
+		# Resize image
+		output_size = (500, 500)
+		img.thumbnail(output_size)
 
-			# Resize image
-			if img.height > 500 or img.width > 500:
-				output_size = (500, 500)
-				img.thumbnail(output_size)
+		# Save the resized image to a BytesIO buffer
+		output_buffer = BytesIO()
+		img.save(output_buffer, format='WebP')
+		output_buffer.seek(0)
 
-				# Save the resized image to a BytesIO buffer
-				output_buffer = BytesIO()
-				img.save(output_buffer, format='JPEG')
-				output_buffer.seek(0)
+		# Generate a unique name for the image
+		random_string = get_random_string(length=8)
+		timestamp = timezone.now().strftime('%Y%m%d%H%M%S')
+		filename = f'{random_string}_{timestamp}.webp'
 
-				# Save the buffer content to the image field
-				self.image.save(self.image.name, ContentFile(output_buffer.read()), save=False)
+		# Save the buffer content to the image field with the unique filename
+		self.image.save(filename, ContentFile(output_buffer.read()), save=False)
 
 		super().save(*args, **kwargs)
