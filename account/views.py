@@ -20,8 +20,6 @@ from .token import account_activation_token
 # Store App
 from store.models import Product
 
-# Order App
-from order.views import Orders_history
 
 # Create your views here.
 class WishlistView(LoginRequiredMixin, ListView):
@@ -57,11 +55,7 @@ def Add_to_wishlist_view(request, slug):
 
 @login_required
 def dashboard(request):
-	orders = Orders_history(request)
-	return render(request, 'account/user/dashboard.html', {
-		'section': 'profile',
-		'orders': orders
-	})
+	return render(request, 'account/user/dashboard.html')
 
 
 @login_required

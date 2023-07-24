@@ -173,5 +173,5 @@ def remove_from_cart(request, slug):
 
 def Orders_history(request):
     user = request.user
-    orders = Order.objects.filter(user=user, is_cancelled=False)
+    orders = Order.objects.filter(user=user)
     return orders
