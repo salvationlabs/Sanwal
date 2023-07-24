@@ -53,7 +53,6 @@ class ImageInline (admin.TabularInline):
 	fk_name = 'item'
 	max_num = 5
 	verbose_name_plural = _('image')
-	prepopulated_fields = {'alt_text': ('image',)}
 
 # Product Model
 @admin.register(Product)

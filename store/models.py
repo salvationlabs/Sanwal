@@ -2,7 +2,6 @@ from django.conf import settings
 from django.db import models
 from django.core.files.storage import default_storage
 from django.shortcuts import reverse
-from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
 from mptt.models import MPTTModel, TreeForeignKey
@@ -10,6 +9,9 @@ from mptt.models import MPTTModel, TreeForeignKey
 from PIL import Image as PillowImage
 from io import BytesIO
 from django.core.files.base import ContentFile
+from django.utils.safestring import mark_safe
+from django.utils.crypto import get_random_string
+from django.utils import timezone
 
 
 # Model Managers
@@ -196,8 +198,6 @@ class ProductImages (models.Model):
 
 	item = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='img')
 	image = models.ImageField(verbose_name=_("image"), upload_to=user_directory_path)
-	alt_text = models.CharField(verbose_name=_("Alternative Text"), help_text=_("Please add alternative text"), max_length=255, null=True, blank=True)
-	is_feature = models.BooleanField(default=False)
 	created_at = models.DateTimeField(auto_now_add=True, editable=False)
 	updated_at = models.DateTimeField(auto_now=True)
 
