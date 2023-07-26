@@ -45,10 +45,10 @@
     width: 300px;
   }
 
-  .swiper.itemImageSwiper .swiper-slide img {
-    display: block;
-    width: 100%;
+.swiper.itemImageSwiper .swiper-slide img {
+	display: block;
+    max-width: 100%;
 	padding-bottom: 10px;
-    height: 250px;
+    max-height: 250px;
 	border-radius: 40px; 
-  }
+}

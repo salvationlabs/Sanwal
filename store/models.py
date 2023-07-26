@@ -219,7 +219,7 @@ class ProductImages (models.Model):
 	def save(self, *args, **kwargs):
 		img = PillowImage.open(self.image)
 		# Resize image
-		output_size = (500, 500)
+		output_size = (800, 800)
 		img.thumbnail(output_size)
 
 		# Save the resized image to a BytesIO buffer
