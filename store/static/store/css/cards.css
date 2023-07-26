@@ -42,12 +42,13 @@
 }
 
 .swiper.itemImageSwiper {
-    max-width: 330px;
 	max-height: 330px;
+	max-width: max-content;
 }
 
 .swiper.itemImageSwiper .swiper-slide {
 	max-height: 330px;
+	max-width: max-content;
 	border-radius: 30px; 
 	overflow: hidden;
 }
