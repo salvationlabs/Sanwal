@@ -42,20 +42,23 @@
 }
 
 .swiper.itemImageSwiper {
-	max-height: 330px;
+	max-height: max-content;
 	max-width: max-content;
+	/* margin: auto;
+	align-items: center;
+	justify-content: center; */
 }
 
 .swiper.itemImageSwiper .swiper-slide {
-	max-height: 330px;
-	max-width: max-content;
-	border-radius: 30px; 
-	overflow: hidden;
+	margin: auto;
+	align-items: center;
+	justify-content: center;
 }
 
 .swiper.itemImageSwiper .swiper-slide img {
+	border-radius: 30px; 
     max-width: 100%;
-    max-height: 330px;
+    /* max-height: 330px; */
 	margin: auto;
 	align-items: center;
 	justify-content: center;
@@ -63,4 +66,8 @@
 
 .swiper.itemImageSwiper .swiper-slide img::selection {
 	background: none;
+}
+
+.products .row .card .swiper.itemImageSwiper .swiper-slide img {
+    max-height: 330px;
 }

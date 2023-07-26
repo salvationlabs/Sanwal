@@ -62,7 +62,7 @@ class ProductAdmin (admin.ModelAdmin):
 		ProductSpecificationValueInline,
 		ImageInline,
 	]
-	list_display = ('title', 'regular_price', 'slug', 'discount_price', 'in_stock', 'is_active', 'description', 'category', 'time_created', 'updated', 'image_tag')
+	list_display = ('title', 'regular_price', 'slug', 'discount_price', 'in_stock', 'is_active', 'category', 'time_created', 'updated', 'image_tag')
 	list_filter = ('regular_price', 'discount_price', 'in_stock', 'is_active', 'category', 'time_created')
 	list_editable = ['regular_price', 'discount_price', 'is_active', 'in_stock']
 	prepopulated_fields = {'slug': ('title',)}
