@@ -38,21 +38,9 @@ window.onload = function () {
             shadow: true,
             slideShadows: true,
             shadowOffset: 5,
-            shadowScale: 1,
+            shadowScale: 0.7,
         },
 		
-		pagination: {
-			el: ".swiper-pagination",
-		},
-
-		scrollbar: {
-			el: ".swiper-scrollbar",
-		},
-		
-		navigation: {
-		  nextEl: ".swiper-button-next",
-		  prevEl: ".swiper-button-prev",
-		},
 	  });
 }
 

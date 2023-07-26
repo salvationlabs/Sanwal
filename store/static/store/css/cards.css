@@ -42,16 +42,28 @@
 }
 
 .swiper.itemImageSwiper {
-    width: 300px;
+    max-width: 350px;
   }
 
+.swiper.itemImageSwiper .swiper-slide {
+	border-radius: 30px; 
+	overflow: hidden;
+	max-height: 100%;
+}
+
+.swiper.itemImageSwiper .swiper-slide::selection {
+	background: none;
+	display: none;
+}
+
 .swiper.itemImageSwiper .swiper-slide img {
-	display: block;
     max-width: 100%;
-	padding-bottom: 10px;
-    max-height: 250px;
-	border-radius: 40px; 
+    max-height: 100%;
 	margin: auto;
 	align-items: center;
 	justify-content: center;
+}
+
+.swiper.itemImageSwiper .swiper-slide img::selection {
+	background: none;
 }
