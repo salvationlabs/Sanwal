@@ -36,13 +36,6 @@
 					{% endwith %}
 				{% endfor %}
 			  
-			  <!-- <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
-				<div class="text-success">
-				  <h6 class="my-0">Promo code</h6>
-				  <small>EXAMPLECODE</small>
-				</div>
-				<span class="text-success">−$5</span>
-			  </li> -->
 			  <li class="list-group-item d-flex justify-content-between" style="color: wheat;">
 				<span>Sub Total (PKR)</span>
 				<strong>Rs. {{ basket.get_before_discount }}</strong>
@@ -69,12 +62,6 @@
 			  </li>
 			</ul>
 	
-			<!-- <form class="card p-2">
-			  <div class="input-group">
-				<input type="text" class="form-control" placeholder="Promo code">
-				<button type="submit" class="btn btn-secondary">Redeem</button>
-			  </div>
-			</form> -->
 			{% if not form %}
 			<a href="{% url 'order:order-placement' %}" class="btn basket w-100">Confirm Order</a>
 			{% endif %}
@@ -91,15 +78,15 @@
 								<!-- <p class="mb-4 text-muted">It's free and only takes a minute.</p> -->
 
 								{% if form.errors %}
-								<p class="text-danger">Please correct the following errors:</p>
-								{% for field in form %}
-								{% if field.errors %}
-								<div class="alert alert-danger alert-dismissible fade show" role="alert">
-									{{ field.label }}: {{ field.errors | striptags }}
-									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-								</div>
-								{% endif %}
-								{% endfor %}
+									<p class="text-danger">Please correct the following errors:</p>
+									{% for field in form %}
+										{% if field.errors %}
+											<div class="alert alert-danger alert-dismissible fade show" role="alert">
+												{{ field.label }}: {{ field.errors | striptags }}
+												<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+											</div>
+										{% endif %}
+									{% endfor %}
 								{% endif %}
 
 								<div class="row">

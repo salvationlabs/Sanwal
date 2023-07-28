@@ -1,4 +1,5 @@
 from django.conf import settings
+import json
 
 from store.models import Product
 
@@ -62,12 +63,22 @@ class Basket():
 		"""
 		Collect the product_id in the session data to query the database and return products
 		"""
+
+		def serialize_product(product):
+			# Convert the Product object to a dictionary
+			product_data = {
+				'title': product.title,
+				'description': product.description
+			}
+			return product_data
+
 		product_ids = self.basket.keys()
 		products = Product.products.filter(id__in=product_ids)
 		basket = self.basket.copy()
 
 		for product in products:
-			basket[str(product.id)]['product'] = product
+			basket[str(product.id)]['product'] = serialize_product(product)
+			print(basket[str(product.id)])
 
 		for item in basket.values():
 			item['total_price'] = item['regular_price'] * item['qty']

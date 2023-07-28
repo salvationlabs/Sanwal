@@ -44,21 +44,16 @@
 .swiper.itemImageSwiper {
 	max-height: max-content;
 	max-width: max-content;
-	/* margin: auto;
-	align-items: center;
-	justify-content: center; */
 }
 
 .swiper.itemImageSwiper .swiper-slide {
 	margin: auto;
-	align-items: center;
-	justify-content: center;
+	text-align: center;
 }
 
 .swiper.itemImageSwiper .swiper-slide img {
 	border-radius: 30px; 
     max-width: 100%;
-    /* max-height: 330px; */
 	margin: auto;
 	align-items: center;
 	justify-content: center;
