@@ -1,9 +1,9 @@
 var swiper_grid = new Swiper(".categories-grid-swiper", {
 	slidesPerView: 3,
-	// autoplay: {
-	// 	delay: 3000,
-    //     disableOnInteraction: false,
-	// },
+	autoplay: {
+		delay: 3000,
+        disableOnInteraction: false,
+	},
 	breakpoints: {
 		"@0.00": {
 			slidesPerView: 1,
