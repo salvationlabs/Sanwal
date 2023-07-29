@@ -37,13 +37,6 @@ class User(AbstractUser):
 
 
 		email.send(fail_silently=False)
-		# send_mail(
-		# 	subject,
-		# 	message,
-		# 	'talhamalik25.tm@gmail.com',
-		# 	[self.email],
-		# 	fail_silently=False,
-		# )
 
 	def __str__(self):
 		return self.email

@@ -79,6 +79,53 @@ class Material (models.Model):
 		super().save(*args, **kwargs)
 
 
+class Brand (models.Model):
+	def user_directory_path(instance, filename):
+        # file will be uploaded to MEDIA_ROOT/user_<id>/listing_<title>/<filename>
+		return 'logos/brands/brand_{0}/logo_{1}'.format(instance.name, filename)
+
+	name = models.CharField(verbose_name=_("Brand Name"), unique=True, max_length=124, db_index=True)
+	logo = models.ImageField(verbose_name=_("Brand Logo"), upload_to=user_directory_path, blank=True, null=True)
+	slug = models.SlugField(verbose_name=_("Brand Safe URL"), max_length=255, unique=True)
+
+	class Meta:
+		verbose_name = _("Brand")
+		verbose_name_plural = _("Brands")
+
+	def __str__(self):
+		return self.name
+
+	def get_absolute_url(self):
+		return reverse('store:products-by-material', kwargs={
+			'brand_slug': self.slug
+		})
+	
+	def save (self, *args, **kwargs):
+		if self.logo:
+			img = PillowImage.open(self.image)
+			# Resize image
+			output_size = (1000, 1000)
+			img.thumbnail(output_size)
+
+			# Save the resized image to a BytesIO buffer
+			output_buffer = BytesIO()
+			img.save(output_buffer, format='WebP')
+			output_buffer.seek(0)
+
+			# Generate a unique name for the image
+			random_string = get_random_string(length=8)
+			timestamp = timezone.now().strftime('%Y%m%d%H%M%S')
+			filename = f'{random_string}_{timestamp}.webp'
+
+			# Save the buffer content to the image field with the unique filename
+			self.image.save(filename, ContentFile(output_buffer.read()), save=False)
+
+		if self.slug == '':
+			value = self.title.replace(" ", "-")
+			self.slug = slugify(value, allow_unicode=True)
+		super().save(*args, **kwargs)
+
+
 class ProductMaterial(models.Model):
 	material = models.ForeignKey("Material", verbose_name=_("Material Name"), on_delete=models.CASCADE)
 	item = models.ForeignKey("Product", verbose_name=_("Product Name"), on_delete=models.CASCADE, related_name="material")
@@ -153,6 +200,7 @@ class Product (models.Model):
 	}, blank=True, null=True)
 	description = models.TextField(help_text=_("Required"))
 	product_type = models.ForeignKey("ProductType", verbose_name=_("Type of Product"), on_delete=models.RESTRICT)
+	brand = models.ForeignKey("Brand", verbose_name=_("Brand"), on_delete=models.RESTRICT, blank=True, null=True)
 	category = TreeForeignKey(Category, on_delete=models.RESTRICT, related_name="category")
 	is_active = models.BooleanField(verbose_name=_("Product Visibility"), help_text=_("Change Product Visibility"), default=True)
 	in_stock = models.BooleanField(default=True)

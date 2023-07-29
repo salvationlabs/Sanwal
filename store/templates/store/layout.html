@@ -28,11 +28,10 @@
 		{
 			/* background-color: rgb(59, 35, 11); */
 			/* background-color: rgb(33, 17, 3); */
-			background-image: url("{% static 'store/imgs/grainy-background/noise.svg' %}");
-			background: #232425;
-			color: whitesmoke;
+			/* background-image: url("{% static 'store/imgs/grainy-background/noise.svg' %}"); */
+			background: rgb(253, 251, 248);
+			color: black;
 			background-size: cover;
-			/* background-repeat: no-repeat; */
 			scroll-behavior: smooth;
 			font-family: 'Viga', sans-serif;
 		}
@@ -50,17 +49,20 @@
 				</div>
 			{% endfor %}
 		{% endif %}
-					<!-- Top bar Navigation -->
-		<nav class="navbar navbar-dark navbar-expand-lg fs-6">
-			<div class="container-fluid">
-				<a href="{% url 'store:index' %}" class="navbar-brand mb-0 h1" style="color: wheat;">
-					<!-- <img src="{% static 'store/imgs/icon/sanwal2.webp' %}" alt="LOGO" width="50" height="40"> -->
-					Sanwal
+		<nav class="navbar my-0 py-0">
+			<div class="container-fluid d-flex justify-content-center">
+				<a href="{% url 'store:index' %}" class="navbar-brand mb-0 h1" style="color: rgb(245, 222, 179);">
+					<img src="{% static 'store/imgs/icon/sanwal.svg' %}" alt="LOGO" width="80" height="70">
 				</a>
+			</div>
+		  </nav>
+					<!-- Top bar Navigation -->
+		<nav class="navbar navbar-expand-lg  mt-0 pt-1">
+			<div class="container-fluid">
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				</button>
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav m-auto mb-2 mb-lg-0 text-center">
+					<ul class="navbar-nav m-auto mb-2 mb-lg-0">
 						<li class="nav-item dropdown">
 							<a {% if "?material" in request.path %}class="nav-link active dropdown-toggle" {% endif %} class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 								<div class="seperator"></div>MATERIALS
@@ -93,9 +95,6 @@
 							{% endif %}
 						{% endfor %}
 						{% if user.is_authenticated and user.is_staff %}
-							<!-- <li class="nav-item">
-								<a href="{% url 'store:create-product' %}" {% if "/create-product" in request.path %}class="nav-link active "{% endif %} class="nav-link "><div class="seperator"></div>CREATE POST</a>
-							</li> -->
 							<li class="nav-item">
 								<a href="{% url 'admin:index' %}" class="nav-link "><div class="seperator"></div>ADMIN</a>
 							</li>
@@ -103,8 +102,8 @@
 					</ul>
 				</div>
 				<div class="nav-item dropdown me-2">
-					<a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						ACCOUNT<ion-icon name="person"></ion-icon>
+					<a class="nav-link pt-1" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						<ion-icon name="person"></ion-icon>
 					</a>
 					<ul class="dropdown-menu  dropdown-menu-dark m-0 p-0 w-25 m-auto">
 						{% if user.is_authenticated %}
@@ -117,7 +116,7 @@
 						{% endif %}
 					</ul>
 				</div>
-				<a href="{% url 'basket:basket_summary' %}" {% if "/basket" in request.path %}class="btn active"{% endif %} class="btn" role="button" type="button">
+				<a href="{% url 'basket:basket_summary' %}" {% if "/basket" in request.path %}class="btn active"{% endif %} class="btn btn-sm" role="button" type="button">
 					Basket <span class="position-relative">
 						<ion-icon name="bag-handle-outline"></ion-icon>
 						{% with total_qty=basket|length %}
@@ -144,7 +143,7 @@
 		<footer class="pt-4 pb-1">
 			<div class="row">
 				<div class="col-4 col-sm-6 col-md-2 mb-3">
-				  <h5>Section</h5>
+				  <h5 style="color: wheat;">Section</h5>
 				  <ul class="nav flex-column">
 					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Home</a></li>
 					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
@@ -155,18 +154,7 @@
 				</div>
 		  
 				<div class="col-4 col-sm-6 col-md-2 mb-3">
-				  <h5>Section</h5>
-				  <ul class="nav flex-column">
-					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Home</a></li>
-					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
-					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
-					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
-					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
-				  </ul>
-				</div>
-		  
-				<div class="col-4 col-sm-6 col-md-2 mb-3">
-				  <h5>More From Sanwal</h5>
+				  <h5 style="color: wheat;">More From Sanwal</h5>
 				  <ul class="nav flex-column">
 					<li class="nav-item mb-2"><a href="{% url 'more:become-seller' %}" class="nav-link p-0 text-body-secondary">Become a Seller</a></li>
 					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
@@ -177,7 +165,7 @@
 				</div>
 		  
 				<div class="col-md-5 offset-md-1 mb-3">
-				  <form>
+				  <form style="color: wheat;">
 					<h5>Subscribe to our newsletter</h5>
 					<p>Monthly digest of what's new and exciting from us.</p>
 					<div class="d-flex flex-sm-row gap-lg-4 text-muted" id="newsletter">
@@ -188,7 +176,7 @@
 				  </form>
 				</div>
 			  </div>
-			<div class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+			<div class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"  style="color: wheat;">
 			  <p class="col-md-4 mb-0 text-body-secondary">© 2023 Sanwal, Inc. All rights reserved.</p>
 			  <a href="{% url 'store:index' %}" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
 				<img src="{% static 'store/imgs/icon/sanwal2.webp' %}" alt="Logo" class="bi me-sm-2" width="50" height="45">

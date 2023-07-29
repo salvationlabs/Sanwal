@@ -5,20 +5,18 @@
     box-sizing: border-box;
 }
 
-	/* background-color: rgb(65, 59, 46); */
-	/* background-color: rgb(24, 22, 17); */
-
 /* //////////////////////////////////	SCROLL BAR	////////////////////////////////////////////// */
 ::-webkit-scrollbar
 {
-	width: 3px;
-	background: rgb(24, 22, 17);
+	width: 6px;
+	/* background: rgb(24, 22, 17); */
 	height: 3px;
 }
 
 ::-webkit-scrollbar-thumb
 {
-	background: wheat;
+	border-radius: 10px;
+	background: rgb(192, 177, 151);
 }
 
 						/* MAIN */
@@ -26,7 +24,7 @@
 
 						/* Login and Register Form */
 .auth_form{
-	color: wheat;
+	color: black;
 	box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05),
 	inset 5px 5px 15px rgba(0, 0, 0, 0.5);
 	background-color: #141414;
