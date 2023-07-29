@@ -106,11 +106,7 @@ footer .nav .nav-item .nav-link
     .navbar
 	{
 		height: initial;
-		background: rgb(24, 24, 24);
-		box-shadow: 0px 0px 16px rgba(245, 222, 179, 0.438);
+		/* background: rgb(24, 24, 24); */
+		/* box-shadow: 0px 0px 16px rgba(245, 222, 179, 0.438); */
 	}
-
-	.navigation{
-        display: none;
-    }
 }
