@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
     'django_countries',
     'mptt',
+    'django_mptt_admin',
 
     # INTERNAL APPS
     'store',

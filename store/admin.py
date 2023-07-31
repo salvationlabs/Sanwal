@@ -1,6 +1,6 @@
 from django.contrib import admin
+from django_mptt_admin.admin import DjangoMpttAdmin
 from django.utils.translation import gettext as _
-from mptt.admin import MPTTModelAdmin
 
 from .models import (Category, Material, ProductMaterial, Product, ProductType, ProductSpecification, ProductSpecificationValue, ProductImages)
 
@@ -8,7 +8,7 @@ from .models import (Category, Material, ProductMaterial, Product, ProductType, 
 
 
 # Category Model
-class CategoryAdmin(MPTTModelAdmin):
+class CategoryAdmin(DjangoMpttAdmin):
 	list_display = ['name', 'slug']
 	prepopulated_fields = {'slug': ('name',)}
 
