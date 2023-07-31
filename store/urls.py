@@ -9,10 +9,10 @@ urlpatterns = [
 	path('', views.HomeView.as_view(), name='index'),
 	# Category Url
 	path('?category=<slug:category_slug>', views.CategoryListView.as_view(), name='products-by-category'),
-	# SubCategory Url
-	path('?category=<slug:category_slug>?subcategory=<slug:subcategory_slug>', views.SubCategoryListView.as_view(), name='products-by-subcategory'),
 	# Material Url
 	path('?material=<slug:material_slug>', views.MaterialListView.as_view(), name='products-by-material'),
+	# Material Url
+	path('?brands', views.BrandsListView.as_view(), name='products-by-brands'),
 	# Create Product Url
 	path('create-product/', views.create_product, name='create-product'),
 	path('?product=<slug>', views.ItemDetailView.as_view(), name='product'),

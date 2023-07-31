@@ -10,36 +10,30 @@
 	<div class="container-fluid px-5">
 		<div class="swiper categories-grid-swiper">
 			<div class="swiper-wrapper">
-				<div class="swiper-slide position-relative">
-					<img src="{% static 'store/imgs/categoriesgrid/household.webp' %}" alt="Household" width="100%" height="415px">
-					<span class="position-absolute fs-1 text-light">Household</span>
-				</div>
-				<div class="swiper-slide position-relative">
-					<img src="{% static 'store/imgs/categoriesgrid/jewellery.webp' %}" alt="Household" width="100%" height="415px">
+				<a href="{% url 'store:products-by-category' category_slug='home-decor' %}" class="swiper-slide position-relative">
+					<img src="{% static 'store/imgs/categoriesgrid/homedecor.webp' %}" alt="Home Decor" width="100%" height="415px">
+					<span class="position-absolute fs-1 text-light">Home Decor</span>
+				</a>
+				<a href="{% url 'store:products-by-category' category_slug='jewellery' %}" class="swiper-slide position-relative">
+					<img src="{% static 'store/imgs/categoriesgrid/jewellery.webp' %}" alt="Jewellery" width="100%" height="415px">
 					<span class="position-absolute fs-1 text-light">Jewellery</span>
-				</div>
-				<div class="swiper-slide position-relative">
-					<img src="{% static 'store/imgs/categoriesgrid/apparel.webp' %}" alt="Household" width="100%" height="415px">
+				</a>
+				<a href="{% url 'store:products-by-category' category_slug='apparel' %}" class="swiper-slide position-relative">
+					<img src="{% static 'store/imgs/categoriesgrid/apparel.webp' %}" alt="Apparel" width="100%" height="415px">
 					<span class="position-absolute fs-1 text-light">Apparel</span>
-				</div>
-				<div class="swiper-slide position-relative">
-					<img src="{% static 'store/imgs/categoriesgrid/footwear.webp' %}" alt="Household" width="100%" height="415px">
+				</a>
+				<a href="{% url 'store:products-by-category' category_slug='footwear' %}" class="swiper-slide position-relative">
+					<img src="{% static 'store/imgs/categoriesgrid/footwear.webp' %}" alt="Footwear" width="100%" height="415px">
 					<span class="position-absolute fs-1 text-light">Footwear</span>
-				</div>
-				<div class="swiper-slide position-relative">
-					<img src="{% static 'store/imgs/categoriesgrid/brands.webp' %}" alt="Household" width="100%" height="415px">
+				</a>
+				<a href="{% url 'store:products-by-brands' %}" class="swiper-slide position-relative">
+					<img src="{% static 'store/imgs/categoriesgrid/brands.webp' %}" alt="Brands" height="415px">
 					<span class="position-absolute fs-1 text-light">Brands</span>
-				</div>
-				<div class="swiper-slide position-relative">
-					<img src="{% static 'store/imgs/categoriesgrid/wallets.webp' %}" alt="Household" width="100%" height="415px">
+				</a>
+				<a href="{% url 'store:products-by-category' category_slug='wallets' %}" class="swiper-slide position-relative">
+					<img src="{% static 'store/imgs/categoriesgrid/wallets.webp' %}" alt="Wallets" height="415px">
 					<span class="position-absolute fs-1 text-light">Wallets</span>
-				</div>
-				<div class="swiper-slide">Slide 4</div>
-				<div class="swiper-slide">Slide 5</div>
-				<div class="swiper-slide">Slide 6</div>
-				<div class="swiper-slide">Slide 7</div>
-				<div class="swiper-slide">Slide 8</div>
-				<div class="swiper-slide">Slide 9</div>
+				</a>
 			</div>
 			<div class="swiper-pagination"></div>
 		</div>

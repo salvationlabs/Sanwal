@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import redirect, render
 from django.views.generic import DetailView, ListView, View
-from django.db.models import BooleanField, Case, When
+from django.db.models import BooleanField, Case, When, Q
 
 from .forms import ProductForm
 from .models import ProductImages, Product, Category
@@ -33,7 +33,7 @@ class CategoryListView (ListView):
     def get_queryset(self, **kwargs):
         # qs = super().get_queryset(**kwargs)
         category = Category.objects.get(slug=self.kwargs['category_slug'])
-        return Product.products.filter(category__in=Category.objects.get(name=category).get_descendants(include_self=True))
+        return Product.products.filter(category__in=category.get_descendants(include_self=True))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -42,25 +42,6 @@ class CategoryListView (ListView):
             wishlist_listings = self.request.user.user_wishlist.all()
         context['wishlist_listings'] = wishlist_listings
         context['heading'] = self.kwargs['category_slug']
-        return context
-
-
-class SubCategoryListView (ListView):
-    model = Product
-    paginate_by = 12
-    template_name = 'store/products.html'
-
-    def get_queryset(self, **kwargs):
-        return Product.products.filter(category__in=Category.objects.get(name=category).get_descendants(include_self=True))
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        wishlist_listings = []
-        if self.request.user.is_authenticated:
-            wishlist_listings = self.request.user.user_wishlist.all()
-        context['wishlist_listings'] = wishlist_listings
-        context['heading'] = self.kwargs['category_slug']
-        context['subheading'] = self.kwargs['subcategory_slug']
         return context
 
 
@@ -80,6 +61,25 @@ class MaterialListView (ListView):
             wishlist_listings = self.request.user.user_wishlist.all()
         context['wishlist_listings'] = wishlist_listings
         context['heading'] = self.kwargs['material_slug']
+        return context
+
+
+class BrandsListView (ListView):
+    model = Product
+    paginate_by = 12
+    template_name = 'store/products.html'
+
+    def get_queryset(self, **kwargs):
+        qs = Product.products.all()
+        return qs.filter(brand__isnull=False)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        wishlist_listings = []
+        if self.request.user.is_authenticated:
+            wishlist_listings = self.request.user.user_wishlist.all()
+        context['wishlist_listings'] = wishlist_listings
+        context['heading'] = 'Brands'
         return context
 
 

@@ -1,7 +1,11 @@
 var swiper_grid = new Swiper(".categories-grid-swiper", {
+	grabCursor: true,
 	slidesPerView: 3,
+	centeredSlides: true,
+	centeredSlidesBounds: true,
+	slideToClickedSlide: true,
 	autoplay: {
-		delay: 3000,
+		delay: 2700,
         disableOnInteraction: false,
 	},
 	breakpoints: {
@@ -19,10 +23,12 @@ var swiper_grid = new Swiper(".categories-grid-swiper", {
 	},
 	spaceBetween: 15,
 	pagination: {
-	el: ".swiper-pagination",
-	clickable: true,
-	renderBullet: function (index, className) {
-		return '<span class="' + className + '">' + "</span>";
-	  },
+		el: ".swiper-pagination",
+		clickable: true,
+		renderBullet: function (index, className) {
+			return '<span class="' + className + '">' + "</span>";
+		},
 	},
+	mousewheel: true,
+	keyboard: true,
 });
