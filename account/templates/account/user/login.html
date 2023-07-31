@@ -40,8 +40,8 @@
 								{{ form.password }}
 								<input class="btn w-100" type="submit" value="Login">
 								<p class="text-center">
-									<a href="{% url 'account:register' %}">Don't have an account?</a><br>
-									<a href="{% url 'account:pwd_reset' %}">Forgotten password?</a>
+									Don't have an account? <a href="{% url 'account:register' %}" class="link-success">Sign Up</a><br>
+									Forgotten password? <a href="{% url 'account:pwd_reset' %}" class="link-danger">Reset Here</a>
 								</p>
 							</form>
 						</div>

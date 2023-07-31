@@ -1,8 +1,9 @@
 .swiper.categories-grid-swiper {
 	width: 100%;
 	height: 100%;
-	margin-left: auto;
-	margin-right: auto;
+	margin-inline: auto;
+	margin-block: 20px;
+	border-radius: 10px;
 }
 
 .swiper.categories-grid-swiper .swiper-slide-active {

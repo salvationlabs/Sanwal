@@ -24,7 +24,7 @@
 
 						/* Login and Register Form */
 .auth_form{
-	color: black;
+	color: wheat;
 	box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05),
 	inset 5px 5px 15px rgba(0, 0, 0, 0.5);
 	background-color: #141414;
@@ -115,12 +115,12 @@
 a.btn-shop, a.btn-shop:hover
 {
 	text-decoration: none;
-	color: wheat;
+	color: rgb(116, 91, 50);;
 }
 
 a.btn-shop:hover
 {
-	text-decoration: 1px solid wheat underline;
+	text-decoration: 1px solid rgb(116, 91, 50) underline;
 }
 
 .btn-shop ion-icon
