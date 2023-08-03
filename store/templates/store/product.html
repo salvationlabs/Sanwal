@@ -14,7 +14,10 @@
 							<div class="swiper-wrapper">
 								{% for image in object.img.all %}
 									<div class="swiper-slide">
-										<img src="{{ image.image.url }}" alt="{{ image.image }}" >
+										<div class="swiper-zoom-container">
+											<img src="{{ image.image.url }}" alt="{{ image.image }}" loading="lazy">
+										</div>
+										<div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
 									</div>
 								{% endfor %}
 							</div>

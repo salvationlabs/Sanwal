@@ -35,6 +35,7 @@ window.onload = function () {
         grabCursor: true,
         lazy: true,
         loop: true,
+        zoom: true,
         spaceBetween: 10,
         // cubeEffect: {
         //     shadow: true,
