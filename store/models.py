@@ -169,7 +169,7 @@ class ProductSpecificationValue(models.Model):
 	The Product Specification Value table holds each of the products individual specification or bespoke features
 	"""
 	
-	product = models.ForeignKey("Product", on_delete=models.CASCADE)
+	product = models.ForeignKey("Product", on_delete=models.CASCADE, related_name="specification")
 	specification = models.ForeignKey("ProductSpecification", on_delete=models.CASCADE)
 	value = models.CharField(verbose_name=_("value"), max_length=255, help_text=_("Product Specification Value (maximum of 255 characters)"))
 
