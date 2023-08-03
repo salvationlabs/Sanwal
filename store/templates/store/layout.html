@@ -15,11 +15,6 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
 
-			<!-- Javascript -->
-	<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
-	<script src="{% static 'store/js/index.js' %}"></script>
-	<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-
 	<link rel="icon" type="image/x-icon" href="{% static 'store/imgs/icon/sanwal2.webp' %}">
 	{% block style %}
 	{% endblock %}
@@ -36,14 +31,15 @@
 				</div>
 			{% endfor %}
 		{% endif %}
+					<!-- Top bar Navigation -->
 		<nav class="navbar my-0 py-0">
 			<div class="container-fluid d-flex justify-content-center">
 				<a href="{% url 'store:index' %}" class="navbar-brand mb-0 h1">
-					<img src="{% static 'store/imgs/icon/sanwal.svg' %}" alt="LOGO" width="80" height="70">
+					<img src="{% static 'store/imgs/icon/sanwal.svg' %}" alt="LOGO" class="navbar-logo" width="80" height="70">
 				</a>
 			</div>
 		  </nav>
-					<!-- Top bar Navigation -->
+
 		<nav class="navbar navbar-expand-lg  mt-0 pt-1">
 			<div class="container-fluid">
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -188,59 +184,16 @@
 	<!-- BOOTSTRAP JS -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 
+	<!-- JQUERY -->
+	<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+
+	<!-- SWIPER -->
+	<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
 	<script>
-		// Add to Newsletter
-		$(document).on('click', '#subcribe-btn', function (e) {
-			e.preventDefault();
-			$(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...')
-			var csrfToken = "{{ csrf_token }}";
-			$.ajax({
-				type: "POST",
-				url: "{% url 'more:subscribe' %}",
-				data: {
-					email: $('input[type="email"][name="email"]#newsletter1').val(),
-					csrfmiddlewaretoken: csrfToken,
-					action: 'subscribe'
-				},
-				success: function (response) {
-					$('#newsletter').html(response);
-				},
-				error: function (xhr, errmessage, err) {
-					console.log(err);
-					$('#newsletter').html('Error: Try Again');
-				}
-			});
-		})
-		$('.nav-item.dropdown .nav-link').hover(function () {
-				// over
-				let menu = $(this).siblings('.dropdown-menu');
-				menu.addClass('show');
-				$(this).prop('ariaExpanded', true);
-				$(this).addClass('show');
-			}, function () {
-				// out
-				let menu = $(this).siblings('.dropdown-menu');
-				menu.removeClass('show');
-				$(this).prop('ariaExpanded', false);
-				$(this).removeClass('show');
-			}
-		);
-		$('.dropdown-menu').hover(function (e) {
-				// over
-				$(this).addClass('show');
-				let nav_item = e.target.previousElementSibling;
-				nav_item.firstChild.addClass('show');
-				$(nav_item).children().addClass('show');
-				$(nav_item).children().prop('ariaExpanded', true);
-			}, function (e) {
-				// out
-				$(this).removeClass('show');
-				let nav_item = e.target.previousElementSibling;
-				$(nav_item).find('.nav-link').removeClass('show');
-				$(nav_item).find('.nav-link').prop('ariaExpanded', false);
-			}
-		);
+		let imageUrl = "{% static 'store/imgs/icon/sanwal2.webp' %}";
 	</script>
+	<script src="{% static 'store/js/index.js' %}" data-rel></script>
 	{% block script %}
 	{% endblock %}
 </body>
