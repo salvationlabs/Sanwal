@@ -2,9 +2,13 @@ from django.contrib import admin
 from django_mptt_admin.admin import DjangoMpttAdmin
 from django.utils.translation import gettext as _
 
-from .models import (Category, Material, ProductMaterial, Product, ProductType, ProductSpecification, ProductSpecificationValue, ProductImages)
+from .models import (Category, Brand, Material, ProductMaterial, Product, ProductType, ProductSpecification, ProductSpecificationValue, ProductImages)
 
 # Register your models here.
+
+
+# Brand Admin Model
+admin.site.register(Brand)
 
 
 # Category Model
