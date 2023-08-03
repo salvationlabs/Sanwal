@@ -96,7 +96,7 @@ class Brand (models.Model):
 		return self.name
 
 	def get_absolute_url(self):
-		return reverse('store:products-by-material', kwargs={
+		return reverse('store:products-by-brand', kwargs={
 			'brand_slug': self.slug
 		})
 	

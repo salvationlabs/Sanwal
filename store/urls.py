@@ -11,8 +11,10 @@ urlpatterns = [
 	path('?category=<slug:category_slug>', views.CategoryListView.as_view(), name='products-by-category'),
 	# Material Url
 	path('?material=<slug:material_slug>', views.MaterialListView.as_view(), name='products-by-material'),
-	# Material Url
+	# Brand Url
 	path('?brands', views.BrandsListView.as_view(), name='products-by-brands'),
+	# Brand Individual Url
+	path('?brand=<slug:brand_slug>', views.BrandProductListView.as_view(), name='products-by-brand'),
 	# Create Product Url
 	path('create-product/', views.create_product, name='create-product'),
 	path('?product=<slug>', views.ItemDetailView.as_view(), name='product'),

@@ -82,6 +82,25 @@ class BrandsListView (ListView):
         return context
 
 
+class BrandProductListView (ListView):
+    model = Product
+    paginate_by = 12
+    template_name = 'store/products.html'
+
+    def get_queryset(self, **kwargs):
+        qs = Product.products.all()
+        return qs.filter(brand__slug=self.kwargs['brand_slug'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        wishlist_listings = []
+        if self.request.user.is_authenticated:
+            wishlist_listings = self.request.user.user_wishlist.all()
+        context['wishlist_listings'] = wishlist_listings
+        context['heading'] = 'Brands'
+        return context
+
+
 class ItemDetailView (DetailView):
     model = Product
     template_name = 'store/product.html'
