@@ -8,7 +8,10 @@ from .models import (Category, Brand, Material, ProductMaterial, Product, Produc
 
 
 # Brand Admin Model
-admin.site.register(Brand)
+@admin.register(Brand)
+class BrandAdmin(admin.ModelAdmin):
+	list_display = ['name', 'slug']
+	prepopulated_fields = {'slug': ('name',)}
 
 
 # Category Model

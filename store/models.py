@@ -102,7 +102,7 @@ class Brand (models.Model):
 	
 	def save (self, *args, **kwargs):
 		if self.logo:
-			img = PillowImage.open(self.image)
+			img = PillowImage.open(self.logo)
 			# Resize image
 			output_size = (1000, 1000)
 			img.thumbnail(output_size)
@@ -118,7 +118,7 @@ class Brand (models.Model):
 			filename = f'{random_string}_{timestamp}.webp'
 
 			# Save the buffer content to the image field with the unique filename
-			self.image.save(filename, ContentFile(output_buffer.read()), save=False)
+			self.logo.save(filename, ContentFile(output_buffer.read()), save=False)
 
 		if self.slug == '':
 			value = self.title.replace(" ", "-")
