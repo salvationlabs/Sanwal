@@ -8,6 +8,7 @@ DATABASES = {
     }
 }
 
+
 # static and media files
 STATIC_URL = 'static/'
 
