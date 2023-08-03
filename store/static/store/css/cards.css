@@ -1,3 +1,15 @@
+:root {
+	--text-color: black;
+	--box-shadow: 10px 10px 15px rgba(255, 255, 255, 0.08),
+    -10px -10px 15px rgba(255, 255, 255, 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--text-color: wheat;
+	}
+}
+
 .products .row .card
 {
 	border-radius: 20px;
@@ -6,13 +18,12 @@
 	width: 18em;
 	margin: 15px 15px;
 	border: none;
-	/* box-shadow: 5px 5px 15px rgb(15, 15, 15), -5px -5px 15px rgb(15, 15, 15); */
 }
 
 .products .row .card a
 {
 	margin: 0;
-    color: black;
+    color: var(--text-color);
 	text-decoration: none;
 }
 
@@ -48,15 +59,16 @@
 
 .swiper.itemImageSwiper .swiper-slide {
 	margin: auto;
+	/* padding: 10px; */
 	text-align: center;
 }
 
 .swiper.itemImageSwiper .swiper-slide img {
 	border-radius: 30px; 
     max-width: 100%;
-	margin: auto;
-	align-items: center;
-	justify-content: center;
+	/* margin: auto; */
+	/* align-items: center;
+	justify-content: center; */
 }
 
 .swiper.itemImageSwiper .swiper-slide img::selection {

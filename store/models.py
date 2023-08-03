@@ -201,7 +201,7 @@ class Product (models.Model):
 	description = models.TextField(help_text=_("Required"))
 	product_type = models.ForeignKey("ProductType", verbose_name=_("Type of Product"), on_delete=models.CASCADE)
 	brand = models.ForeignKey("Brand", verbose_name=_("Brand"), on_delete=models.CASCADE, blank=True, null=True)
-	category = TreeForeignKey(Category, on_delete=models.CASCADE, related_name="category")
+	category = TreeForeignKey(Category, on_delete=models.CASCADE, related_name="posts")
 	is_active = models.BooleanField(verbose_name=_("Product Visibility"), help_text=_("Change Product Visibility"), default=True)
 	in_stock = models.BooleanField(default=True)
 	time_created = models.DateTimeField(verbose_name=_("Created At"), auto_now_add=True, editable=False)

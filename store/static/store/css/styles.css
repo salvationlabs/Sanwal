@@ -5,11 +5,33 @@
     box-sizing: border-box;
 }
 
+:root {
+	--background-color: rgb(253, 251, 248);
+	--color: black;
+}
+
+html body {
+	/* background-color: rgb(59, 35, 11); */
+	/* background-color: rgb(33, 17, 3); */
+	/* background-image: url("{% static 'store/imgs/grainy-background/noise.svg' %}"); */
+	background: var(--background-color);
+	color: var(--color);
+	background-size: cover;
+	scroll-behavior: smooth;
+	font-family: 'Roboto', sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--background-color: rgb(20, 11, 2);
+		--color: white;
+	}
+}
+
 /* //////////////////////////////////	SCROLL BAR	////////////////////////////////////////////// */
 ::-webkit-scrollbar
 {
 	width: 6px;
-	/* background: rgb(24, 22, 17); */
 	height: 3px;
 }
 

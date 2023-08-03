@@ -1,7 +1,23 @@
-:root
-{
+:root {
+	--drop-down-background: #141414;
+	--text-color: black;
+	--nav-link: black;
+	--nav-link-active: wheat;
 	--box-shadow: 10px 10px 15px rgba(255, 255, 255, 0.08),
     -10px -10px 15px rgba(255, 255, 255, 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--drop-down-background: wheat;
+		--text-color: wheat;
+		--nav-link: gray;
+		--nav-link-active: wheat;
+	}
+	.navbar .container-fluid .nav-item.dropdown .dropdown-menu .dropdown-item,
+	.navbar .container-fluid .navbar-nav .nav-item.btn-group .dropdown-menu .dropdown-item{
+		color: black;
+	}
 }
 
 
@@ -18,13 +34,13 @@
 .navbar .container-fluid .nav-item.dropdown .dropdown-menu,
 .navbar .container-fluid .navbar-nav .nav-item.btn-group .dropdown-menu
 {
-	background: #141414;
+	background: var(--drop-down-background);
 	box-shadow: var(--box-shadow);
 }
 
 .navbar .container-fluid .btn
 {
-	color: black;
+	color: var(--text-color);
 	border-radius: 50px;
 	border: 1px wheat solid;
 }
@@ -32,8 +48,8 @@
 .navbar .container-fluid .btn:hover, .navbar .container-fluid .btn.active
 {
 	color: black;
-	background: wheat;
-	border: 1px wheat solid;
+	background: var(--nav-link-active);
+	border: 1px var(--nav-link-active) solid;
 }
 
 footer .nav .nav-item .nav-link
@@ -42,15 +58,19 @@ footer .nav .nav-item .nav-link
 	color: rgba(255, 255, 255, 0.582);
 }
 
-.nav-item:hover .nav-link, footer .nav .nav-item .nav-link:hover
-{
-	color:  wheat;
+.navbar.navbar-expand-lg .navbar-nav .nav-item .nav-link {
+	color: var(--nav-link);
 }
 
-.navbar-nav .nav-item .nav-link.active,
-.nav-item .nav-link.active
+.navbar.navbar-expand-lg .navbar-nav .nav-item:hover .nav-link, footer .nav .nav-item .nav-link:hover
 {
-	color: wheat;
+	color:  var(--nav-link-active);
+}
+
+.navbar.navbar-expand-lg .navbar-nav .nav-item .nav-link.active,
+.navbar.navbar-expand-lg .nav-item .nav-link.active
+{
+	color: var(--nav-link-active);
 }
 
 .navbar-toggler[aria-expanded="true"], .navbar-toggler[aria-expanded="false"]

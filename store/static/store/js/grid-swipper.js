@@ -29,6 +29,6 @@ var swiper_grid = new Swiper(".categories-grid-swiper", {
 			return '<span class="' + className + '">' + "</span>";
 		},
 	},
-	mousewheel: true,
+	// mousewheel: true,
 	keyboard: true,
 });

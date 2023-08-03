@@ -31,15 +31,21 @@ window.onload = function () {
     })
 
     var swiperImages = new Swiper(".itemImageSwiper", {
-		effect: "cube",
+		// effect: "cube",
         grabCursor: true,
+        lazy: true,
         loop: true,
-        cubeEffect: {
-            shadow: true,
-            slideShadows: true,
-            shadowOffset: 5,
-            shadowScale: 0.7,
-        },
+        spaceBetween: 10,
+        // cubeEffect: {
+        //     shadow: true,
+        //     slideShadows: true,
+        //     shadowOffset: 5,
+        //     shadowScale: 0.7,
+        // },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+          },
 		
 	  });
 }

@@ -12,8 +12,7 @@ from account.models import User
 # Create your views here.
 class HomeView(ListView):
     model = Product
-    queryset = Product.products.all()
-    paginate_by = 8
+    queryset = Category.objects.filter(level=1)
     template_name = 'store/index.html'
 
     def get_context_data(self, **kwargs):
@@ -23,7 +22,7 @@ class HomeView(ListView):
             wishlist_listings = self.request.user.user_wishlist.all()
         context['wishlist_listings'] = wishlist_listings
         return context
-
+    
 
 class CategoryListView (ListView):
     model = Product

@@ -3,9 +3,22 @@
 
 {% block title %}Basket Summary{% endblock %}
 
+{% block style %}
+	<style>
+		.h5.hstack {
+			color: rgb(116, 91, 50);
+		}
+		@media (prefers-color-scheme: dark) {
+			.h5.hstack, a.btn-shop {
+				color: wheat;
+			}
+		}
+	</style>
+{% endblock style %}
+
 {% block body %}
 	<div class="container pt-4">
-		<h1 class="h5 hstack gap-3" style="color: rgb(116, 91, 50);">
+		<h1 class="h5 hstack gap-3">
 			<a href="{% url 'store:index' %}" class="link-body-emphasis text-decoration-none">
 				<img src="{% static 'store/imgs/icon/sanwal.svg' %}" alt="Logo" width="50" height="45">
 			</a><div class="vr me-2"></div>

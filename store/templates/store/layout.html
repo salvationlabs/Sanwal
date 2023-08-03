@@ -23,22 +23,9 @@
 	<link rel="icon" type="image/x-icon" href="{% static 'store/imgs/icon/sanwal2.webp' %}">
 	{% block style %}
 	{% endblock %}
-	<style>
-		body
-		{
-			/* background-color: rgb(59, 35, 11); */
-			/* background-color: rgb(33, 17, 3); */
-			/* background-image: url("{% static 'store/imgs/grainy-background/noise.svg' %}"); */
-			background: rgb(253, 251, 248);
-			color: black;
-			background-size: cover;
-			scroll-behavior: smooth;
-			font-family: 'Roboto', sans-serif;
-		}
-	</style>
 </head>
 
-<body id="body">
+<body>
 	{% block header %}
 	<header>
 		{% if messages %}
@@ -51,7 +38,7 @@
 		{% endif %}
 		<nav class="navbar my-0 py-0">
 			<div class="container-fluid d-flex justify-content-center">
-				<a href="{% url 'store:index' %}" class="navbar-brand mb-0 h1" style="color: rgb(245, 222, 179);">
+				<a href="{% url 'store:index' %}" class="navbar-brand mb-0 h1">
 					<img src="{% static 'store/imgs/icon/sanwal.svg' %}" alt="LOGO" width="80" height="70">
 				</a>
 			</div>
@@ -65,13 +52,13 @@
 					<ul class="navbar-nav m-auto mb-2 mb-lg-0">
 						{% for c in categories %}
 							{% if c.children.all %}
-							<li class="nav-item btn-group m-auto">
-								<a {% if c.slug in request.path %} class="nav-link active pe-0" {% endif %} class="nav-link pe-0" href="{{ c.get_absolute_url }}" role="button">
-									<div class="seperator"></div>{{ c.name | upper}}
+							<li class="nav-item dropdown m-auto">
+								<a {% if c.slug in request.path %} class="nav-link active dropdown-toggle" {% endif %} class="nav-link dropdown-toggle pe-0" href="{{ c.get_absolute_url }}" data-bs-toggle="dropdown" aria-expanded="false" role="button">
+									{{ c.name | upper}}
 								</a>
-								<a class="nav-link dropdown-toggle dropdown-toggle-split ms-2" href="{{ c.get_absolute_url }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								<!-- <a class="nav-link dropdown-toggle dropdown-toggle-split ms-2" href="{{ c.get_absolute_url }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 									<span class="visually-hidden">Toggle Dropdown</span>
-								</a>
+								</a> -->
 								<ul class="dropdown-menu dropdown-menu-dark">
 									{% for subc in c.children.all %}
 										<li><a class="dropdown-item" href="{{ subc.get_absolute_url }}">{{ subc.name | upper}}</a></li>
@@ -224,6 +211,35 @@
 				}
 			});
 		})
+		$('.nav-item.dropdown .nav-link').hover(function () {
+				// over
+				let menu = $(this).siblings('.dropdown-menu');
+				menu.addClass('show');
+				$(this).prop('ariaExpanded', true);
+				$(this).addClass('show');
+			}, function () {
+				// out
+				let menu = $(this).siblings('.dropdown-menu');
+				menu.removeClass('show');
+				$(this).prop('ariaExpanded', false);
+				$(this).removeClass('show');
+			}
+		);
+		$('.dropdown-menu').hover(function (e) {
+				// over
+				$(this).addClass('show');
+				let nav_item = e.target.previousElementSibling;
+				nav_item.firstChild.addClass('show');
+				$(nav_item).children().addClass('show');
+				$(nav_item).children().prop('ariaExpanded', true);
+			}, function (e) {
+				// out
+				$(this).removeClass('show');
+				let nav_item = e.target.previousElementSibling;
+				$(nav_item).find('.nav-link').removeClass('show');
+				$(nav_item).find('.nav-link').prop('ariaExpanded', false);
+			}
+		);
 	</script>
 	{% block script %}
 	{% endblock %}
