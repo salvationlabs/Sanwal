@@ -8,7 +8,7 @@ from django_countries.fields import CountryField
 class BillingAddress (models.Model):
 	id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 	# Customer
-	customer = models.ForeignKey("account.User", on_delete=models.CASCADE, verbose_name=_("Customer"))
+	customer = models.ForeignKey("account.User", on_delete=models.CASCADE, verbose_name=_("Customer"), blank=True, null=True)
 	first_name = models.CharField(_("First Name"), max_length=150)
 	last_name = models.CharField(_("Last Name"), max_length=150)
 	email = models.EmailField()

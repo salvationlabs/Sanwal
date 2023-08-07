@@ -88,7 +88,7 @@
 					<a class="nav-link pt-1" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 						<ion-icon name="person"></ion-icon>
 					</a>
-					<ul class="dropdown-menu  dropdown-menu-dark m-0 p-0 w-25 m-auto">
+					<ul class="dropdown-menu dropdown-menu-dark m-0 p-0 w-25">
 						{% if user.is_authenticated %}
 						<li><a class="dropdown-item" href="{% url 'account:dashboard' %}">DASHBOARD</a></li>
 						<li><a class="dropdown-item" href="{% url 'account:wishlist' %}">WISHLIST</a></li>
@@ -167,10 +167,10 @@
 			  <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
 				  <li class="ms-3"><a class="text-body-secondary text-reset fs-5 call-icon" href="tel:0313795111"><ion-icon name="call-outline"></ion-icon></a></li>
 				  <li class="ms-3"><a class="text-body-secondary text-reset fs-5" href="mailto:sanwalcrafts@gmail.com"><ion-icon name="mail-outline"></ion-icon></a></li>
-				<li class="ms-3"><a class="text-body-secondary text-reset fs-5" href="#"><ion-icon name="logo-whatsapp"></ion-icon></a></li>
-				<li class="ms-3"><a class="text-body-secondary text-reset fs-5" href="#"><ion-icon name="logo-instagram"></ion-icon></a></li>
-				<li class="ms-3"><a class="text-body-secondary text-reset fs-5" href="#"><ion-icon name="logo-facebook"></ion-icon></a></li>
-				<li class="ms-3"><a class="text-body-secondary text-reset fs-5" href="#"><ion-icon name="logo-youtube"></ion-icon></a></li>
+				<!-- <li class="ms-3"><a class="text-body-secondary text-reset fs-5" href="#"><ion-icon name="logo-whatsapp"></ion-icon></a></li> -->
+				<li class="ms-3"><a class="text-body-secondary text-reset fs-5" href="https://instagram.com/sanwal_crafts_?igshid=MzRlODBiNWFlZA=="><ion-icon name="logo-instagram"></ion-icon></a></li>
+				<li class="ms-3"><a class="text-body-secondary text-reset fs-5" href="https://www.facebook.com/profile.php?id=100095336024164&mibextid=2JQ9oc"><ion-icon name="logo-facebook"></ion-icon></a></li>
+				<!-- <li class="ms-3"><a class="text-body-secondary text-reset fs-5" href="#"><ion-icon name="logo-youtube"></ion-icon></a></li> -->
 			  </ul>
 			</div>
 		</footer>
