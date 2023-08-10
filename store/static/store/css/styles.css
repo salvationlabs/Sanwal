@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Text&family=Roboto&family=Viga&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&family=Red+Hat+Text&family=Roboto&family=Viga&display=swap');
 
 *
 {
@@ -18,7 +18,7 @@ html body {
 	color: var(--color);
 	background-size: cover;
 	scroll-behavior: smooth;
-	font-family: 'Roboto', sans-serif;
+	font-family: 'Playfair Display', serif;
 }
 
 @media (prefers-color-scheme: dark) {
