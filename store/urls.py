@@ -16,6 +16,6 @@ urlpatterns = [
 	# Brand Individual Url
 	path('?brand=<slug:brand_slug>', views.BrandProductListView.as_view(), name='products-by-brand'),
 	# Create Product Url
-	path('create-product/', views.create_product, name='create-product'),
+	# path('create-product/', views.create_product, name='create-product'),
 	path('?product=<slug>', views.ItemDetailView.as_view(), name='product'),
 ]

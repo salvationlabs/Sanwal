@@ -42,7 +42,7 @@
 	<div class="container-fluid px-4">
 		{% if category.posts.first %}
 		<article class="products">
-			<h1 class="h3">{{ category.name }}</h1>
+			<h1 class="h4 text-center">{{ category.name }}</h1>
 			<div class="row row-cols-1 row-cols-md-3 g-4 m-auto justify-content-center">
 				{% for item in category.posts.all|slice:":8" %}
 					<div class="card">

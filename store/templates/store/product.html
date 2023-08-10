@@ -1,5 +1,7 @@
 {% extends 'store/layout.html' %}
 {% load static %}
+{% load custom_filters %}
+
 
 {% block title %}{{ object.title | title }}{% endblock %}
 
@@ -52,9 +54,7 @@
 						<div class="col">{{ object.category.name }}</div>
 						<hr>
 						<div class="col">
-							{% for attribute in object.specification.all %}
-								{{ attribute.specification.name }}: {{ attribute.value }}
-							{% endfor %}
+							{{ object.specification.all|group_attributes|safe }}
 						</div>
 						<hr>
 						<p class="col card-text mt-3">{{ object.description | linebreaksbr }}</p>

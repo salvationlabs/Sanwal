@@ -66,9 +66,11 @@ class Basket():
 
 		def serialize_product(product):
 			# Convert the Product object to a dictionary
+			# print(product.img.first().image.url)
 			product_data = {
 				'title': product.title,
-				'description': product.description
+				'description': product.description,
+				'image': product.img.first().image.url
 			}
 			return product_data
 
@@ -78,7 +80,6 @@ class Basket():
 
 		for product in products:
 			basket[str(product.id)]['product'] = serialize_product(product)
-			print(basket[str(product.id)])
 
 		for item in basket.values():
 			item['total_price'] = item['regular_price'] * item['qty']

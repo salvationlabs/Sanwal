@@ -32,19 +32,8 @@
 			<div data-index="{{ product.id }}" class="row col-11 col-sm-12 col-md-10 my-4 p-3 product-item m-auto rounded-4 gx-0" style="max-width: 60rem; box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05), inset 5px 5px 15px rgba(0, 0, 0, 0.5); background-color: #141414;">
 				<!--------------- Image ----------------->
 				<div class="col-3 col-md-2 col-lg-1 order-md-first m-auto">
-					{% if product.img.first.image %}
-					{% comment %}
-					<div class="swiper itemImageSwiper" style="width: 50px;">
-						<div class="swiper-wrapper">
-							{% for image in product.img.all %}
-								<div class="swiper-slide">
-									<img src="{{ image.image.url }}" alt="{{ image.image }}" style="border-radius: 50%; height: 70px; width: 70px;">
-								</div>
-							{% endfor %}
-						</div>
-					</div>
-					{% endcomment %}
-					<img src="{{ product.img.first.image.url }}" alt="{{ product.title }} image" style="border-radius: 50%; height: 70px; width: 70px;" class="img-fluid">
+					{% if product.image %}
+					<img src="{{ product.image }}" alt="{{ product.title }} image" style="border-radius: 50%; height: 60px; width: 70px;" class="img-fluid">
 					{% else %}
 					<img src="{% static 'store\imgs\products\No_image_available.png' %}" class="card-img-top" alt="No image available">
 					{% endif %}
@@ -53,7 +42,6 @@
 				<div class="row col-8 col-md-9 m-auto">
 					<a href="{{ product.get_absolute_url }}" class="text-decoration-none text-reset col-12 col-md-3">
 						<h1 class="h5">{{ product.title }}</h1>
-						<h2 class="h6">Ref. {{ product.id }}</h1>
 					</a>
 					<div class="col-12 col-md-2 col-lg-2 m-auto">
 						{% for m in product.material.all %}
@@ -66,10 +54,10 @@
 						<button type="button" class="min-btn btn p-0" data-index="{{ product.id }}"><ion-icon name="remove-outline"></ion-icon></button>
 					</div>
 					<div class="col-7 col-md-3 m-md-auto">
-						{% if product.discount_price %}
-							Rs. <del style="text-decoration-color: red;">{{ product.regular_price }}</del> {{ product.discount_price }}
+						{% if item.discount_price %}
+							Rs. <del style="text-decoration-color: red;">{{ item.regular_price }}</del> {{ item.discount_price }}
 						{% else %}
-							Rs. {{ product.regular_price }}
+							Rs. {{ item.regular_price }}
 						{% endif %}
 					</div>
 				</div>

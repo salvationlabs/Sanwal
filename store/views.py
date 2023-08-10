@@ -4,7 +4,7 @@ from django.shortcuts import redirect, render
 from django.views.generic import DetailView, ListView, View
 from django.db.models import BooleanField, Case, When, Q
 
-from .forms import ProductForm
+# from .forms import ProductForm
 from .models import ProductImages, Product, Category
 from account.models import User
 
@@ -119,33 +119,33 @@ class ItemDetailView (DetailView):
     #     return context
 
 
-@staff_member_required
-def create_product(request):
-    if request.method == "POST":
-        product_form = ProductForm(request.POST)
-        images = request.FILES.getlist('images')
+# @staff_member_required
+# def create_product(request):
+#     if request.method == "POST":
+#         product_form = ProductForm(request.POST)
+#         images = request.FILES.getlist('images')
 
-        if product_form.is_valid():
-            product_form.save()
+#         if product_form.is_valid():
+#             product_form.save()
 
-            for img in images:
-                ProductImages.objects.create(item=product_form, image=img)
+#             for img in images:
+#                 ProductImages.objects.create(item=product_form, image=img)
 
-            messages.success(request, "Yeew, check it out on the home page!")
-            return redirect("store:index")
+#             messages.success(request, "Yeew, check it out on the home page!")
+#             return redirect("store:index")
 
-        else:
-            for field in product_form:
-                for error in field.errors:
-                    messages.error(request, f"{field.name}: {error}")
+#         else:
+#             for field in product_form:
+#                 for error in field.errors:
+#                     messages.error(request, f"{field.name}: {error}")
 
-            print(product_form.errors)
-            return render(
-                request, 'store/createProduct.html', {
-                    'form': product_form
-                })
+#             print(product_form.errors)
+#             return render(
+#                 request, 'store/createProduct.html', {
+#                     'form': product_form
+#                 })
 
-    product_form = ProductForm()
-    return render(request, 'store/createProduct.html', {
-        'form': product_form,
-    })
+#     product_form = ProductForm()
+#     return render(request, 'store/createProduct.html', {
+#         'form': product_form,
+#     })

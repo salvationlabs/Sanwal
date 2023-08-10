@@ -2,10 +2,10 @@ from django.contrib import admin
 from django_mptt_admin.admin import DjangoMpttAdmin
 from django.utils.translation import gettext as _
 
-from .models import (Category, Brand, Material, ProductMaterial, Product, ProductType, ProductSpecification, ProductSpecificationValue, ProductImages)
+from .models import (Category, Brand, Material, ProductMaterial, Product, ProductSpecification, ProductSpecificationValue, ProductImages)
 
 # Register your models here.
-
+admin.site.register(ProductSpecification)
 
 # Brand Admin Model
 @admin.register(Brand)
@@ -38,15 +38,15 @@ class MaterialInline(admin.TabularInline):
 
 
 # Product Specification Value Inline Model
-class ProductSpecificationInline(admin.TabularInline):
-	model = ProductSpecification
+# class ProductSpecificationInline(admin.TabularInline):
+# 	model = ProductSpecification
 
 
-@admin.register(ProductType)
-class ProductTypeAdmin(admin.ModelAdmin):
-	inlines = [
-		ProductSpecificationInline,
-	]
+# @admin.register(ProductType)
+# class ProductTypeAdmin(admin.ModelAdmin):
+# 	inlines = [
+# 		ProductSpecificationInline,
+# 	]
 
 
 class ProductSpecificationValueInline(admin.TabularInline):

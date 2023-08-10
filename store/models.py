@@ -131,31 +131,17 @@ class ProductMaterial(models.Model):
 	item = models.ForeignKey("Product", verbose_name=_("Product Name"), on_delete=models.CASCADE, related_name="material")
 
 
-class ProductType(models.Model):
-	"""
-	ProductType Table will provide a list of the different types of products that are for sale
-	"""
-	name = models.CharField(verbose_name=_("Product Name"), help_text=_("Required"), max_length=255, unique=True)
-	
-	class Meta:
-		verbose_name = _("Product Type")
-		verbose_name_plural = _("Product Types")
-	
-	def __str__(self):
-		return self.name
-
 class ProductSpecification(models.Model):
 	"""
 	The Product Specification Table contains product specification of features for the product types
 	"""
 
-	product_type = models.ForeignKey("ProductType", verbose_name=_("Type of Product"), on_delete=models.CASCADE)
 	name = models.CharField(verbose_name=_("Name"), help_text=_("Required"), max_length=255)
 	
 
 	class Meta:
-		verbose_name = _("productspecification")
-		verbose_name_plural = _("productspecifications")
+		verbose_name = _("Product Specification")
+		verbose_name_plural = _("Product Specifications")
 
 	def __str__(self):
 		return self.name
@@ -199,11 +185,12 @@ class Product (models.Model):
 		},
 	}, blank=True, null=True)
 	description = models.TextField(help_text=_("Required"))
-	product_type = models.ForeignKey("ProductType", verbose_name=_("Type of Product"), on_delete=models.CASCADE)
+	# product_type = models.ForeignKey("ProductType", verbose_name=_("Type of Product"), on_delete=models.CASCADE)
 	brand = models.ForeignKey("Brand", verbose_name=_("Brand"), on_delete=models.CASCADE, blank=True, null=True)
 	category = TreeForeignKey(Category, on_delete=models.CASCADE, related_name="posts")
 	is_active = models.BooleanField(verbose_name=_("Product Visibility"), help_text=_("Change Product Visibility"), default=True)
 	in_stock = models.BooleanField(default=True)
+	weight = models.IntegerField(default=0)
 	time_created = models.DateTimeField(verbose_name=_("Created At"), auto_now_add=True, editable=False)
 	updated = models.DateTimeField(verbose_name=_("Updated At"), auto_now=True)
 	slug = models.SlugField(max_length=255, unique=True)
