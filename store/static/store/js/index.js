@@ -16,6 +16,7 @@ window.onload = function () {
         if (event.matches) {
             // Switch to dark theme
             $('img.navbar-logo').attr('src', imageUrl);
+            $('#logo_heading').attr('src', imageUrl);
         } else {
             // Switch to light theme
             document.body.classList.remove('dark-theme');

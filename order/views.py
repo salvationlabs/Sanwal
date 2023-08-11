@@ -1,13 +1,19 @@
 from django.contrib import messages
 from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import (HttpResponseRedirect, reverse, redirect, render, get_object_or_404)
+from django.shortcuts import (
+	HttpResponseRedirect,
+	reverse,
+	redirect,
+	render,
+	get_object_or_404,
+)
 from django.contrib.auth.decorators import login_required
 from django.views.generic import View
 
-from .models import Order, OrderItem
+from .models import Order, OrderItem, OrderItemAttribute
 
-from store.models import Product
+from store.models import Product, ProductSpecificationValue
 
 from account.models import User
 
@@ -16,6 +22,7 @@ from address.models import BillingAddress
 from address.billingaddress import Billing
 
 from basket.basket import Basket
+
 
 # Create your views here.
 def CheckoutView(request):
@@ -26,107 +33,120 @@ def CheckoutView(request):
 	basket = Basket(request)
 	basketqty = basket.__len__()
 	if basketqty <= 0:
-		messages.error(request, 'Your basket is empty.')
-		return redirect('store:index')
+		messages.error(request, "Your basket is empty.")
+		return redirect("store:index")
 
 	if request.POST:
 		if request.user.is_authenticated:
 			try:
-				billing = BillingAddress.objects.get(customer=request.user, default=True)
+				billing = BillingAddress.objects.get(
+					customer=request.user, default=True
+				)
 				bform = BillingForm(request.POST, instance=billing)
 			except ObjectDoesNotExist:
 				bform = BillingForm(request.POST)
 
 			if bform.is_valid():
-				if bform.cleaned_data['save_info']:
+				if bform.cleaned_data["save_info"]:
 					billingsave = bform.save(commit=False)
 					billingsave.user = request.user
 					billingsave.save()
 				billing_session.add(bform, request.user.id)
 			else:
-				return render(request, 'order/checkout.html', {
-					'form': bform
-				})
+				return render(request, "order/checkout.html", {"form": bform})
 		else:
 			bform = BillingForm(request.POST)
 			if bform.is_valid():
-				billing_session.add(bform, 'Anonymous')
+				billing_session.add(bform, "Anonymous")
 			else:
-				return render(request, 'order/checkout.html', {
-					'form': bform
-				})
+				return render(request, "order/checkout.html", {"form": bform})
 
-		return HttpResponseRedirect(reverse('order:order-placement'))
+		return HttpResponseRedirect(reverse("order:order-placement"))
 	else:
 		if request.user.is_authenticated:
 			try:
-				address = BillingAddress.objects.get(customer=request.user, default=True)
-				return render(request, 'order/checkout.html', {
-					'address': address
-				}) # seems to be the problem
+				address = BillingAddress.objects.get(
+					customer=request.user, default=True
+				)
+				return render(
+					request, "order/checkout.html", {"address": address}
+				)  # seems to be the problem
 
 			except ObjectDoesNotExist:
-				bform = BillingForm(initial={
-					'first_name': request.user.first_name,
-					'last_name': request.user.last_name,
-					'email': request.user.email,
-				})
+				bform = BillingForm(
+					initial={
+						"first_name": request.user.first_name,
+						"last_name": request.user.last_name,
+						"email": request.user.email,
+					}
+				)
 		elif billing_session.exists():
-			print(True)
-			billing_address = billing_session.billing_address['Anonymous']
-			bform.initial={
-				'first_name': billing_address['first_name'],
-				'last_name': billing_address['last_name'],
-				'email': billing_address['email'],
-				'phone_number': billing_address['phone_number'],
-				'address_line_1': billing_address['address_line_1'],
-				'address_line_2': billing_address['address_line_2'],
-				'city': billing_address['city'],
-				'state': billing_address['state'],
-				'country': billing_address['country'],
-				'zip_code': billing_address['zip_code'],
+			billing_address = billing_session.billing_address["Anonymous"]
+			bform.initial = {
+				"first_name": billing_address["first_name"],
+				"last_name": billing_address["last_name"],
+				"email": billing_address["email"],
+				"phone_number": billing_address["phone_number"],
+				"address_line_1": billing_address["address_line_1"],
+				"address_line_2": billing_address["address_line_2"],
+				"city": billing_address["city"],
+				"state": billing_address["state"],
+				"country": billing_address["country"],
+				"zip_code": billing_address["zip_code"],
 			}
 		else:
 			bform = BillingForm()
 
-		return render(request, 'order/checkout.html', {
-			'form': bform
-		})
+		return render(request, "order/checkout.html", {"form": bform})
 
 
 def Order_placement(request):
 	"""
 	Orders and Orderitems are fetched from basket_session if exist, and are stored in actual order and orderitem models respectively.
-    Then if billing address exists in databases, then it's attached to the order otherwise billing address details are fetched from billing_session and stored respectively in order.
-    At last basket_session is cleared but not billing_session so can be used next time the user places order(s)
+	Then if billing address exists in databases, then it's attached to the order otherwise billing address details are fetched from billing_session and stored respectively in order.
+	At last basket_session is cleared but not billing_session so can be used next time the user places order(s)
 	"""
 	basket_session = Basket(request)
 	basketqty = basket_session.__len__()
 	if basketqty <= 0:
-		messages.error(request, 'Your basket is empty.')
-		return redirect('store:index')
+		messages.error(request, "Your basket is empty.")
+		return redirect("store:index")
 	billing_session = Billing(request)
 	if billing_session.exists():
-		billing_address = billing_session.billing_address[str(request.user.id) if request.user.is_authenticated else 'Anonymous']
+		billing_address = billing_session.billing_address[
+			str(request.user.id) if request.user.is_authenticated else "Anonymous"
+		]
 	else:
-		messages.error(request, 'You have not filled billing details')
-		return redirect('order:checkout')
+		messages.error(request, "You have not filled billing details")
+		return redirect("order:checkout")
 
-
-	order = Order.objects.create(user=request.user if request.user.is_authenticated else None, total_payment=basket_session.get_total_price())
+	order = Order.objects.create(
+		user=request.user if request.user.is_authenticated else None,
+		total_payment=basket_session.get_total_price(),
+	)
 	for item in basket_session:
-		prdt = get_object_or_404(Product, id=item['product'].get('id'))
-		order_item = OrderItem.objects.create(item=prdt, user=request.user if request.user.is_authenticated else None, quantity=item['qty'])
+		prdt = get_object_or_404(Product, id=item["product"].get("id"))
+		order_item = OrderItem.objects.create(
+			item=prdt,
+			user=request.user if request.user.is_authenticated else None,
+			quantity=item["qty"],
+		)
+		# print(item['product'].get('key'))
+		key = item['product'].get('key').split('-')[1:]
+		attributes = ProductSpecificationValue.objects.filter(id__in=key)
+		if attributes.exists():
+			for attribute in attributes:
+				OrderItemAttribute.objects.create(order_item=order_item, attribute=attribute)
 		order.items.add(order_item)
-	
+
 	if not request.user.is_authenticated:
-		order.phone_number = billing_address['phone_number']
-		order.address_line_1 = billing_address['address_line_1']
-		order.address_line_2 = billing_address['address_line_2']
-		order.city = billing_address['city']
-		order.state = billing_address['state']
-		order.country = billing_address['country']
-		order.zip_code = billing_address['zip_code']
+		order.phone_number = billing_address["phone_number"]
+		order.address_line_1 = billing_address["address_line_1"]
+		order.address_line_2 = billing_address["address_line_2"]
+		order.city = billing_address["city"]
+		order.state = billing_address["state"]
+		order.country = billing_address["country"]
+		order.zip_code = billing_address["zip_code"]
 		order.billing_address = None
 	else:
 		try:
@@ -134,44 +154,57 @@ def Order_placement(request):
 			order.billing_address = billing
 		except ObjectDoesNotExist:
 			order.billing_address = None
-	order.first_name = billing_address['first_name']
-	order.last_name = billing_address['last_name']
-	order.email = billing_address['email']
+			order.phone_number = billing_address["phone_number"]
+			order.address_line_1 = billing_address["address_line_1"]
+			order.address_line_2 = billing_address["address_line_2"]
+			order.city = billing_address["city"]
+			order.state = billing_address["state"]
+			order.country = billing_address["country"]
+			order.zip_code = billing_address["zip_code"]
+	order.first_name = billing_address["first_name"]
+	order.last_name = billing_address["last_name"]
+	order.email = billing_address["email"]
 
 	order.save()
 
 	basket_session.clear()
 
-	messages.success(request, "Thanks for shopping! Your order has been placed successfully.")
-	return redirect('store:index')
+	messages.success(
+		request, "Thanks for shopping! Your order has been placed successfully."
+	)
+	return redirect("store:index")
 
 
 @login_required
 def remove_from_cart(request, slug):
-    item = get_object_or_404(Product, slug=slug)
-    order_qs = Order.objects.filter(user=request.user, ordered=False)
-    if order_qs.exists():
-        order = order_qs[0]
-        # check if the order item is in the order
-        if order.items.filter(item__slug=item.slug).exists():
-            order_item = OrderItem.objects.filter(item=item, user=request.user, ordered=False)[0]
-            order_item.quantity = 1
-            order_item.save()
-            order.items.remove(order_item)
-            messages.success(request, f"{order_item.item.title} item was removed from your cart.")
-        else:
-            # add a message saying the user doesn't have an order
-            messages.error(request, "This item was not in your cart.")
-            return redirect('order:product', slug=slug)
+	item = get_object_or_404(Product, slug=slug)
+	order_qs = Order.objects.filter(user=request.user, ordered=False)
+	if order_qs.exists():
+		order = order_qs[0]
+		# check if the order item is in the order
+		if order.items.filter(item__slug=item.slug).exists():
+			order_item = OrderItem.objects.filter(
+				item=item, user=request.user, ordered=False
+			)[0]
+			order_item.quantity = 1
+			order_item.save()
+			order.items.remove(order_item)
+			messages.success(
+				request, f"{order_item.item.title} item was removed from your cart."
+			)
+		else:
+			# add a message saying the user doesn't have an order
+			messages.error(request, "This item was not in your cart.")
+			return redirect("order:product", slug=slug)
 
-    else:
-        # add a message saying the user doesn't have an order
-        messages.error(request, "You do not have an active order.")
-        return redirect('order:product', slug=slug)
-    return redirect('order:order-summary')
+	else:
+		# add a message saying the user doesn't have an order
+		messages.error(request, "You do not have an active order.")
+		return redirect("order:product", slug=slug)
+	return redirect("order:order-summary")
 
 
 def Orders_history(request):
-    user = request.user
-    orders = Order.objects.filter(user=user)
-    return orders
+	user = request.user
+	orders = Order.objects.filter(user=user)
+	return orders

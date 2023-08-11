@@ -13,7 +13,6 @@ class Billing():
 		if settings.BILLING_ADDRESS_SESSION_ID not in request.session:
 			billing_address = self.session[settings.BILLING_ADDRESS_SESSION_ID] = {}
 		self.billing_address = billing_address
-		# print(self.billing_address)
 
 	def add(self, bform, uid):
 		"""

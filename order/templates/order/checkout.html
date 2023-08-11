@@ -4,8 +4,8 @@
 
 {% block style %}
 <style>
-	.title + small, .title + small + span
-	{
+	.title+small,
+	.title+small+span {
 		color: wheat;
 	}
 </style>
@@ -18,50 +18,50 @@
 			<h4 class="d-flex justify-content-between align-items-center mb-3">
 				<span style="color: wheat;">Your cart</span>
 				<span class="badge rounded-pill" style="background: wheat; color: initial;">
-				{% with total_qty=basket|length %}
-				<span class="basket-qty d-inline-flex">{{ total_qty }}</span>
-				{% endwith %}
+					{% with total_qty=basket|length %}
+					<span class="basket-qty d-inline-flex">{{ total_qty }}</span>
+					{% endwith %}
 				</span>
 			</h4>
 			<ul class="list-group py-3 px-2 mb-3 checkout-list rounded-4">
 				{% for item in basket %}
-					{% with product=item.product %}
-					<li class="list-group-item d-flex justify-content-between lh-sm">
-						<div>
+				{% with product=item.product %}
+				<li class="list-group-item d-flex justify-content-between lh-sm">
+					<div>
 						<h6 class="my-0">{{ product.title }}</h6>
 						<small class="text-body-secondary">{{ product.description | truncatechars:30 }}</small>
-						</div>
-						<span class="text-body-secondary">Rs. {{ item.total_price }} ({{ item.qty }})</span>
-					</li>
-					{% endwith %}
+					</div>
+					<span class="text-body-secondary">Rs. {{ item.total_price }} ({{ item.qty }})</span>
+				</li>
+				{% endwith %}
 				{% endfor %}
-			  
-			  <li class="list-group-item d-flex justify-content-between" style="color: wheat;">
-				<span>Sub Total (PKR)</span>
-				<strong>Rs. {{ basket.get_before_discount }}</strong>
-			  </li>
-			  <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
-				  {% if basket.get_discount_price > 0 %}
+
+				<li class="list-group-item d-flex justify-content-between" style="color: wheat;">
+					<span>Sub Total (PKR)</span>
+					<strong>Rs. {{ basket.get_before_discount }}</strong>
+				</li>
+				<li class="list-group-item d-flex justify-content-between bg-body-tertiary">
+					{% if basket.get_discount_price > 0 %}
 					<div class="text-success">
 						<h6 class="my-0">Discount</h6>
 						<small>Special Discount for You</small>
 					</div>
 					<span class="text-success">−Rs. {{ basket.get_discount_price }}</span>
-				{% else %}
+					{% else %}
 					<div class="text-danger">
 						<h6 class="my-0">Discount</h6>
-					<small>Sorry! No discount available</small>
-				</div>
-				<span class="text-danger">Rs. {{ basket.get_discount_price }}</span>
-				{% endif %}
-			  </li>
+						<small>Sorry! No discount available</small>
+					</div>
+					<span class="text-danger">Rs. {{ basket.get_discount_price }}</span>
+					{% endif %}
+				</li>
 
-			  <li class="list-group-item d-flex justify-content-between" style="color: wheat;">
-				<span>Total (PKR)</span>
-				<strong>Rs. {{ basket.get_total_price }}</strong>
-			  </li>
+				<li class="list-group-item d-flex justify-content-between" style="color: wheat;">
+					<span>Total (PKR)</span>
+					<strong>Rs. {{ basket.get_total_price }}</strong>
+				</li>
 			</ul>
-	
+
 			{% if not form %}
 			<a href="{% url 'order:order-placement' %}" class="btn basket w-100">Confirm Order</a>
 			{% endif %}
@@ -78,15 +78,16 @@
 								<!-- <p class="mb-4 text-muted">It's free and only takes a minute.</p> -->
 
 								{% if form.errors %}
-									<p class="text-danger">Please correct the following errors:</p>
-									{% for field in form %}
-										{% if field.errors %}
-											<div class="alert alert-danger alert-dismissible fade show" role="alert">
-												{{ field.label }}: {{ field.errors | striptags }}
-												<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-											</div>
-										{% endif %}
-									{% endfor %}
+								<p class="text-danger">Please correct the following errors:</p>
+								{% for field in form %}
+								{% if field.errors %}
+								<div class="alert alert-danger alert-dismissible fade show" role="alert">
+									{{ field.label }}: {{ field.errors | striptags }}
+									<button type="button" class="btn-close" data-bs-dismiss="alert"
+										aria-label="Close"></button>
+								</div>
+								{% endif %}
+								{% endfor %}
 								{% endif %}
 
 								<div class="row">
@@ -101,7 +102,8 @@
 								</div>
 								<div class="row">
 									<div class="col">
-										<label for="id_email">{{ form.email.label }} <span class="text-muted small">(Optional)</span></label>
+										<label for="id_email">{{ form.email.label }} <span
+												class="text-muted small">(Optional)</span></label>
 										{{ form.email }}
 									</div>
 									<div class="col">
@@ -115,7 +117,8 @@
 										{{ form.address_line_1 }}
 									</div>
 									<div class="col">
-										<label for="id_address_line_2">{{ form.address_line_2.label }} <span class="text-muted small">(Optional)</span></label>
+										<label for="id_address_line_2">{{ form.address_line_2.label }} <span
+												class="text-muted small">(Optional)</span></label>
 										{{ form.address_line_2 }}
 									</div>
 								</div>
@@ -162,46 +165,46 @@
 			<h4 class="d-flex justify-content-between align-items-center mb-3">
 				<span style="color: wheat;">Your Default Address</span>
 				<span class="badge rounded-pill" style="background: wheat; color: initial;">
-				<span class="basket-qty d-inline-flex">Label</span>
+					<span class="basket-qty d-inline-flex">Label</span>
 				</span>
 			</h4>
 			<ul class="list-group py-3 px-2 mb-3 checkout-list rounded-4">
 				<li class="list-group-item d-flex justify-content-between lh-sm">
 					<div>
-					<h6 class="my-0 title">Name</h6>
-					<small class="text-body-secondary">{{ address.first_name }} {{ address.last_name }}</small>
+						<h6 class="my-0 title">Name</h6>
+						<small class="text-body-secondary">{{ address.first_name }} {{ address.last_name }}</small>
 					</div>
 				</li>
 				<li class="list-group-item d-flex justify-content-between lh-sm">
 					<div>
-					<h6 class="my-0 title">Phone Number</h6>
-					<small class="text-body-secondary">{{ address.phone_number }}</small>
+						<h6 class="my-0 title">Phone Number</h6>
+						<small class="text-body-secondary">{{ address.phone_number }}</small>
 					</div>
 				</li>
 				<li class="list-group-item d-flex justify-content-between lh-sm">
 					<div>
-					<h6 class="my-0 title">Email</h6>
-					<small class="text-body-secondary">{{ address.email }}</small>
+						<h6 class="my-0 title">Email</h6>
+						<small class="text-body-secondary">{{ address.email }}</small>
 					</div>
 				</li>
 				<li class="list-group-item d-flex justify-content-between lh-sm">
 					<div>
-					<h6 class="my-0 title">Address</h6>
-					<small class="text-body-secondary">{{ address.address_line_1 }}</small>
+						<h6 class="my-0 title">Address</h6>
+						<small class="text-body-secondary">{{ address.address_line_1 }}</small>
 					</div>
 				</li>
 				{% if address.address_line_2 %}
 				<li class="list-group-item d-flex justify-content-between lh-sm">
 					<div>
-					<h6 class="my-0 title">Address</h6>
-					<small class="text-body-secondary">{{ address.address_line_2 }}</small>
+						<h6 class="my-0 title">Address</h6>
+						<small class="text-body-secondary">{{ address.address_line_2 }}</small>
 					</div>
 				</li>
 				{% endif %}
 				<li class="list-group-item d-flex justify-content-between lh-sm">
 					<div>
-					<h6 class="my-0 title">Area</h6>
-					<small class="text-body-secondary">{{ address.city }}, {{ address.get_country_display }}</small>
+						<h6 class="my-0 title">Area</h6>
+						<small class="text-body-secondary">{{ address.city }}, {{ address.get_country_display }}</small>
 					</div>
 					<span class="text-body-secondary">{{ address.zip_code }}</span>
 				</li>
@@ -210,30 +213,29 @@
 		{% endif %}
 	</div>
 </div>
-
 {% endblock %}
 
-{% if not form %}
-	{% block script %}
-	<script>
-		$(document).ready(function () {
-			var csrfToken = "{{ csrf_token }}";
-			$.ajax({
-				type: "post",
-				url: "{% url 'address:address-session-update' %}",
-				data: {
-					csrfmiddlewaretoken: csrfToken,
-					action: 'post'
-				},
-				success: function (response) {
-					console.log(response)
-				},
-				error: function (xhr, errmessage, err) {
-					console.log('error occurred')
-					console.log(err)
-				}
-			});
+{% comment %}
+{% block script %}
+<script>
+	$(document).ready(function () {
+		var csrfToken = "{{ csrf_token }}";
+		$.ajax({
+			type: "post",
+			url: "{% url 'address:address-session-update' %}",
+			data: {
+				csrfmiddlewaretoken: csrfToken,
+				action: 'post'
+			},
+			success: function (response) {
+				console.log(response)
+			},
+			error: function (xhr, errmessage, err) {
+				console.log('error occurred')
+				console.log(err)
+			}
 		});
-	</script>
-	{% endblock %}
-{% endif %}
+	});
+</script>
+{% endblock %}
+{% endcomment %}
