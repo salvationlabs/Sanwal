@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import (HttpResponseRedirect, reverse, redirect, render, get_object_or_404)
 from django.contrib.auth.decorators import login_required
 from django.views.generic import View
 
@@ -115,7 +115,7 @@ def Order_placement(request):
 
 	order = Order.objects.create(user=request.user if request.user.is_authenticated else None, total_payment=basket_session.get_total_price())
 	for item in basket_session:
-		prdt = get_object_or_404(Product, id=item['product'].id)
+		prdt = get_object_or_404(Product, id=item['product'].get('id'))
 		order_item = OrderItem.objects.create(item=prdt, user=request.user if request.user.is_authenticated else None, quantity=item['qty'])
 		order.items.add(order_item)
 	

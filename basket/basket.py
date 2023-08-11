@@ -18,7 +18,7 @@ class Basket():
 			basket = self.session[settings.BASKET_SESSION_ID] = {}
 		self.basket = basket
 
-	def add(self, product, qty):
+	def add(self, product, qty, attribute):
 		"""
 		Adding and updating the users basket session data
 		"""
@@ -32,7 +32,8 @@ class Basket():
 			self.basket[product_id] = {
 				'regular_price': float(product.regular_price),
 				'discount_price': discount_price,
-				'qty': int(qty)
+				'qty': int(qty),
+				'attribute': attribute
 			}
 		else:
 			self.basket[product_id]['qty'] = int(self.basket[product_id]['qty']) + int(qty)
@@ -68,6 +69,7 @@ class Basket():
 			# Convert the Product object to a dictionary
 			# print(product.img.first().image.url)
 			product_data = {
+				'id': product.id,
 				'title': product.title,
 				'description': product.description,
 				'image': product.img.first().image.url

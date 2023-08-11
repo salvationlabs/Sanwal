@@ -19,7 +19,8 @@ def basket_update(request):
 		product = get_object_or_404(Product, id=product_id)
 		if request.POST.get('action') == 'add':
 			product_qty = int(request.POST.get('product_qty'))
-			basket.add(product=product, qty=product_qty)
+			attribute_id = request.POST.get('attribute_id')
+			basket.add(product=product, qty=product_qty, attribute=attribute_id)
 
 		elif request.POST.get('action') == 'update':
 			product_qty = int(request.POST.get('product_qty'))
