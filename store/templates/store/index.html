@@ -10,39 +10,39 @@
 <div class="container-fluid px-5">
 	<div class="swiper categories-grid-swiper">
 		<div class="swiper-wrapper">
-			<!-- <a href="{% url 'store:products-by-category' category_slug='home-decor' %}"
+			<a href="{% url 'store:products-by-category' category_slug='home-decor' %}"
 				class="swiper-slide position-relative">
 				<img src="{% static 'store/imgs/categoriesgrid/homedecor.webp' %}" alt="Home Decor" width="100%"
 					height="415px">
-				<span class="position-absolute fs-1 text-light">Home Decor</span>
-			</a> -->
-			<a href="{% url 'store:products-by-category' category_slug='jewellery' %}"
+				<span class="position-absolute fs-1 text-light text-uppercase">Home Decor</span>
+			</a>
+			<!-- <a href="{% url 'store:products-by-category' category_slug='jewellery' %}"
 				class="swiper-slide position-relative">
 				<img src="{% static 'store/imgs/categoriesgrid/jewellery.webp' %}" alt="Jewellery" width="100%"
 					height="415px">
 				<span class="position-absolute fs-1 text-light">Jewellery</span>
-			</a>
+			</a> -->
 			<a href="{% url 'store:products-by-category' category_slug='apparel' %}"
 				class="swiper-slide position-relative">
 				<img src="{% static 'store/imgs/categoriesgrid/apparel.webp' %}" alt="Apparel" width="100%"
 					height="415px">
-				<span class="position-absolute fs-1 text-light">Apparel</span>
+				<span class="position-absolute fs-1 text-light text-uppercase">Apparel</span>
 			</a>
-			<!-- <a href="{% url 'store:products-by-category' category_slug='footwear' %}"
+			<a href="{% url 'store:products-by-category' category_slug='footwear' %}"
 				class="swiper-slide position-relative">
 				<img src="{% static 'store/imgs/categoriesgrid/footwear.webp' %}" alt="Footwear" width="100%"
 					height="415px">
-				<span class="position-absolute fs-1 text-light">Footwear</span>
-			</a> -->
+				<span class="position-absolute fs-1 text-light text-uppercase">Footwear</span>
+			</a>
 			<a href="{% url 'store:products-by-brands' %}" class="swiper-slide position-relative">
 				<img src="{% static 'store/imgs/categoriesgrid/brands.webp' %}" alt="Brands" height="415px">
-				<span class="position-absolute fs-1 text-light">Brands</span>
+				<span class="position-absolute fs-1 text-light text-uppercase">Brands</span>
 			</a>
-			<a href="{% url 'store:products-by-category' category_slug='wallets' %}"
+			<!-- <a href="{% url 'store:products-by-category' category_slug='wallets' %}"
 				class="swiper-slide position-relative">
 				<img src="{% static 'store/imgs/categoriesgrid/wallets.webp' %}" alt="Wallets" height="415px">
 				<span class="position-absolute fs-1 text-light">Wallets</span>
-			</a>
+			</a> -->
 		</div>
 		<div class="swiper-pagination"></div>
 	</div>
@@ -51,7 +51,7 @@
 <div class="container-fluid px-4 my-5">
 	{% if category.posts.first %}
 	<article class="products">
-		<h1 class="h2 text-center mb-3">{{ category.name }}</h1>
+		<h1 class="h2 text-center mb-3 text-uppercase">{{ category.name }}</h1>
 		<div class="row row-cols-1 row-cols-md-3 g-4 m-auto justify-content-center">
 			{% for item in category.posts.all|slice:":8" %}
 			<div class="card">

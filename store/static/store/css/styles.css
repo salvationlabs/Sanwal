@@ -24,7 +24,7 @@ html body {
 @media (prefers-color-scheme: dark) {
 	:root {
 		--background-color: rgb(20, 11, 2);
-		--color: white;
+		--color: rgb(71, 40, 9);
 	}
 }
 

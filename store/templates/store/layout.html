@@ -18,9 +18,15 @@
 	<link rel="icon" type="image/x-icon" href="{% static 'store/imgs/icon/sanwal2.webp' %}">
 	{% block style %}
 	{% endblock %}
+	<style>
+		#body {
+			background: rgb(51, 40, 18) url("{% static 'store/imgs/grainy-background/2.png' %}");
+			/* filter: contrast(170%) brightness(1000%);  */
+		}
+	</style>
 </head>
 
-<body>
+<body id="body">
 	{% block header %}
 	<header>
 		{% if messages %}
@@ -34,8 +40,8 @@
 					<!-- Top bar Navigation -->
 		<nav class="navbar my-0 py-0">
 			<div class="container-fluid d-flex justify-content-center">
-				<a href="{% url 'store:index' %}" class="navbar-brand mb-0 h1">
-					<img src="{% static 'store/imgs/icon/sanwal.svg' %}" alt="LOGO" class="navbar-logo" width="80" height="70">
+				<a href="{% url 'store:index' %}" class="navbar-brand mb-0 h1 " style="color: rgb(85, 49, 13);">
+					<span class="align-middle" style="font-size: 4.8rem;">SANWAL</span><img src="{% static 'store/imgs/icon/sanwal.svg' %}" alt="LOGO" class="navbar-logo" width="80" height="70">
 				</a>
 			</div>
 		  </nav>
@@ -49,12 +55,9 @@
 						{% for c in categories %}
 							{% if c.children.all %}
 							<li class="nav-item dropdown m-auto">
-								<a {% if c.slug in request.path %} class="nav-link active dropdown-toggle" {% endif %} class="nav-link dropdown-toggle pe-0" href="{{ c.get_absolute_url }}" data-bs-toggle="dropdown" aria-expanded="false" role="button">
+								<a {% if c.slug in request.path %} class="nav-link active dropdown-toggle" {% endif %} class="nav-link dropdown-toggle pe-0 fs-3" href="{{ c.get_absolute_url }}" data-bs-toggle="dropdown" aria-expanded="false" role="button">
 									{{ c.name | upper}}
 								</a>
-								<!-- <a class="nav-link dropdown-toggle dropdown-toggle-split ms-2" href="{{ c.get_absolute_url }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-									<span class="visually-hidden">Toggle Dropdown</span>
-								</a> -->
 								<ul class="dropdown-menu dropdown-menu-dark">
 									{% for subc in c.children.all %}
 										<li><a class="dropdown-item" href="{{ subc.get_absolute_url }}">{{ subc.name | upper}}</a></li>
@@ -63,12 +66,12 @@
 							</li>
 							{% else %}
 							<li class="nav-item">
-								<a href="{{ c.get_absolute_url }}" {% if c.slug in request.path %} class="nav-link active pe-0" {% endif %} class="nav-link "><div class="seperator"></div>{{ c.name | upper }}</a>
+								<a href="{{ c.get_absolute_url }}" {% if c.slug in request.path %} class="nav-link active pe-0 fs-4" {% endif %} class="nav-link fs-3">{{ c.name | upper }}</a>
 							</li>
 							{% endif %}
 						{% endfor %}
 						<li class="nav-item dropdown m-auto">
-							<a {% if "?brand" in request.path %}class="nav-link active text-uppercase dropdown-toggle" {% endif %} class="nav-link text-uppercase dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							<a {% if "?brand" in request.path %}class="nav-link active text-uppercase dropdown-toggle fs-3" {% endif %} class="nav-link text-uppercase dropdown-toggle fs-3" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 								Brands
 							</a>
 							<ul class="dropdown-menu  dropdown-menu-dark m-0 p-0 w-25 m-auto">
@@ -84,18 +87,18 @@
 						{% endif %}
 					</ul>
 				</div>
-				<div class="nav-item dropdown me-2">
+				<div class="nav-item dropstart me-2">
 					<a class="nav-link pt-1" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 						<ion-icon name="person"></ion-icon>
 					</a>
-					<ul class="dropdown-menu dropdown-menu-dark m-0 p-0 w-25">
+					<ul class="dropdown-menu dropdown-menu-dark m-0 p-1 w-25" style="background: black;">
 						{% if user.is_authenticated %}
-						<li><a class="dropdown-item" href="{% url 'account:dashboard' %}">DASHBOARD</a></li>
-						<li><a class="dropdown-item" href="{% url 'account:wishlist' %}">WISHLIST</a></li>
-						<li><a class="dropdown-item" href="{% url 'account:logout' %}">LOGOUT</a></li>
+						<li><a class="dropdown-item rounded-2" href="{% url 'account:dashboard' %}">DASHBOARD</a></li>
+						<li><a class="dropdown-item rounded-2" href="{% url 'account:wishlist' %}">WISHLIST</a></li>
+						<li><a class="dropdown-item rounded-2" href="{% url 'account:logout' %}">LOGOUT</a></li>
 						{% else %}
-						<li><a class="dropdown-item" href="{% url 'account:login' %}">LOGIN</a></li>
-						<li><a class="dropdown-item" href="{% url 'account:register' %}">SIGN UP</a></li>
+						<li><a class="dropdown-item rounded-2" href="{% url 'account:login' %}">LOGIN</a></li>
+						<li><a class="dropdown-item rounded-2" href="{% url 'account:register' %}">SIGN UP</a></li>
 						{% endif %}
 					</ul>
 				</div>
@@ -124,28 +127,43 @@
 	{% block footer %}
 	<div class="auth_form px-3 px-sm-5">
 		<footer class="pt-4 pb-1">
-			<div class="row">
-				<div class="col-4 col-sm-6 col-md-2 mb-3">
+			<div class="row container m-auto ms-2">
+				<!-- <div class="col-5 col-sm-6 col-md-2 mb-3">
 				  <h5 style="color: wheat;">Section</h5>
 				  <ul class="nav flex-column">
-					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Home</a></li>
-					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
-					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
-					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
-					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
+					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary" style="width: fit-content;">Home</a></li>
+					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary" style="width: fit-content;">Features</a></li>
+					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary" style="width: fit-content;">FAQs</a></li>
+					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary" style="width: fit-content;">About</a></li>
+				  </ul>
+				</div> -->
+		  
+				<div class="col mb-3">
+				  <h5 style="color: wheat;">More From Sanwal</h5>
+				  <ul class="nav flex-column">
+					<li class="nav-item mb-2"><a href="{% url 'more:become-seller' %}" class="nav-link p-0 text-body-secondary" style="width: fit-content;">Become a Seller</a></li>
+					<li class="nav-item dropdown mb-2" style="width: fit-content;">
+						<a {% if c.slug in request.path %} class="nav-link active dropdown-toggle" {% endif %} class="nav-link dropdown-toggle ms-0 p-0" href="{{ c.get_absolute_url }}" data-bs-toggle="dropdown" aria-expanded="false" role="button">
+							For Assistance
+						</a>
+						<ul class="dropdown-menu dropdown-menu-dark shadow p-1" style="background: black;">
+							<li><a class="dropdown-item nav-link text-body-secondary rounded-2" href="tel:+92 313 7951111">+92 313 7951111</a></li>
+							<li><a class="dropdown-item nav-link text-body-secondary rounded-2" href="mailto:sanwalcrafts@gmail.com">sanwalcrafts@gmail.com</a></li>
+						</ul>
+					</li>
+					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary" style="width: fit-content;">Features</a></li>
+					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary" style="width: fit-content;">FAQs</a></li>
+					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary" style="width: fit-content;">About</a></li>
 				  </ul>
 				</div>
 		  
-				<div class="col-4 col-sm-6 col-md-2 mb-3">
-				  <h5 style="color: wheat;">More From Sanwal</h5>
+				<!-- <div class="col col-sm-6 col-md-2 mb-3">
+				  <h5 style="color: wheat;">For Assistance</h5>
 				  <ul class="nav flex-column">
-					<li class="nav-item mb-2"><a href="{% url 'more:become-seller' %}" class="nav-link p-0 text-body-secondary">Become a Seller</a></li>
-					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
-					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
-					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
-					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
+					<li class="nav-item mb-2 d-flex">Whatsapp: <a href="tel:+92 313 7951111" class="nav-link ms-2 p-0 text-body-secondary">+92 313 7951111</a></li>
+					<li class="nav-item mb-2 d-flex">Email: <a href="mailto:sanwalcrafts@gmail.com" class="nav-link ms-2 p-0 text-body-secondary">sanwalcrafts@gmail.com</a></li>
 				  </ul>
-				</div>
+				</div> -->
 		  
 				<div class="col-md-5 offset-md-1 mb-3">
 				  <form style="color: wheat;">
