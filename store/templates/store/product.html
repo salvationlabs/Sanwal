@@ -5,6 +5,18 @@
 
 {% block title %}{{ object.title | title }}{% endblock %}
 
+{% block style %}
+	<style>
+		input[type="radio"] {
+			display: none;
+		}
+		label:has(> input[type="radio"]:checked) {
+			background: wheat;
+			color: black;
+		}
+	</style>
+{% endblock %}
+
 {% block body %}
 	<article class="product">
 		<div class="card col-10 my-4 mt-5">
@@ -82,7 +94,15 @@
 	// Add to Basket
 	$(document).on('click', '#add-to-basket', function (e) {
 		e.preventDefault();
-		$(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...')
+		$(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+		$(this).prop('disabled', true);
+		// const selectedAttributeNames = new Set();
+		$('input[type="radio"]:checked').each(function (index, element) {
+			// element == this
+			console.log(element.name)
+			console.log($(element).val());
+		});
+		// console.log($('input[type="radio"]'));
 		var csrfToken = "{{ csrf_token }}";
 		$.ajax({
 			type: "POST",
@@ -90,13 +110,14 @@
 			data: {
 				productId: $('#add-to-basket').data('index'),
 				product_qty: parseInt($('.quantity').text()),
+				attribute_id: 1,
 				csrfmiddlewaretoken: csrfToken,
 				action: 'add'
 			},
 			success: function (response) {
 				$('.quantity').text(1);
 				$('.basket-qty').text(response.qty);
-				$('#add-to-basket').html('Throw to Basket');
+				$('#add-to-basket').html('Throw to Basket').prop('disabled', false);
 			},
 			error: function (xhr, errmessage, err) {
 				$('#add-to-basket').html('Error: Try Again');

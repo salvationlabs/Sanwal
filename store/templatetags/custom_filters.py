@@ -8,10 +8,11 @@ def group_attributes(attributes):
     result = []
 
     for attribute in attributes:
-        a_v = f'<button class="btn btn-sm basket">{attribute.value}</button>'
         if attribute.specification.name in attribute_dict:
+            a_v = f'<label class="btn btn-sm basket ms-1"> <input type="radio" name="{attribute.specification.name}" value="{attribute.id}">{attribute.value}</label>'
             attribute_dict[attribute.specification.name].append(a_v)
         else:
+            a_v = f'<label class="btn btn-sm basket ms-2"> <input type="radio" name="{attribute.specification.name}" value="{attribute.id}" checked>{attribute.value}</label>'
             attribute_dict[attribute.specification.name] = [a_v]
 
     for key, values in attribute_dict.items():

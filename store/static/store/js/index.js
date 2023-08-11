@@ -15,7 +15,6 @@ window.onload = function () {
     function handleThemeChange(event) {
         if (event.matches) {
             // Switch to dark theme
-            console.log(imageUrl)
             $('img.navbar-logo').attr('src', imageUrl);
         } else {
             // Switch to light theme
