@@ -233,6 +233,7 @@ class ProductImages (models.Model):
 
 	item = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='img')
 	image = models.ImageField(verbose_name=_("image"), upload_to=user_directory_path)
+	alt_text = models.CharField(verbose_name=_("Alternative text of image"), max_length=255)
 	created_at = models.DateTimeField(auto_now_add=True, editable=False)
 	updated_at = models.DateTimeField(auto_now=True)
 

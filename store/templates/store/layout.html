@@ -6,6 +6,11 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Sanwal: Embracing Heritage Through Artistic Collaboration and Trade. Rediscover the transcendent tales of Balochi cameleers and coy farm girls, as immortalized by Khwaja Ghulam Farid. Join our vibrant community as we unite local artists and artisans, breathing life into cherished traditions. Break away from digital monotony and become a part of our charming trade caravan, carrying the legacy of literary culture forward.">
+	<meta property="og:title" content="Sanwal: Your Ecommerce Store">
+	<meta property="og:description" content="Sanwal: Embracing Heritage Through Artistic Collaboration and Trade. Rediscover the transcendent tales of Balochi cameleers and coy farm girls, as immortalized by Khwaja Ghulam Farid. Join our vibrant community as we unite local artists and artisans, breathing life into cherished traditions. Break away from digital monotony and become a part of our charming trade caravan, carrying the legacy of literary culture forward.">
+	<meta property="og:image" content="{% static 'store/imgs/icon/sanwal2.webp' %}">
+
 	<title>{% block title %}Sanwal: Your Ecommerce Store{% endblock %}</title>
 
 			<!-- Style Sheets -->
@@ -21,7 +26,6 @@
 	<style>
 		#body {
 			background: rgb(51, 40, 18) url("{% static 'store/imgs/grainy-background/2.png' %}");
-			/* filter: contrast(170%) brightness(1000%);  */
 		}
 	</style>
 </head>
@@ -41,7 +45,7 @@
 		<nav class="navbar my-0 py-0">
 			<div class="container-fluid d-flex justify-content-center">
 				<a href="{% url 'store:index' %}" class="navbar-brand mb-0 h1 " style="color: rgb(85, 49, 13);">
-					<span class="align-middle" style="font-size: 4.8rem;">SANWAL</span><img src="{% static 'store/imgs/icon/sanwal.svg' %}" alt="LOGO" class="navbar-logo" width="80" height="70">
+					<span class="align-middle" style="font-size: 4.8rem;">SANWAL</span><img src="{% static 'store/imgs/icon/sanwal.svg' %}" alt="Sanwal LOGO" class="navbar-logo" width="80" height="70">
 				</a>
 			</div>
 		  </nav>
@@ -180,7 +184,7 @@
 			<div class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"  style="color: wheat;">
 			  <p class="col-md-4 mb-0 text-body-secondary">© 2023 Sanwal, Inc. All rights reserved.</p>
 			  <a href="{% url 'store:index' %}" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-				<img src="{% static 'store/imgs/icon/sanwal2.webp' %}" alt="Logo" class="bi me-sm-2" width="50" height="45">
+				<img src="{% static 'store/imgs/icon/sanwal2.webp' %}" alt="Sanwal Logo" class="bi me-sm-2" width="50" height="45">
 			  </a>
 			  <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
 				  <li class="ms-3"><a class="text-body-secondary text-reset fs-5 call-icon" href="tel:0313795111"><ion-icon name="call-outline"></ion-icon></a></li>
