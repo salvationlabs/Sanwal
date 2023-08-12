@@ -20,14 +20,14 @@ def AddressView(request):
     return BillingAddress.objects.filter(customer=request.user)
 
 
-# @login_required
-# def AddressSessionView(request):
-# 	billing_session = Billing(request)
-# 	if request.POST.get('action') == 'post':
-# 		address = BillingAddress.objects.get(customer=request.user, default=True)
-# 		billing_session.addBillingObject(address=address, uid=request.user.id)
-# 	response = JsonResponse('successfully added address', safe=False)
-# 	return response
+@login_required
+def AddressSessionView(request):
+	billing_session = Billing(request)
+	if request.POST.get('action') == 'post':
+		address = BillingAddress.objects.get(customer=request.user, default=True)
+		billing_session.addBillingObject(address=address, uid=request.user.id)
+	response = JsonResponse({'message': 'successfully added address'})
+	return response
 
 
 @login_required
@@ -47,9 +47,11 @@ def add_address(request):
     if request.POST:
         address_form = UserAddressForm(request.POST)
         if address_form.is_valid():
-            address_form = address_form.save(commit=False)
-            address_form.customer = request.user
-            address_form.save()
+            address = address_form.save(commit=False)
+            address.customer = request.user
+            if not BillingAddress.objects.filter(customer=request.user).exists():
+                address.default = True
+            address.save()
             messages.success(request, "New Delivery Address has been added")
             return redirect("address:addresses")
         else:

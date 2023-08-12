@@ -13,10 +13,15 @@ class Basket():
 	def __init__(self, request):
 		self.session = request.session
 		basket = self.session.get(settings.BASKET_SESSION_ID)
+		delivery_charges = self.session.get(settings.DELIVERY_CHARGES_SESSION_ID)
 
 		if settings.BASKET_SESSION_ID not in request.session:
 			basket = self.session[settings.BASKET_SESSION_ID] = {}
 		self.basket = basket
+
+		if settings.DELIVERY_CHARGES_SESSION_ID not in request.session:
+			delivery_charges = self.session[settings.DELIVERY_CHARGES_SESSION_ID] = {}
+		self.delivery_charges = delivery_charges
 
 	def add(self, product, qty, attributes):
 		"""
@@ -40,6 +45,13 @@ class Basket():
 		else:
 			self.basket[product_id]['qty'] = int(self.basket[product_id]['qty']) + int(qty)
 
+		self.save()
+	
+	def add_delivery_charges(self, dc):
+		"""
+		Add delivery charges for within or outside of city
+		"""
+		self.delivery_charges['DC'] = str(dc)
 		self.save()
 
 	def update(self, item_key, qty):
@@ -103,17 +115,21 @@ class Basket():
 		return sum(item['qty'] for item in self.basket.values())
 
 	def get_discount_price(self):
-		return float(self.get_before_discount()) - float(self.get_total_price())
+		return float(self.get_before_discount_subtotal_price()) - float(self.get_after_discount_subtotal_price())
 
-	def get_before_discount(self):
+	def get_before_discount_subtotal_price(self):
 		return sum(item['regular_price'] * item['qty'] for item in self.basket.values())
 
-	def get_total_price(self):
+	def get_after_discount_subtotal_price(self):
 		return sum(item['discount_price'] * item['qty'] if item['discount_price'] != '' else item['regular_price'] * item['qty'] for item in self.basket.values())
+
+	def get_total_price(self):
+		return self.get_after_discount_subtotal_price() + float(self.delivery_charges.get('DC', 0))
 
 	def save(self):
 		self.session.modified = True
 
 	def clear(self):
 		del self.session[settings.BASKET_SESSION_ID]
+		del self.session['delivery_charges']
 		self.save()

@@ -28,6 +28,7 @@ urlpatterns = [
     path('account/', include('account.urls', namespace='account')),
     path('account/addresses/', include('address.urls', namespace='address')),
     path('order/', include('order.urls', namespace='order')),
+    path('checkout/', include('checkout.urls', namespace='checkout')),
     path('more/', include('more.urls', namespace='more')),
 
     # External Apps Urls

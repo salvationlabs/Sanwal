@@ -25,81 +25,6 @@ from basket.basket import Basket
 
 
 # Create your views here.
-def CheckoutView(request):
-	"""
-	Order checkout to add address.
-	"""
-	billing_session = Billing(request)
-	basket = Basket(request)
-	basketqty = basket.__len__()
-	if basketqty <= 0:
-		messages.error(request, "Your basket is empty.")
-		return redirect("store:index")
-
-	if request.POST:
-		if request.user.is_authenticated:
-			try:
-				billing = BillingAddress.objects.get(
-					customer=request.user, default=True
-				)
-				bform = BillingForm(request.POST, instance=billing)
-			except ObjectDoesNotExist:
-				bform = BillingForm(request.POST)
-
-			if bform.is_valid():
-				if bform.cleaned_data["save_info"]:
-					billingsave = bform.save(commit=False)
-					billingsave.user = request.user
-					billingsave.save()
-				billing_session.add(bform, request.user.id)
-			else:
-				return render(request, "order/checkout.html", {"form": bform})
-		else:
-			bform = BillingForm(request.POST)
-			if bform.is_valid():
-				billing_session.add(bform, "Anonymous")
-			else:
-				return render(request, "order/checkout.html", {"form": bform})
-
-		return HttpResponseRedirect(reverse("order:order-placement"))
-	else:
-		if request.user.is_authenticated:
-			try:
-				address = BillingAddress.objects.get(
-					customer=request.user, default=True
-				)
-				return render(
-					request, "order/checkout.html", {"address": address}
-				)  # seems to be the problem
-
-			except ObjectDoesNotExist:
-				bform = BillingForm(
-					initial={
-						"first_name": request.user.first_name,
-						"last_name": request.user.last_name,
-						"email": request.user.email,
-					}
-				)
-		elif billing_session.exists():
-			billing_address = billing_session.billing_address["Anonymous"]
-			bform.initial = {
-				"first_name": billing_address["first_name"],
-				"last_name": billing_address["last_name"],
-				"email": billing_address["email"],
-				"phone_number": billing_address["phone_number"],
-				"address_line_1": billing_address["address_line_1"],
-				"address_line_2": billing_address["address_line_2"],
-				"city": billing_address["city"],
-				"state": billing_address["state"],
-				"country": billing_address["country"],
-				"zip_code": billing_address["zip_code"],
-			}
-		else:
-			bform = BillingForm()
-
-		return render(request, "order/checkout.html", {"form": bform})
-
-
 def Order_placement(request):
 	"""
 	Orders and Orderitems are fetched from basket_session if exist, and are stored in actual order and orderitem models respectively.
@@ -111,14 +36,15 @@ def Order_placement(request):
 	if basketqty <= 0:
 		messages.error(request, "Your basket is empty.")
 		return redirect("store:index")
+
 	billing_session = Billing(request)
-	if billing_session.exists():
+	if billing_session.__len__() != 0:
 		billing_address = billing_session.billing_address[
 			str(request.user.id) if request.user.is_authenticated else "Anonymous"
 		]
 	else:
 		messages.error(request, "You have not filled billing details")
-		return redirect("order:checkout")
+		return redirect("checkout:checkout")
 
 	order = Order.objects.create(
 		user=request.user if request.user.is_authenticated else None,
@@ -139,28 +65,28 @@ def Order_placement(request):
 				OrderItemAttribute.objects.create(order_item=order_item, attribute=attribute)
 		order.items.add(order_item)
 
-	if not request.user.is_authenticated:
-		order.phone_number = billing_address["phone_number"]
-		order.address_line_1 = billing_address["address_line_1"]
-		order.address_line_2 = billing_address["address_line_2"]
-		order.city = billing_address["city"]
-		order.state = billing_address["state"]
-		order.country = billing_address["country"]
-		order.zip_code = billing_address["zip_code"]
-		order.billing_address = None
-	else:
-		try:
-			billing = BillingAddress.objects.get(customer=request.user, default=True)
-			order.billing_address = billing
-		except ObjectDoesNotExist:
-			order.billing_address = None
-			order.phone_number = billing_address["phone_number"]
-			order.address_line_1 = billing_address["address_line_1"]
-			order.address_line_2 = billing_address["address_line_2"]
-			order.city = billing_address["city"]
-			order.state = billing_address["state"]
-			order.country = billing_address["country"]
-			order.zip_code = billing_address["zip_code"]
+	# if not request.user.is_authenticated:
+	# 	order.phone_number = billing_address["phone_number"]
+	# 	order.address_line_1 = billing_address["address_line_1"]
+	# 	order.address_line_2 = billing_address["address_line_2"]
+	# 	order.city = billing_address["city"]
+	# 	order.state = billing_address["state"]
+	# 	order.country = billing_address["country"]
+	# 	order.zip_code = billing_address["zip_code"]
+	# 	order.billing_address = None
+	# else:
+	# 	try:
+	# 		billing = BillingAddress.objects.get(customer=request.user, default=True)
+	# 		order.billing_address = billing
+	# 	except ObjectDoesNotExist:
+	# 		order.billing_address = None
+	order.phone_number = billing_address["phone_number"]
+	order.address_line_1 = billing_address["address_line_1"]
+	order.address_line_2 = billing_address["address_line_2"]
+	order.city = billing_address["city"]
+	order.state = billing_address["state"]
+	order.country = billing_address["country"]
+	order.zip_code = billing_address["zip_code"]
 	order.first_name = billing_address["first_name"]
 	order.last_name = billing_address["last_name"]
 	order.email = billing_address["email"]

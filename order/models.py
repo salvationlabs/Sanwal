@@ -67,16 +67,19 @@ class Order(models.Model):
 	state = models.CharField(max_length=150, blank=True, null=True)
 	country = CountryField(blank_label="Country", blank=True, null=True)
 	zip_code = models.CharField(max_length=12, blank=True, null=True)
-	billing_address = models.ForeignKey(
-		"address.BillingAddress", on_delete=models.SET_NULL, blank=True, null=True
-	)
 
 	class Meta:
 		ordering = ("-order_created",)
 	
 	def __str__(self):
+		if self.user:
+			f_name = self.user.first_name
+			l_name = self.user.last_name
+		else:
+			f_name = self.first_name
+			l_name = self.last_name
 		order_placed = self.order_created.strftime("%I:%M %p | %d-%m-%Y")
-		return f"{self.user.first_name} {self.user.last_name} | {order_placed}"
+		return f"{f_name} {l_name} | {order_placed}"
 
 	def get_total(self):
 		total = 0

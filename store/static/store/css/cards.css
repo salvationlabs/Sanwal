@@ -21,7 +21,7 @@
 	border: none;
 }
 
-.products .row .card .card-body del {
+.products .row .card .card-body del, article.product .card del {
 	text-decoration-color: red;
 }
 
@@ -53,12 +53,23 @@
 	background: none;
 	border: none;
 	margin: auto;
+	font-size: larger;
 	margin-top: 2%;
 }
 
 .product .card .card-body
 {
 	text-align: justify;
+}
+
+.product .card .card-body button.plus-btn.btn,
+.product .card .card-body button.min-btn.btn {
+	color: rgb(34, 23, 4);
+}
+
+.product .card .card-body button.plus-btn.btn:hover,
+.product .card .card-body button.min-btn.btn:hover {
+	color: rgb(126, 87, 16);
 }
 
 .swiper.itemImageSwiper {

@@ -17,13 +17,15 @@ html body {
 	background: var(--background-color);
 	color: var(--color);
 	background-size: cover;
+	/* background-repeat: no-repeat;
+	background-position: center; */
 	scroll-behavior: smooth;
 	font-family: 'Playfair Display', serif;
 }
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--background-color: rgb(20, 11, 2);
+		--background-color: rgb(121, 81, 42);
 		--color: rgb(71, 40, 9);
 	}
 }

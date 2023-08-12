@@ -106,8 +106,8 @@
 							</ul>
 						</li>
 						{% if user.is_authenticated and user.is_staff %}
-							<li class="nav-item">
-								<a href="{% url 'admin:index' %}" class="nav-link "><div class="seperator"></div>ADMIN</a>
+							<li class="nav-item m-auto">
+								<a href="{% url 'admin:index' %}" class="nav-link fs-3">ADMIN</a>
 							</li>
 						{% endif %}
 					</ul>
@@ -129,7 +129,7 @@
 				</div>
 				<a href="{% url 'basket:basket_summary' %}" {% if "/basket" in request.path %}class="btn active"{% endif %} class="btn" role="button" type="button">
 					<span class="position-relative">
-						<ion-icon name="bag-handle-outline"></ion-icon>
+						Basket <ion-icon name="bag-handle-outline"></ion-icon>
 						{% with total_qty=basket|length %}
 							{% if total_qty > 0 %}
 							<span class="basket-qty d-inline-flex">{{ total_qty }}</span>

@@ -58,12 +58,14 @@
 .navbar .container-fluid .profile_icon {
 	font-size: 1.4rem;
 }
+
 .navbar .container-fluid .btn
 {
 	color: var(--text-color);
-	border-radius: 50%;
+	border-radius: 50px;
 	font-size: 1.4rem;
-	border: 1px wheat solid;
+	background: rgba(245, 222, 179, 0.297);
+	/* border: 1px wheat solid; */
 }
 
 .navbar .container-fluid .btn:hover, .navbar .container-fluid .btn.active

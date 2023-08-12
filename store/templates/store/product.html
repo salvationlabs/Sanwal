@@ -49,18 +49,20 @@
 					<div class="row g-3 card-text m-auto">
 						<div class="col-5 col-sm-5 col-md-4 col-lg-6">
 							{% if object.discount_price %}
-							Rs. <del style="text-decoration-color: red;">{{ object.regular_price }}</del>
+							Rs. <del>{{ object.regular_price }}</del>
 							{{ object.discount_price }}
 							{% else %}
 							Rs. {{ object.regular_price }}
 							{% endif %}
 						</div>
 						<div class="col-4 col-sm-3 col-lg-2 text-end">
-							<button class="plus-btn btn p-0" type="button"><ion-icon
-									name="add-outline"></ion-icon></button>
+							<button class="plus-btn btn p-0" type="button">
+								<ion-icon name="add-outline"></ion-icon>
+							</button>
 							<span class="quantity">1</span>
-							<button type="button" class="min-btn btn p-0"><ion-icon
-									name="remove-outline"></ion-icon></button>
+							<button type="button" class="min-btn btn p-0">
+								<ion-icon name="remove-outline"></ion-icon>
+							</button>
 						</div>
 						<button class="col-8 col-sm-4 col-md-4 col-lg-3 mx-auto btn btn-sm basket filled ms-lg-3"
 							type="button" id="add-to-basket" data-index="{{  product.id }}">Throw to Basket</button>

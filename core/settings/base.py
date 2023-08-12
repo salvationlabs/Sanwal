@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "address",
     "order",
     "more",
+    'checkout',
 ]
 
 MIDDLEWARE = [
@@ -154,3 +155,4 @@ EMAIL_USE_TLS = True  # or False if your email service does not support TLS/SSL
 # Sessions IDs
 BASKET_SESSION_ID = "basket"
 BILLING_ADDRESS_SESSION_ID = "billing_address"
+DELIVERY_CHARGES_SESSION_ID = 'delivery_charges'
