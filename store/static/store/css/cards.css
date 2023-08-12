@@ -16,8 +16,13 @@
 	padding: 0;
 	background: none;
 	width: 18em;
+	font-size: larger;
 	margin: 15px 15px;
 	border: none;
+}
+
+.products .row .card .card-body del {
+	text-decoration-color: red;
 }
 
 .products .row .card a
@@ -25,6 +30,10 @@
 	margin: 0;
     color: var(--text-color);
 	text-decoration: none;
+}
+
+.products .row .card a.wishlist_icon ion-icon {
+	font-size: 1.4rem;
 }
 
 .products .row .card .btn

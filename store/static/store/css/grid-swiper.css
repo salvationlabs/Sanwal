@@ -7,7 +7,7 @@
 }
 
 .swiper.categories-grid-swiper .swiper-slide-active {
-	scale: .972;
+	transform: scale(.972);
 }
 
 .swiper.categories-grid-swiper .swiper-wrapper .swiper-slide {

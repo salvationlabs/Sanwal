@@ -38,13 +38,13 @@
 								{% endif %}
 							</div>
 							<div class="card-body text-center col-12 pt-0 position-relative">
-								<h6 class="card-title">{{ item.title | title }}</h6>
+								<h3 class="card-title h5">{{ item.title | title }}</h3>
 								{% if item.discount_price %}
 									<del style="text-decoration-color: red;">Rs. {{ item.regular_price }}</del> Rs. {{ item.discount_price }}
 								{% else %}
 									Rs. {{ item.regular_price }}
 								{% endif %}
-								<a href="{% url 'account:add-to-wishlist' item.slug %}" class="position-absolute start-100 translate-middle-x">
+								<a href="{% url 'account:add-to-wishlist' item.slug %}" class="wishlist_icon position-absolute bottom-0 end-0 translate-middle">
 									{% if item in wishlist_listings %}
 										<ion-icon name="heart"></ion-icon>
 									{% else %}

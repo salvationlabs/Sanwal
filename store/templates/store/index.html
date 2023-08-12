@@ -74,15 +74,14 @@
 							{% endif %}
 						</div>
 						<div class="card-body text-center col-12 pt-0 position-relative">
-							<h6 class="card-title">{{ item.title | title }}</h6>
+							<h3 class="h5 card-title">{{ item.title | title }}</h3>
 							{% if item.discount_price %}
-							<del style="text-decoration-color: red;">Rs. {{ item.regular_price }}</del> Rs.
+							<del>Rs. {{ item.regular_price }}</del> Rs.
 							{{ item.discount_price }}
 							{% else %}
 							Rs. {{ item.regular_price }}
 							{% endif %}
-							<a href="{% url 'account:add-to-wishlist' item.slug %}" class="position-absolute start-100"
-								style="transform: translateX(-21px);">
+							<a href="{% url 'account:add-to-wishlist' item.slug %}" class="position-absolute bottom-0 translate-middle end-0 wishlist_icon">
 								{% if item in wishlist_listings %}
 								<ion-icon name="heart"></ion-icon>
 								{% else %}
