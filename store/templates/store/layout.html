@@ -80,7 +80,7 @@
 						{% for c in categories %}
 							{% if c.children.all %}
 							<li class="nav-item dropdown m-auto">
-								<a {% if c.slug in request.path %} class="nav-link active dropdown-toggle" {% endif %} class="nav-link dropdown-toggle pe-0 fs-3" href="{{ c.get_absolute_url }}" data-bs-toggle="dropdown" aria-expanded="false" role="button">
+								<a {% if c.slug in request.path %} class="nav-link active dropdown-toggle fs-3" {% endif %} class="nav-link dropdown-toggle pe-0 fs-3" href="{{ c.get_absolute_url }}" data-bs-toggle="dropdown" aria-expanded="false" role="button">
 									{{ c.name | upper}}
 								</a>
 								<ul class="dropdown-menu dropdown-menu-dark">
@@ -91,7 +91,7 @@
 							</li>
 							{% else %}
 							<li class="nav-item">
-								<a href="{{ c.get_absolute_url }}" {% if c.slug in request.path %} class="nav-link active pe-0 fs-4" {% endif %} class="nav-link fs-3">{{ c.name | upper }}</a>
+								<a href="{{ c.get_absolute_url }}" {% if c.slug in request.path %} class="nav-link active pe-0 fs-3" {% endif %} class="nav-link fs-3">{{ c.name | upper }}</a>
 							</li>
 							{% endif %}
 						{% endfor %}
@@ -171,13 +171,31 @@
 						<a {% if c.slug in request.path %} class="nav-link active dropdown-toggle" {% endif %} class="nav-link dropdown-toggle ms-0 p-0" href="{{ c.get_absolute_url }}" data-bs-toggle="dropdown" aria-expanded="false" role="button">
 							For Assistance
 						</a>
-						<ul class="dropdown-menu dropdown-menu-dark shadow p-1">
-							<li><a class="dropdown-item nav-link text-body-secondary rounded-2" href="tel:+92 313 7951111">+92 313 7951111</a></li>
+						<ul class="dropdown-menu dropdown-menu-dark shadow p-1 text-center">
+							<li><a class="dropdown-item nav-link text-body-secondary rounded-2" href="tel:+92 313 7951111" style="width: 100%;">+92 313 7951111</a></li>
 							<li><a class="dropdown-item nav-link text-body-secondary rounded-2" href="mailto:sanwalcrafts@gmail.com">sanwalcrafts@gmail.com</a></li>
 						</ul>
 					</li>
-					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
-					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
+					<li class="nav-item mb-2"><a href="{% url 'store:product-by-featured-categories' %}" class="nav-link p-0 text-body-secondary">Features</a></li>
+					<li class="nav-item mb-2">
+						<div id="faqsAccordion" style="width: fit-content;">
+							<div class="accordion-item">
+								<h2 class="accordion-header">
+									<button class="accordion-button collapsed nav-link p-0 text-body-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFaqs" aria-expanded="false" aria-controls="collapseFaqs">
+									FAQs
+									</button>
+								</h2>
+								<div id="collapseFaqs" class="accordion-collapse collapse" data-bs-parent="#faqsAccordion">
+									<div class="accordion-body ms-1">
+										<h3 class="h6 pb-0 mb-0 mt-2">Do you guys have refund or exhange policy?</h3>
+										<p class="text-light">Yes</p>
+										<h3 class="h6 pb-0 mb-0 mt-2">Any artist can collaborate with Sanwal?</h3>
+										<p class="text-light">Yes</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</li>
 					<li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
 				  </ul>
 				</div>

@@ -21,6 +21,63 @@ class ProductManager(models.Manager):
 
 
 # Create your models here.
+class GridCategory(models.Model):
+	"""
+	Category and related image for display on index page as grid slider
+	"""
+	def user_directory_path(instance, filename):
+        # file will be uploaded to MEDIA_ROOT/user_<id>/listing_<title>/<filename>
+		return 'category_media/category_{0}_{1}'.format(instance.category_name, filename)
+
+	category_name = models.CharField(verbose_name=_("Category Name"), max_length=255, unique=True)
+	image = models.ImageField(verbose_name=_("Grid Category Image"), upload_to=user_directory_path)
+	alt_text = models.CharField(max_length=255, verbose_name=_("Alternative Text for Image"), help_text=_("In case image is not displayed due to slow internet connection, what should be displayed instead of this image as text. Text should describe what kind of image has to be displayed"))
+	slug = models.SlugField(verbose_name=_("Grid Category Safe URL"), max_length=255, unique=True)
+	is_active = models.BooleanField(verbose_name=_("Visibility"), default=True)
+
+	class Meta:
+		verbose_name = _("Grid Category")
+		verbose_name_plural = _("Grid Categories")
+
+	def __str__(self):
+		return self.category_name
+
+	def get_absolute_url(self):
+		if 'brands' in self.slug:
+			return reverse('store:products-by-brand', kwargs={
+				'brand_slug': self.slug
+			})
+		return reverse('store:products-by-category', kwargs={
+			'category_slug': self.slug
+		})
+		
+	
+	def save (self, *args, **kwargs):
+		if self.image:
+			img = PillowImage.open(self.image)
+			# Resize image
+			output_size = (1000, 1000)
+			img.thumbnail(output_size)
+
+			# Save the resized image to a BytesIO buffer
+			output_buffer = BytesIO()
+			img.save(output_buffer, format='WebP')
+			output_buffer.seek(0)
+
+			# Generate a unique name for the image
+			random_string = get_random_string(length=8)
+			timestamp = timezone.now().strftime('%Y%m%d%H%M%S')
+			filename = f'{random_string}_{timestamp}.webp'
+
+			# Save the buffer content to the image field with the unique filename
+			self.image.save(filename, ContentFile(output_buffer.read()), save=False)
+
+		if self.slug == '':
+			value = self.category_name.replace(" ", "-")
+			self.slug = slugify(value, allow_unicode=True)
+		super().save(*args, **kwargs)
+
+
 class Category (MPTTModel):
 	"""
 	Category table implimented with MPTT
@@ -51,7 +108,7 @@ class Category (MPTTModel):
 	
 	def save (self, *args, **kwargs):
 		if self.slug == '':
-			value = self.title.replace(" ", "-")
+			value = self.name.replace(" ", "-")
 			self.slug = slugify(value, allow_unicode=True)
 		super().save(*args, **kwargs)
 
@@ -74,7 +131,7 @@ class Material (models.Model):
 	
 	def save (self, *args, **kwargs):
 		if self.slug == '':
-			value = self.title.replace(" ", "-")
+			value = self.name.replace(" ", "-")
 			self.slug = slugify(value, allow_unicode=True)
 		super().save(*args, **kwargs)
 
@@ -121,7 +178,7 @@ class Brand (models.Model):
 			self.logo.save(filename, ContentFile(output_buffer.read()), save=False)
 
 		if self.slug == '':
-			value = self.title.replace(" ", "-")
+			value = self.name.replace(" ", "-")
 			self.slug = slugify(value, allow_unicode=True)
 		super().save(*args, **kwargs)
 
@@ -233,7 +290,7 @@ class ProductImages (models.Model):
 
 	item = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='img')
 	image = models.ImageField(verbose_name=_("image"), upload_to=user_directory_path)
-	alt_text = models.CharField(verbose_name=_("Alternative text of image"), max_length=255)
+	alt_text = models.CharField(verbose_name=_("Alternative text of image"), max_length=255, help_text=_('In case image is not displayed due to slow internet connection, what should be displayed instead of this image as text. Text should describe what kind of image has to be displayed. It\'s important for SEO.'))
 	created_at = models.DateTimeField(auto_now_add=True, editable=False)
 	updated_at = models.DateTimeField(auto_now=True)
 

@@ -5,13 +5,13 @@ from django.views.generic import DetailView, ListView, View
 from django.db.models import BooleanField, Case, When, Q
 
 # from .forms import ProductForm
-from .models import ProductImages, Product, Category
+from .models import ProductImages, Product, Category, GridCategory
 from account.models import User
 
 
 # Create your views here.
 class HomeView(ListView):
-    model = Product
+    model = Category
     queryset = Category.objects.filter(level=1)
     template_name = 'store/index.html'
 
@@ -21,8 +21,9 @@ class HomeView(ListView):
         if self.request.user.is_authenticated:
             wishlist_listings = self.request.user.user_wishlist.all()
         context['wishlist_listings'] = wishlist_listings
+        context['grid_categories'] = GridCategory.objects.filter(is_active=True)
         return context
-    
+
 
 class CategoryListView (ListView):
     model = Product
@@ -41,6 +42,26 @@ class CategoryListView (ListView):
             wishlist_listings = self.request.user.user_wishlist.all()
         context['wishlist_listings'] = wishlist_listings
         context['heading'] = self.kwargs['category_slug']
+        return context
+
+
+class FeaturedCategoryListView (ListView):
+    model = Product
+    paginate_by = 12
+    template_name = 'store/products.html'
+
+    def get_queryset(self, **kwargs):
+        # qs = super().get_queryset(**kwargs)
+        category = Category.objects.filter(slug=['khusa', 'planters'])
+        return Product.products.filter(category__in=category.get_descendants(include_self=True))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        wishlist_listings = []
+        if self.request.user.is_authenticated:
+            wishlist_listings = self.request.user.user_wishlist.all()
+        context['wishlist_listings'] = wishlist_listings
+        context['heading'] = 'Featured Products'
         return context
 
 
