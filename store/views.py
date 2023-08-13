@@ -47,13 +47,9 @@ class CategoryListView (ListView):
 
 class FeaturedCategoryListView (ListView):
     model = Product
+    queryset = Product.products.filter(category__in=Category.objects.filter(is_featured=True))
     paginate_by = 12
     template_name = 'store/products.html'
-
-    def get_queryset(self, **kwargs):
-        # qs = super().get_queryset(**kwargs)
-        category = Category.objects.filter(slug=['khusa', 'planters'])
-        return Product.products.filter(category__in=category.get_descendants(include_self=True))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
