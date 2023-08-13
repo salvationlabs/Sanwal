@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.utils import timezone
+from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import (
 	HttpResponseRedirect,
@@ -115,7 +115,36 @@ def remove_from_cart(request, slug):
 	return redirect("order:order-summary")
 
 
-def Orders_history(request):
-	user = request.user
-	orders = Order.objects.filter(user=user)
-	return orders
+@login_required
+def orders_history(request):
+	orders = Order.objects.filter(user=request.user.id)
+	return render(request, 'order/orders_history.html', {
+		'orders': orders
+	})
+
+
+@login_required
+def order_cancel(request):
+	"""
+	Cancel Order using order_id if time_stamp is within one day i.e., on the same day order was created
+	"""
+	if request.POST.get('action') == 'cancel':
+		order_id = request.POST.get('order_id')
+		order = Order.objects.get(pk=order_id)
+		# order.is_cancelled = True
+		# order.save()
+		response = JsonResponse({'message': 'Order has been successfully deleted'})
+	return response
+
+
+@login_required
+def order_item_remove(request):
+	"""
+	Remove Order Item using item_id if time_stamp is within one day i.e., on the same day order was created
+	"""
+	if request.POST.get('action') == 'cancel':
+		item_id = request.POST.get('item_id')
+		orderitem = OrderItem.objects.get(pk=item_id)
+		# orderitem.delete()
+		response = JsonResponse({'message': 'Order item has been successfully remove'})
+	return response

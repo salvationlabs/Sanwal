@@ -2,6 +2,7 @@ import uuid
 from django.conf import settings
 from django_countries.fields import CountryField
 from django.db import models
+from django.utils import timezone
 from datetime import datetime
 
 from store.models import Product, ProductSpecificationValue
@@ -13,6 +14,7 @@ class Order(models.Model):
 	ORDER_STATUS_CHOICES = (
 		("F", "Fullfilled"),
 		("P", "In Process"),
+		("C", "Is Cancelled"),
 	)
 	DELIVERY_STATUS_CHOICES = (
 		("D", "Delivered"),
@@ -44,7 +46,6 @@ class Order(models.Model):
 	)
 
 	# cancel
-	is_cancel_allowed = models.BooleanField(default=True)
 	is_cancelled = models.BooleanField(default=False)
 
 	# delivery
@@ -81,11 +82,9 @@ class Order(models.Model):
 		order_placed = self.order_created.strftime("%I:%M %p | %d-%m-%Y")
 		return f"{f_name} {l_name} | {order_placed}"
 
-	def get_total(self):
-		total = 0
-		for order_item in self.items.all():
-			total += order_item.get_final_price()
-		return total
+	def can_be_canceled(self):
+		return (timezone.now() - self.order_created).days <= 1
+
 
 
 class OrderItem(models.Model):

@@ -10,17 +10,17 @@
 
 {% block body %}
 <div class="container">
-	<h2>
+	<h1 class="text-center">
 		{{ heading | title }}
 		{% if subheading %}
 			- {{ subheading | title }}
 		{% endif %}
-	</h2>
-	<article class="products">
-		<div class="row row-cols-1 row-cols-md-3 g-4 m-auto justify-content-center">
+	</h1>
+	<article class="products ">
+		<div class="row g-4 my-2 justify-content-center">
 			{% for item in object_list %}
 				<div class="card">
-					<div class="row g-1">
+					<div class="row g-2">
 						<a href="{{ item.get_absolute_url }}">
 							<div class="col-md-12 pb-2">
 								{% if item.img.first.image %}

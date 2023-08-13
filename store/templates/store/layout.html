@@ -36,7 +36,10 @@
 
 			
 
-	<link rel="icon" type="image/x-icon" href="{% static 'store/imgs/icon/sanwal2.webp' %}">
+	<!-- Fallback to PNG if WebP is not supported -->
+	<link rel="icon" type="image/png" href="{% static 'store/imgs/icon/sanwal_w_bg.svg' %}">
+	<link rel="icon" type="image/webp" href="{% static 'store/imgs/icon/sanwal2.webp' %}">
+
 
 	<link rel="preload" href="{% static 'store/imgs/grainy-background/2.png' %}" as="image">
 	<link rel="preload" href="{% static 'store/imgs/icon/sanwal.svg' %}" as="image">

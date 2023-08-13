@@ -167,3 +167,15 @@ footer .row form, footer .d-flex.flex-wrap, footer .row.container h5 {
 		transition: 0.3s;
 	}
 }
+
+@media screen and (width <= 400px) {
+	.navbar .container-fluid .navbar-brand span.align-middle {
+		font-size: 3.8rem;
+	}
+}
+
+@media screen and (width <= 400px) {
+	.navbar .container-fluid .navbar-brand span.align-middle {
+		font-size: 3.5rem;
+	}
+}

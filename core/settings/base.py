@@ -45,12 +45,13 @@ INSTALLED_APPS = [
     "mptt",
     "django_mptt_admin",
     # INTERNAL APPS
-    "store",
     "account",
     "address",
-    "order",
-    "more",
+    'basket',
     'checkout',
+    "more",
+    "order",
+    "store",
 ]
 
 MIDDLEWARE = [

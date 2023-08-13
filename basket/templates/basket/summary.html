@@ -4,20 +4,17 @@
 {% block title %}Basket Summary{% endblock %}
 
 {% block style %}
-	<style>
-		.h5.hstack {
-			color: rgb(116, 91, 50);
-		}
-		@media (prefers-color-scheme: dark) {
-			.h5.hstack, a.btn-shop {
-				color: wheat;
-			}
-		}
-	</style>
+<style>
+	.product-item {
+		max-width: 60rem;
+		box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05), inset 5px 5px 15px rgba(0, 0, 0, 0.5); background-color: #141414;
+		color: wheat;
+	}
+</style>
 {% endblock style %}
 
 {% block body %}
-	<div class="container pt-4" style="color: wheat;">
+	<div class="container pt-4">
 		<h1 class="h5 hstack gap-3">
 			<a href="{% url 'store:index' %}" class="link-body-emphasis text-decoration-none">
 				<img src="{% static 'store/imgs/icon/sanwal.svg' %}" id="logo_heading" alt="Sanwal Logo" width="50" height="45">
@@ -29,7 +26,7 @@
 		{% else %}
 			{% for item in basket %}
 			{% with product=item.product %}
-			<div data-index="{{ product.key }}" class="row col-11 col-sm-12 col-md-10 my-4 p-3 product-item m-auto rounded-4 gx-0" style="max-width: 60rem; box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05), inset 5px 5px 15px rgba(0, 0, 0, 0.5); background-color: #141414;">
+			<div data-index="{{ product.key }}" class="row col-11 col-sm-12 col-md-10 my-4 p-3 product-item m-auto rounded-4 gx-0">
 				<!--------------- Image ----------------->
 				<div class="col-3 col-md-2 col-lg-1 order-md-first m-auto justify-content-center" style="width: 70px; height: 70px;">
 					{% if product.image %}
