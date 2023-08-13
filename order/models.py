@@ -28,7 +28,7 @@ class Order(models.Model):
 		blank=True,
 		null=True,
 	)
-	items = models.ManyToManyField("OrderItem")
+	items = models.ManyToManyField("store.Product", through='OrderItem')
 
 	# payment
 	total_payment = models.DecimalField(max_digits=10, decimal_places=2)
@@ -89,14 +89,12 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-	user = models.ForeignKey(
-		settings.AUTH_USER_MODEL,
+	order = models.ForeignKey(
+		Order,
 		on_delete=models.CASCADE,
-		related_name="order_items",
-		blank=True,
-		null=True,
+		related_name="order_items"
 	)
-	item = models.ForeignKey(Product, on_delete=models.CASCADE)
+	item = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='order_items')
 	quantity = models.IntegerField(default=1)
 
 	def __str__(self):

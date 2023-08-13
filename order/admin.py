@@ -1,19 +1,35 @@
 from django.contrib import admin
 from django.utils.translation import gettext as _
 
-from .models import (Order, OrderItem)
+from .models import (Order, OrderItem, OrderItemAttribute)
+from store.models import Product
 
 # Register your models here.
 
 # Order Items Model
+class OrderItemAttributeInline(admin.TabularInline):
+	model = OrderItemAttribute
+	fk_name = 'order_item'
+	verbose_name = _("Order Item Attribute")
+	verbose_name_plural = _("Order Item Attributes")
+
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
-	list_filter = ('user', 'item', 'order', 'order__id')
+	inlines = [OrderItemAttributeInline,]
+	list_filter = ('item', 'order', 'order__id')
+
+
+class OrderItemInline(admin.TabularInline):
+	model = OrderItem
+	fk_name = 'order'
+	verbose_name = _("Order Item")
+	verbose_name_plural = _("Order Items")
 
 
 # Order Model
 @admin.register(Order)
 class OrderAdmin (admin.ModelAdmin):
+	inlines = [OrderItemInline,]
 	list_display = ('user', 'total_payment', 'paid', 'delivered', 'order_created', 'order_updated', 'order_status', 'delivery_status', 'delivered_date')
 	list_filter = ('user', 'paid', 'items', 'delivered', 'order_created', 'order_status', 'delivery_status', 'delivered_date')
 	list_editable = ['paid', 'order_status', 'delivery_status', 'delivered']

@@ -50,36 +50,6 @@ def Order_placement(request):
 		user=request.user if request.user.is_authenticated else None,
 		total_payment=basket_session.get_total_price(),
 	)
-	for item in basket_session:
-		prdt = get_object_or_404(Product, id=item["product"].get("id"))
-		order_item = OrderItem.objects.create(
-			item=prdt,
-			user=request.user if request.user.is_authenticated else None,
-			quantity=item["qty"],
-		)
-		# print(item['product'].get('key'))
-		key = item['product'].get('key').split('-')[1:]
-		attributes = ProductSpecificationValue.objects.filter(id__in=key)
-		if attributes.exists():
-			for attribute in attributes:
-				OrderItemAttribute.objects.create(order_item=order_item, attribute=attribute)
-		order.items.add(order_item)
-
-	# if not request.user.is_authenticated:
-	# 	order.phone_number = billing_address["phone_number"]
-	# 	order.address_line_1 = billing_address["address_line_1"]
-	# 	order.address_line_2 = billing_address["address_line_2"]
-	# 	order.city = billing_address["city"]
-	# 	order.state = billing_address["state"]
-	# 	order.country = billing_address["country"]
-	# 	order.zip_code = billing_address["zip_code"]
-	# 	order.billing_address = None
-	# else:
-	# 	try:
-	# 		billing = BillingAddress.objects.get(customer=request.user, default=True)
-	# 		order.billing_address = billing
-	# 	except ObjectDoesNotExist:
-	# 		order.billing_address = None
 	order.phone_number = billing_address["phone_number"]
 	order.address_line_1 = billing_address["address_line_1"]
 	order.address_line_2 = billing_address["address_line_2"]
@@ -92,6 +62,21 @@ def Order_placement(request):
 	order.email = billing_address["email"]
 
 	order.save()
+
+	for item in basket_session:
+		prdt = get_object_or_404(Product, id=item["product"].get("id"))
+		order_item = OrderItem.objects.create(
+			item=prdt,
+			order=order,
+			quantity=item["qty"],
+		)
+		# print(item['product'].get('key'))
+		key = item['product'].get('key').split('-')[1:]
+		attributes = ProductSpecificationValue.objects.filter(id__in=key)
+		if attributes.exists():
+			for attribute in attributes:
+				OrderItemAttribute.objects.create(order_item=order_item, attribute=attribute)
+		# order.items.add(order_item)
 
 	basket_session.clear()
 
