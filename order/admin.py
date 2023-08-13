@@ -17,6 +17,7 @@ class OrderItemAttributeInline(admin.TabularInline):
 class OrderItemAdmin(admin.ModelAdmin):
 	inlines = [OrderItemAttributeInline,]
 	list_filter = ('item', 'order', 'order__id')
+	list_display = ('item', 'order', 'quantity', 'is_cancelled')
 
 
 class OrderItemInline(admin.TabularInline):
@@ -30,7 +31,7 @@ class OrderItemInline(admin.TabularInline):
 @admin.register(Order)
 class OrderAdmin (admin.ModelAdmin):
 	inlines = [OrderItemInline,]
-	list_display = ('user', 'total_payment', 'paid', 'delivered', 'order_created', 'order_updated', 'order_status', 'delivery_status', 'delivered_date')
+	list_display = ('user', 'total_payment', 'is_cancelled', 'paid', 'delivered', 'order_status', 'delivery_status', 'order_created', 'order_updated', 'delivered_date')
 	list_filter = ('user', 'paid', 'items', 'delivered', 'order_created', 'order_status', 'delivery_status', 'delivered_date')
 	list_editable = ['paid', 'order_status', 'delivery_status', 'delivered']
 	empty_value_display = '-empty-'

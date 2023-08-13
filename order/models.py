@@ -82,8 +82,8 @@ class Order(models.Model):
 		order_placed = self.order_created.strftime("%I:%M %p | %d-%m-%Y")
 		return f"{f_name} {l_name} | {order_placed}"
 
-	def can_be_canceled(self):
-		return (timezone.now() - self.order_created).days <= 1
+	def can_be_cancelled(self):
+		return (timezone.now() - self.order_created).total_seconds() <= 12 * 60 *60
 
 
 
@@ -95,9 +95,14 @@ class OrderItem(models.Model):
 	)
 	item = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='order_items')
 	quantity = models.IntegerField(default=1)
+	is_cancelled = models.BooleanField(default=False)
 
 	def __str__(self):
-		return f"{self.quantity} of {self.item.title} | {', '.join(str(attr) for attr in self.order_item_attribute.all())}"
+		if self.is_cancelled:
+			option = 'Cancelled'
+		else:
+			option = ', '.join(str(attr) for attr in self.order_item_attribute.all())
+		return f"{self.order.id} ----- {self.quantity} of {self.item.title} ----- {option}"
 
 
 class OrderItemAttribute(models.Model):

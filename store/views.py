@@ -25,6 +25,10 @@ class HomeView(ListView):
         return context
 
 
+def AboutUsView(request):
+    return render(request, 'store/about_us.html')
+
+
 class CategoryListView (ListView):
     model = Product
     paginate_by = 12

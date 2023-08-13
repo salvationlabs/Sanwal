@@ -10,6 +10,9 @@
 			box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05), inset 5px 5px 15px rgba(0, 0, 0, 0.5); background-color: #141414;
 			color: wheat;
 		}
+		.order {
+			background-color: rgba(245, 222, 179, 0.123);
+		}
 		@media screen and (width <= 990px) {
 			.hstack.delivery_status {
 				flex-direction: column;
@@ -33,13 +36,13 @@
 		<p class="mb-4 text-muted">You haven't placed any order yet.</p>
 		{% else %}
 			{% for order in orders %}
-			<div class="container-fluid shadow p-2 py-3 my-4 rounded-4 order" data-index="{{ order.id }}">
+			<div class="container-fluid shadow-lg bg-body-tertiary p-2 py-3 my-4 rounded-4 order" data-index="{{ order.id }}">
 				<h2 class="h4 hstack gap-3 justify-content-center">
 					Order #{{ order.id }}
 					{% if order.is_cancelled %}
 						<button type="button" class="dlt-order btn btn-danger ms-lg-5" disabled>Cancelled</button>
 					{% else %}
-						<button type="button" data-index="{{ order.id }}" class="dlt-order btn btn-danger ms-lg-5" {% if not order.can_be_canceled %}disabled{% endif %}>Cancel Order</button>
+						<button type="button" data-index="{{ order.id }}" class="dlt-order btn btn-danger ms-lg-5" {% if not order.can_be_cancelled %}disabled{% endif %}>Cancel Order</button>
 					{% endif %}
 				</h2>
 				{% for item in order.order_items.all %}
@@ -54,7 +57,7 @@
 					</div>
 					<!------------- Product Body ------------>
 					<div class="row col-8 col-md-9 m-auto">
-						<a href="{{ product.get_absolute_url }}" class="text-decoration-none text-reset col-12 col-md-3 my-auto">
+						<a href="{{ item.item.get_absolute_url }}" class="text-decoration-none text-reset col-12 col-md-3 my-auto">
 							<h1 class="h5">{{ item.item.title }}</h1>
 						</a>
 						<div class="col-12 col-md-2 col-lg-2 m-auto">
@@ -73,18 +76,20 @@
 							{% endif %}
 						</div>
 					</div>
-					{% if order.can_be_canceled %}
+					{% if order.can_be_cancelled and not order.is_cancelled %}
 					<div class="col-4 col-md-2 m-auto">
-						<span type="button" data-index="{{ item.id }}" class="dlt-item btn btn-danger btn-sm">Cancel Item</span>
+						<button type="button" data-index="{{ item.id }}" class="dlt-item btn btn-danger btn-sm">Cancel Item</button>
 					</div>
 					{% endif %}
 				</div>
 				{% endfor %}
 				<div class="text-center">
 					<div class="hstack delivery_status gap-lg-3 justify-content-center">
-						<span>Delivery Status: <strong>{{ order.get_delivery_status_display }}</strong></span>
+						{% if not order.is_cancelled %}
+						<span id="delivery_status">Delivery Status: <strong>{{ order.get_delivery_status_display }}</strong></span>
 						<div class="vr"></div>
-						<span>Order Status: <strong>{{ order.get_order_status_display }}</strong></span>
+						{% endif %}
+						<span>Order Status: <strong id="order_status">{{ order.get_order_status_display }}</strong></span>
 						<div class="vr"></div>
 						<span>
 							Payment ({{ order.payment }}): 
@@ -102,7 +107,9 @@
 					<div>Order Placed: <strong>{{ order.order_created }}</strong> ({{ order.order_created|timesince }} ago)</div>
 				</div>
 			</div>
+			{% if not forloop.last %}
 			<hr class="w-75 mx-auto">
+			{% endif %}
 			{% endfor %}
 		{% endif %}
 	</div>
@@ -124,8 +131,10 @@
 				action: 'cancel'
 			},
 			success: function (response) {
-				$(`.order[data-index="${order_id}"]`).remove();
-				$(`.order[data-index="${order_id}"] + hr`).remove();
+				$(`.order[data-index="${order_id}"] .dlt-order`).prop('disabled', true).text('Cancelled');
+				$(`.order[data-index="${order_id}"] #order_status`).text(response.order_status);
+				$(`.order[data-index="${order_id}"] .dlt-item`).remove();
+				$(`.order[data-index="${order_id}"] #delivery_status, .order[data-index="${order_id}"] #delivery_status + .vr`).remove();
 				console.log(response.message)
 			},
 			error: function (xhr, errmessage, err) {
@@ -147,8 +156,17 @@
 				action: 'remove'
 			},
 			success: function (response) {
-				$(`.product-item[data-index="${item_id}"]`).remove();
-				console.log(response.message)
+				console.log(response.message);
+				if (response.cancelled) {
+					let orderDiv = $(`.product-item[data-index="${item_id}"]`).parent('.order');
+					orderDiv.find('.dlt-order').prop('disabled', true).text('Cancelled');
+					orderDiv.children().find('#delivery_status + .vr').remove();
+					orderDiv.children().find('#delivery_status').remove();
+					orderDiv.find('#order_status').text('Is Cancelled');
+					orderDiv.children().find('.dlt-item').remove();
+				}
+				else
+					$(`.product-item[data-index="${item_id}"] .dlt-item`).prop('disabled', true).text('Cancelled');
 			},
 			error: function (xhr, errmessage, err) {
 				console.log(err)

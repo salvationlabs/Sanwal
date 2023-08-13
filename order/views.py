@@ -131,9 +131,10 @@ def order_cancel(request):
 	if request.POST.get('action') == 'cancel':
 		order_id = request.POST.get('order_id')
 		order = Order.objects.get(pk=order_id)
-		# order.is_cancelled = True
-		# order.save()
-		response = JsonResponse({'message': 'Order has been successfully deleted'})
+		order.is_cancelled = True
+		order.order_status = 'C'
+		order.save()
+		response = JsonResponse({'message': 'Order has been successfully cancelled', 'order_status': order.get_order_status_display()})
 	return response
 
 
@@ -142,9 +143,18 @@ def order_item_remove(request):
 	"""
 	Remove Order Item using item_id if time_stamp is within one day i.e., on the same day order was created
 	"""
-	if request.POST.get('action') == 'cancel':
+	if request.POST.get('action') == 'remove':
 		item_id = request.POST.get('item_id')
 		orderitem = OrderItem.objects.get(pk=item_id)
-		# orderitem.delete()
-		response = JsonResponse({'message': 'Order item has been successfully remove'})
-	return response
+		orderitem.is_cancelled = True
+		orderitem.save()
+
+		order = Order.objects.get(order_items=orderitem)
+		order_item_objects = OrderItem.objects.filter(order=order, is_cancelled=False)
+		if not order_item_objects.exists():
+			order.is_cancelled = True
+			order.order_status = 'C'
+			order.save()
+		response = JsonResponse({'message': 'Order item has been successfully remove', 'cancelled': order.is_cancelled})
+
+		return response
