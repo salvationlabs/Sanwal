@@ -1,29 +1,19 @@
 :root {
-	--drop-down-background: #141414;
-	--text-color: black;
-	--nav-link: black;
+	--drop-down-background: black;
+	--primary-text-color: rgb(85, 49, 13);
+	--secondary-text-color: black;
+	--heading-text-color: wheat;
+	--hover-text-color: wheat;
+	--nav-link: #141414;
 	--nav-link-active: wheat;
 	--box-shadow: 10px 10px 15px rgba(255, 255, 255, 0.08),
     -10px -10px 15px rgba(255, 255, 255, 0.05);
 }
 
-@media (prefers-color-scheme: dark) {
-	:root {
-		--drop-down-background: wheat;
-		--text-color: wheat;
-		--nav-link: gray;
-		--nav-link-active: wheat;
-	}
-	.navbar .container-fluid .nav-item.dropdown .dropdown-menu .dropdown-item,
-	.navbar .container-fluid .navbar-nav .nav-item.btn-group .dropdown-menu .dropdown-item{
-		color: black;
-	}
-}
-
 
 /* //////////////////////////////////////////	Top Bar Nav	/////////////////////////////////////////// */
 .navbar .container-fluid .navbar-brand {
-	color: rgb(85, 49, 13);
+	color: var(--primary-text-color);
 }
 
 .navbar .container-fluid .navbar-brand span.align-middle {
@@ -39,7 +29,7 @@
 .navbar .container-fluid .navbar-nav .nav-item.btn-group .dropdown-menu,
 .navbar .container-fluid .nav-item.btn-group .dropdown-menu.dropdown-menu-dark
 {
-	background: black;
+	background: var(--drop-down-background);
 	box-shadow: var(--box-shadow);
 }
 
@@ -52,7 +42,7 @@
 .navbar .container-fluid .nav-item.dropdown .dropdown-menu .dropdown-item:hover,
 .navbar .container-fluid .navbar-nav .nav-item.btn-group .dropdown-menu .dropdown-item:hover,
 .navbar .container-fluid .nav-item.btn-group .dropdown-menu.dropdown-menu-dark .dropdown-item:hover {
-	color: wheat;
+	color: var(--hover-text-color);
 }
 
 .navbar .container-fluid .profile_icon {
@@ -61,16 +51,15 @@
 
 .navbar .container-fluid .btn
 {
-	color: var(--text-color);
+	color: var(--secondary-text-color);
 	border-radius: 50px;
 	font-size: 1.4rem;
 	background: rgba(245, 222, 179, 0.297);
-	/* border: 1px wheat solid; */
 }
 
 .navbar .container-fluid .btn:hover, .navbar .container-fluid .btn.active
 {
-	color: black;
+	color: var(--secondary-text-color);
 	background: var(--nav-link-active);
 	border: 1px var(--nav-link-active) solid;
 }
@@ -87,7 +76,7 @@ footer .row .nav-item.dropdown {
 }
 
 footer .row .nav-item.dropdown .dropdown-menu.dropdown-menu-dark {
-	background: black;
+	background: var(--drop-down-background);
 }
 
 footer .row .nav-item a {
@@ -96,7 +85,7 @@ footer .row .nav-item a {
 }
 
 footer .row form, footer .d-flex.flex-wrap, footer .row.container h5 {
-	color: wheat;
+	color: var(--heading-text-color);
 }
 
 .navbar.navbar-expand-lg .navbar-nav .nav-item .nav-link {
