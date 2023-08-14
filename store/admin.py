@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django_mptt_admin.admin import DjangoMpttAdmin
+from mptt.admin import MPTTModelAdmin
 from django.utils.translation import gettext as _
 
 from .models import (
@@ -36,7 +36,7 @@ class BrandAdmin(admin.ModelAdmin):
 
 
 # Category Model
-class CategoryAdmin(DjangoMpttAdmin):
+class CategoryAdmin(MPTTModelAdmin):
 	list_display = ["name", "slug"]
 	prepopulated_fields = {"slug": ("name",)}
 
