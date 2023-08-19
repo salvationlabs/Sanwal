@@ -121,7 +121,8 @@ class BrandProductListView (ListView):
         context['heading'] = 'Brand'
         brand = Brand.objects.get(slug=self.kwargs['brand_slug'])
         context['sub_heading'] = self.kwargs['brand_slug']
-        context['brand_logo'] = brand.logo.url
+        if brand.logo:
+            context['brand_logo'] = brand.logo.url
         return context
 
 
