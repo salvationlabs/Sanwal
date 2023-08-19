@@ -49,7 +49,7 @@
 	{% endblock %}
 	<style>
 		#body {
-			background: rgb(51, 40, 18) url("{% static 'store/imgs/grainy-background/2.png' %}");
+			background: rgb(253, 251, 248) url("{% static 'store/imgs/grainy-background/2.png' %}");
 		}
 	</style>
 </head>
@@ -102,7 +102,7 @@
 							<a {% if "?brand" in request.path %}class="nav-link active text-uppercase dropdown-toggle fs-3" {% endif %} class="nav-link text-uppercase dropdown-toggle fs-3" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 								Brands
 							</a>
-							<ul class="dropdown-menu dropdown-menu-dark m-0 p-0 w-25 m-auto">
+							<ul class="dropdown-menu dropdown-menu-dark">
 								{% for b in brands %}
 									<li><a class="dropdown-item" href="{{ b.get_absolute_url }}">{{ b.name | upper }} </a></li>
 								{% endfor %}

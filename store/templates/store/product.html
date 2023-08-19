@@ -30,7 +30,7 @@
 						{% for image in object.img.all %}
 						<div class="swiper-slide">
 							<div class="swiper-zoom-container">
-								<img src="{{ image.image.url }}" alt="{{ image.alt_text }}" loading="lazy">
+								<img src="{{ image.image.url }}" alt="{{ image.alt_text }}" loading="lazy" decoding="async">
 							</div>
 							<div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
 						</div>
@@ -81,8 +81,6 @@
 					<p class="col card-text mt-3">{{ object.description | linebreaksbr }}</p>
 				</div>
 			</div>
-			<p class="card-text text-center"><small class="text-muted">Listed {{ object.time_created | timesince }}
-					ago</small></p>
 		</div>
 	</div>
 </article>

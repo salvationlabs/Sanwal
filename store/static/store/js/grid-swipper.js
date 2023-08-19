@@ -1,4 +1,5 @@
 var swiper_grid = new Swiper(".categories-grid-swiper", {
+	lazy: true,
 	grabCursor: true,
 	slidesPerView: 3,
 	centeredSlides: true,
