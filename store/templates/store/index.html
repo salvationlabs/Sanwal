@@ -41,7 +41,7 @@
 									{% for image in item.img.all %}
 									<div class="swiper-slide">
 										<div class="swiper-zoom-container">
-											<img src="{{ image.image.url }}" alt="{{ image.alt_text }}" loading="lazy" decoding="async">
+											<img src="{{ image.image.url }}" alt="{{ image.alt_text }}" loading="lazy" decoding="async" width="auto" height="auto">
 										</div>
 										<div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
 									</div>

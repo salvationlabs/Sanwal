@@ -37,11 +37,11 @@
 			
 
 	<!-- Fallback to PNG if WebP is not supported -->
-	<link rel="icon" type="image/png" href="{% static 'store/imgs/icon/sanwal_w_bg.svg' %}">
+	<link rel="icon" type="image/png" href="{% static 'store/imgs/icon/sanwal2.png' %}">
 	<link rel="icon" type="image/webp" href="{% static 'store/imgs/icon/sanwal2.webp' %}">
 
 
-	<link rel="preload" href="{% static 'store/imgs/grainy-background/2.png' %}" as="image">
+	<link rel="preload" href="{% static 'store/imgs/grainy-background/2.webp' %}" as="image">
 	<link rel="preload" href="{% static 'store/imgs/icon/sanwal.svg' %}" as="image">
 	<link rel="preload" href="{% static 'store/imgs/icon/sanwal2.webp' %}" as="image">
 
@@ -49,7 +49,7 @@
 	{% endblock %}
 	<style>
 		#body {
-			background: rgb(253, 251, 248) url("{% static 'store/imgs/grainy-background/2.png' %}");
+			background: rgb(253, 251, 248) url("{% static 'store/imgs/grainy-background/2.webp' %}");
 		}
 	</style>
 </head>
