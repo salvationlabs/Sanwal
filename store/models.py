@@ -44,9 +44,7 @@ class GridCategory(models.Model):
 
 	def get_absolute_url(self):
 		if 'brands' in self.slug:
-			return reverse('store:products-by-brand', kwargs={
-				'brand_slug': self.slug
-			})
+			return reverse('store:products-by-brands')
 		return reverse('store:products-by-category', kwargs={
 			'category_slug': self.slug
 		})

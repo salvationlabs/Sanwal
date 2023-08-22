@@ -52,35 +52,38 @@ window.onload = function () {
             }
         });
     })
-    $('.nav-item.dropdown .nav-link').hover(function () {
-            // over
-            let menu = $(this).siblings('.dropdown-menu');
-            menu.addClass('show');
-            $(this).prop('ariaExpanded', true);
-            $(this).addClass('show');
-        }, function () {
-            // out
-            let menu = $(this).siblings('.dropdown-menu');
-            menu.removeClass('show');
-            $(this).prop('ariaExpanded', false);
-            $(this).removeClass('show');
-        }
-    );
-    $('.dropdown-menu').hover(function (e) {
-            // over
-            $(this).addClass('show');
-            let nav_item = e.target.previousElementSibling;
-            nav_item.firstChild.addClass('show');
-            $(nav_item).children().addClass('show');
-            $(nav_item).children().prop('ariaExpanded', true);
-        }, function (e) {
-            // out
-            $(this).removeClass('show');
-            let nav_item = e.target.previousElementSibling;
-            $(nav_item).find('.nav-link').removeClass('show');
-            $(nav_item).find('.nav-link').prop('ariaExpanded', false);
-        }
-    );
+
+    if (window.innerWidth > 750) {
+        $('.nav-item.dropdown .nav-link').hover(function () {
+                // over
+                let menu = $(this).siblings('.dropdown-menu');
+                menu.addClass('show');
+                $(this).prop('ariaExpanded', true);
+                $(this).addClass('show');
+            }, function () {
+                // out
+                let menu = $(this).siblings('.dropdown-menu');
+                menu.removeClass('show');
+                $(this).prop('ariaExpanded', false);
+                $(this).removeClass('show');
+            }
+        );
+        $('.dropdown-menu').hover(function (e) {
+                // over
+                $(this).addClass('show');
+                let nav_item = e.target.previousElementSibling;
+                nav_item.firstChild.addClass('show');
+                $(nav_item).children().addClass('show');
+                $(nav_item).children().prop('ariaExpanded', true);
+            }, function (e) {
+                // out
+                $(this).removeClass('show');
+                let nav_item = e.target.previousElementSibling;
+                $(nav_item).find('.nav-link').removeClass('show');
+                $(nav_item).find('.nav-link').prop('ariaExpanded', false);
+            }
+        );
+    }
     $('.searchBtn').on('click', () => {
         $('.searchBox').addClass('active');
         $('.search').addClass('active');
