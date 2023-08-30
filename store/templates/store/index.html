@@ -31,47 +31,49 @@
 		<h1 class="h2 text-center mb-3 text-uppercase">{{ category.name }}</h1>
 		<div class="row row-cols-1 row-cols-md-3 g-4 m-auto justify-content-center">
 			{% for item in category.posts.all|slice:":8" %}
-			<div class="card">
-				<div class="row g-1">
-					<a href="{{ item.get_absolute_url }}">
-						<div class="col-md-12 pb-2">
-							{% if item.img.first.image %}
-							<div class="swiper itemImageSwiper">
-								<div class="swiper-wrapper">
-									{% for image in item.img.all %}
-									<div class="swiper-slide">
-										<div class="swiper-zoom-container">
-											<img src="{{ image.image.url }}" alt="{{ image.alt_text }}" loading="lazy" decoding="async" width="auto" height="auto">
+				{% if item.is_active %} {# Check if the post is active #}
+					<div class="card">
+						<div class="row g-1">
+							<a href="{{ item.get_absolute_url }}">
+								<div class="col-md-12 pb-2">
+									{% if item.img.first.image %}
+									<div class="swiper itemImageSwiper">
+										<div class="swiper-wrapper">
+											{% for image in item.img.all %}
+											<div class="swiper-slide">
+												<div class="swiper-zoom-container">
+													<img src="{{ image.image.url }}" alt="{{ image.alt_text }}" loading="lazy" decoding="async" width="auto" height="auto">
+												</div>
+												<div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+											</div>
+											{% endfor %}
 										</div>
-										<div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
 									</div>
-									{% endfor %}
+									{% else %}
+									<img src="{% static 'store\imgs\products\No_image_available.png' %}" class="card-img-top"
+										alt="No Image Available">
+									{% endif %}
 								</div>
-							</div>
-							{% else %}
-							<img src="{% static 'store\imgs\products\No_image_available.png' %}" class="card-img-top"
-								alt="No Image Available">
-							{% endif %}
-						</div>
-						<div class="card-body text-center col-12 pt-0 position-relative">
-							<h3 class="h5 card-title">{{ item.title | title }}</h3>
-							{% if item.discount_price %}
-							<del>Rs. {{ item.regular_price }}</del> Rs.
-							{{ item.discount_price }}
-							{% else %}
-							Rs. {{ item.regular_price }}
-							{% endif %}
-							<a href="{% url 'account:add-to-wishlist' item.slug %}" class="position-absolute bottom-0 translate-middle end-0 wishlist_icon">
-								{% if item in wishlist_listings %}
-								<ion-icon name="heart"></ion-icon>
-								{% else %}
-								<ion-icon name="heart-outline"></ion-icon>
-								{% endif %}
+								<div class="card-body text-center col-12 pt-0 position-relative">
+									<h3 class="h5 card-title">{{ item.title | title }}</h3>
+									{% if item.discount_price %}
+									<del>Rs. {{ item.regular_price }}</del> Rs.
+									{{ item.discount_price }}
+									{% else %}
+									Rs. {{ item.regular_price }}
+									{% endif %}
+									<a href="{% url 'account:add-to-wishlist' item.slug %}" class="position-absolute bottom-0 translate-middle end-0 wishlist_icon">
+										{% if item in wishlist_listings %}
+										<ion-icon name="heart"></ion-icon>
+										{% else %}
+										<ion-icon name="heart-outline"></ion-icon>
+										{% endif %}
+									</a>
+								</div>
 							</a>
 						</div>
-					</a>
-				</div>
-			</div>
+					</div>
+				{% endif %}
 			{% endfor %}
 			</col>
 		</div>

@@ -12,7 +12,7 @@ from account.models import User
 # Create your views here.
 class HomeView(ListView):
     model = Category
-    queryset = Category.objects.filter(level=1)
+    queryset = Category.objects.filter(level=1, posts__is_active=True).distinct().order_by("name")
     template_name = 'store/index.html'
 
     def get_context_data(self, **kwargs):
